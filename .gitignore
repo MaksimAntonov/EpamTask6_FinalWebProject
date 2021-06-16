@@ -13,3 +13,4 @@ logs/*
 #other
 *.zip
 *.mwb
+HelloServlet.java

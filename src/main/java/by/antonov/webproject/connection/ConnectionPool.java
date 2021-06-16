@@ -5,9 +5,7 @@ import static by.antonov.webproject.connection.DatabaseProperties.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
 import java.util.Properties;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,11 +17,11 @@ public class ConnectionPool {
   private static ConnectionPool instance;
   private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
   private final BlockingQueue<ProxyConnection> freeConnections;
-  private final Queue<ProxyConnection> reservedConnections;
+  private final BlockingQueue<ProxyConnection> reservedConnections;
 
   private ConnectionPool() {
     this.freeConnections = new LinkedBlockingQueue<>(DB_POOL_SIZE);
-    this.reservedConnections = new ArrayDeque<>(DB_POOL_SIZE);
+    this.reservedConnections = new LinkedBlockingQueue<>(DB_POOL_SIZE);
     try {
       Class.forName(DB_DRIVER);
       for (int i = 0; i < DB_POOL_SIZE; i++) {
@@ -62,19 +60,22 @@ public class ConnectionPool {
     return connection;
   }
 
-  public void releaseConnection(Connection connection) {
-    if (!(connection instanceof ProxyConnection)) {
+  public boolean releaseConnection(Connection connection) {
+    boolean result = false;
+    if (connection instanceof ProxyConnection) {
+      try {
+        reservedConnections.remove((ProxyConnection) connection);
+        freeConnections.put((ProxyConnection) connection);
+        result = true;
+      } catch (InterruptedException e) {
+        logger.error("Interrupted exception. {}", e.getMessage());
+        Thread.currentThread().interrupt();
+      }
+    } else {
       logger.error("Wrong connection instance.");
-      throw new RuntimeException("Wrong connection instance.");
     }
-
-    try {
-      reservedConnections.remove((ProxyConnection) connection);
-      freeConnections.put((ProxyConnection) connection);
-    } catch (InterruptedException e) {
-      logger.error("Interrupted exception. {}", e.getMessage());
-      Thread.currentThread().interrupt();
-    }
+    
+    return result;
   }
 
   public void destroyPool() {
