@@ -55,6 +55,7 @@ public class ConnectionPool {
       connection = freeConnections.take();
       reservedConnections.add(connection);
     } catch (InterruptedException e) {
+      logger.error("Interrupted exception. {}", e.getMessage());
       Thread.currentThread().interrupt();
     }
 
@@ -63,13 +64,15 @@ public class ConnectionPool {
 
   public void releaseConnection(Connection connection) {
     if (!(connection instanceof ProxyConnection)) {
-      throw new RuntimeException("Wrong");
+      logger.error("Wrong connection instance.");
+      throw new RuntimeException("Wrong connection instance.");
     }
 
     try {
       reservedConnections.remove((ProxyConnection) connection);
       freeConnections.put((ProxyConnection) connection);
     } catch (InterruptedException e) {
+      logger.error("Interrupted exception. {}", e.getMessage());
       Thread.currentThread().interrupt();
     }
   }
@@ -81,6 +84,7 @@ public class ConnectionPool {
       } catch (SQLException e) {
         logger.error("SQL Error {}", e.getMessage());
       } catch (InterruptedException e) {
+        logger.error("Interrupted exception. {}", e.getMessage());
         Thread.currentThread().interrupt();
       }
     }

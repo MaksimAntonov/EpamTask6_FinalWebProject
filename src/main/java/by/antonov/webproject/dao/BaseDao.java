@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,8 @@ public interface BaseDao <K,T extends EntityBase> {
 
   List<T> findAll()
       throws DaoException;
-  List<T> findAllById(K id);
+  Optional<T> findById(K id)
+      throws DaoException;
 
   default void close(Statement statement) {
     try {

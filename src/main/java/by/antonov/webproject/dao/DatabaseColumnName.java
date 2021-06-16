@@ -13,11 +13,11 @@ public final class DatabaseColumnName {
 
   // USERS_ROLE
   public static final String ROLE_ID = "id";
-  public static final String ROLE_NAME = "name";
+  public static final String ROLE_NAME = "role";
 
   // USERS_STATUS
   public static final String STATUS_ID = "id";
-  public static final String STATUS_NAME = "name";
+  public static final String STATUS_NAME = "status";
 
   // ORDERS_LIST
   public static final String ORDER_ID = "id";

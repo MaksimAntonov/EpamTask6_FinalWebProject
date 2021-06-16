@@ -4,16 +4,16 @@ USE `logistic_system`;
 
 CREATE TABLE IF NOT EXISTS `users_role` (
     `id` BIGINT AUTO_INCREMENT NOT NULL,
-    `name` ENUM('GUEST', 'ADMINISTRATOR', 'SHIPPER', 'CARRIER'),
+    `role` ENUM('GUEST', 'ADMINISTRATOR', 'SHIPPER', 'CARRIER'),
     PRIMARY KEY (`id`),
-    UNIQUE (`name`)
+    UNIQUE (`role`)
 );
 
 CREATE TABLE IF NOT EXISTS `users_status` (
     `id` BIGINT AUTO_INCREMENT NOT NULL,
-    `name` ENUM('NEW', 'VERIFIED', 'BLOCKED'),
+    `status` ENUM('NEW', 'VERIFIED', 'BLOCKED'),
     PRIMARY KEY (`id`),
-    UNIQUE (`name`)
+    UNIQUE (`status`)
 );
 
 CREATE TABLE IF NOT EXISTS `users_list` (
@@ -64,11 +64,11 @@ ALTER TABLE `users_role` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 ALTER TABLE `users_status` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-INSERT INTO `users_role` (`id`, `name`) VALUES (1, 'GUEST'), (2, 'ADMINISTRATOR'), (3, 'SHIPPER'), (4, 'CARRIER');
+INSERT INTO `users_role` (`id`, `role`) VALUES (1, 'GUEST'), (2, 'ADMINISTRATOR'), (3, 'SHIPPER'), (4, 'CARRIER');
 
-INSERT INTO `users_status` (`name`) VALUES ('NEW'), ('VERIFIED'), ('BLOCKED');
+INSERT INTO `users_status` (`status`) VALUES ('NEW'), ('VERIFIED'), ('BLOCKED');
 
-INSERT INTO `users_list` (`id`, `login`, `pswd_hash`, `pswd_salt`, `email`, `role_id`, `status_id`) VALUES (1, 'test', 'test', 'salt', 'test@gmail.com', 2, 3);
+INSERT INTO `users_list` (`id`, `login`, `pswd_hash`, `pswd_salt`, `email`, `role_id`, `status_id`) VALUES (1, 'test', 'test', 'salt', 'test@gmail.com', 2, 2);
 
 INSERT INTO `orders_list` (`id`, `details`, `ready_date`, `end_date`, `shipper_id`) VALUES (1, 'Перевозка из А в Б.', '2021/06/18', '2021/07/18', 1), (2, 'Перевозка из Б в В.', '2021/06/20', '2021/07/20', 1);
 
