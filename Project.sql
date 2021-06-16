@@ -4,14 +4,14 @@ USE `logistic_system`;
 
 CREATE TABLE IF NOT EXISTS `users_role` (
     `id` BIGINT AUTO_INCREMENT NOT NULL,
-    `role` ENUM('GUEST', 'ADMINISTRATOR', 'SHIPPER', 'CARRIER'),
+    `role` ENUM('GUEST', 'ADMINISTRATOR', 'SHIPPER', 'CARRIER') NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`role`)
 );
 
 CREATE TABLE IF NOT EXISTS `users_status` (
     `id` BIGINT AUTO_INCREMENT NOT NULL,
-    `status` ENUM('NEW', 'VERIFIED', 'BLOCKED'),
+    `status` ENUM('NEW', 'VERIFIED', 'BLOCKED') NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`status`)
 );
@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS `users_status` (
 CREATE TABLE IF NOT EXISTS `users_list` (
     `id` BIGINT AUTO_INCREMENT NOT NULL,
     `login` VARCHAR(12) NOT NULL,
-    `pswd_hash` VARCHAR(32) NOT NULL,
-    `pswd_salt` VARCHAR(6) NOT NULL,
+    `pswd_hash` VARCHAR(60) NOT NULL,
+    `pswd_salt` VARCHAR(29) NOT NULL,
     `email` VARCHAR(32) NOT NULL,
     `registration_date` DATETIME DEFAULT current_timestamp,
     `role_id` BIGINT NOT NULL,
@@ -68,7 +68,7 @@ INSERT INTO `users_role` (`id`, `role`) VALUES (1, 'GUEST'), (2, 'ADMINISTRATOR'
 
 INSERT INTO `users_status` (`status`) VALUES ('NEW'), ('VERIFIED'), ('BLOCKED');
 
-INSERT INTO `users_list` (`id`, `login`, `pswd_hash`, `pswd_salt`, `email`, `role_id`, `status_id`) VALUES (1, 'test', 'test', 'salt', 'test@gmail.com', 2, 2);
+INSERT INTO `users_list` (`id`, `login`, `pswd_hash`, `pswd_salt`, `email`, `role_id`, `status_id`) VALUES (1, 'test', '$2a$10$xZ5Z1E4PMARoa1nPfty8UeF6Z6frKeYwbBHaNkENKm8dJ4ON.AAGO', '$2a$10$xZ5Z1E4PMARoa1nPfty8Ue', 'test@gmail.com', 2, 2);
 
 INSERT INTO `orders_list` (`id`, `details`, `ready_date`, `end_date`, `shipper_id`) VALUES (1, 'Перевозка из А в Б.', '2021/06/18', '2021/07/18', 1), (2, 'Перевозка из Б в В.', '2021/06/20', '2021/07/20', 1);
 

@@ -16,7 +16,7 @@ public class Main {
       System.out.println(orderDao.findById((long) 2) + "\r\n");
 
       System.out.println(userDao.findAll() + "\r\n");
-      userDao.findById((long) 1).ifPresent(System.out::println);
+      System.out.println(userDao.findById((long) 1) + "\r\n");
     } catch (DaoException e) {
       e.printStackTrace();
     }
