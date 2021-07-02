@@ -65,6 +65,24 @@
           <target>9</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.gitlab.haynes</groupId>
+        <artifactId>libsass-maven-plugin</artifactId>
+        <version>0.2.26</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <inputPath>${basedir}/src/main/sass/</inputPath>
+          <outputPath>${basedir}/target/sass/</outputPath>
+          <sourceMapOutputPath>${basedir}/target/generated-sources/sass</sourceMapOutputPath>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

@@ -4,60 +4,27 @@ import java.time.LocalDateTime;
 
 public class User extends EntityBase{
   private long id;
-  private String login;
   private String email;
   private LocalDateTime registrationDate;
+  private String firstName;
+  private String lastName;
+  private String phone;
   private UserRole userRole;
   private UserStatus userStatus;
 
-  public User() {
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
+  public User(long id,
+              String email,
+              LocalDateTime registrationDate,
+              String firstName,
+              String lastName,
+              String phone, UserRole userRole, UserStatus userStatus) {
     this.id = id;
-  }
-
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
     this.email = email;
-  }
-
-  public LocalDateTime getRegistrationDate() {
-    return registrationDate;
-  }
-
-  public void setRegistrationDate(LocalDateTime registrationDate) {
     this.registrationDate = registrationDate;
-  }
-
-  public UserRole getUserRole() {
-    return userRole;
-  }
-
-  public void setUserRole(UserRole userRole) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phone = phone;
     this.userRole = userRole;
-  }
-
-  public UserStatus getUserStatus() {
-    return userStatus;
-  }
-
-  public void setUserStatus(UserStatus userStatus) {
     this.userStatus = userStatus;
   }
 
@@ -66,7 +33,7 @@ public class User extends EntityBase{
     if (this == o) {
       return true;
     }
-    if (getClass() != o.getClass()) {
+    if (!(o instanceof User)) {
       return false;
     }
 
@@ -75,13 +42,19 @@ public class User extends EntityBase{
     if (id != user.id) {
       return false;
     }
-    if (login != null ? !login.equals(user.login) : user.login != null) {
-      return false;
-    }
     if (email != null ? !email.equals(user.email) : user.email != null) {
       return false;
     }
     if (registrationDate != null ? !registrationDate.equals(user.registrationDate) : user.registrationDate != null) {
+      return false;
+    }
+    if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) {
+      return false;
+    }
+    if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) {
+      return false;
+    }
+    if (phone != null ? !phone.equals(user.phone) : user.phone != null) {
       return false;
     }
     if (userRole != user.userRole) {
@@ -93,9 +66,11 @@ public class User extends EntityBase{
   @Override
   public int hashCode() {
     int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + (login != null ? login.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
     result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
+    result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+    result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (phone != null ? phone.hashCode() : 0);
     result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
     result = 31 * result + (userStatus != null ? userStatus.hashCode() : 0);
     return result;
@@ -105,12 +80,69 @@ public class User extends EntityBase{
   public String toString() {
     final StringBuilder sb = new StringBuilder("User{");
     sb.append("id=").append(id);
-    sb.append(", login='").append(login).append('\'');
     sb.append(", email='").append(email).append('\'');
     sb.append(", registrationDate=").append(registrationDate);
+    sb.append(", firstName='").append(firstName).append('\'');
+    sb.append(", lastName='").append(lastName).append('\'');
+    sb.append(", phone='").append(phone).append('\'');
     sb.append(", userRole=").append(userRole);
     sb.append(", userStatus=").append(userStatus);
     sb.append('}');
     return sb.toString();
+  }
+
+  public static class Builder {
+    private long id;
+    private String email;
+    private LocalDateTime registrationDate;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private UserRole userRole;
+    private UserStatus userStatus;
+
+    public Builder setId(long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder setEmail(String email) {
+      this.email = email;
+      return this;
+    }
+
+    public Builder setRegistrationDate(LocalDateTime registrationDate) {
+      this.registrationDate = registrationDate;
+      return this;
+    }
+
+    public Builder setFirstName(String firstName) {
+      this.firstName = firstName;
+      return this;
+    }
+
+    public Builder setLastName(String lastName) {
+      this.lastName = lastName;
+      return this;
+    }
+
+    public Builder setPhone(String phone) {
+      this.phone = phone;
+      return this;
+    }
+
+    public Builder setUserRole(UserRole userRole) {
+      this.userRole = userRole;
+      return this;
+    }
+
+    public Builder setUserStatus(UserStatus userStatus) {
+      this.userStatus = userStatus;
+      return this;
+    }
+
+    public User build() {
+      return new User(id, email, registrationDate, firstName, lastName, phone, userRole, userStatus);
+    }
   }
 }

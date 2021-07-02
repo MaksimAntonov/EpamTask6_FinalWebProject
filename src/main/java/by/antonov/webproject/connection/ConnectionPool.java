@@ -5,7 +5,6 @@ import static by.antonov.webproject.connection.DatabaseProperties.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,12 +24,12 @@ public class ConnectionPool {
     try {
       Class.forName(DB_DRIVER);
       for (int i = 0; i < DB_POOL_SIZE; i++) {
-        Connection connection = generateConnectionFromDriverManager();
+        Connection connection = ConnectionFactory.createConnection();
         freeConnections.add(new ProxyConnection(connection));
       }
     } catch (ClassNotFoundException e) {
       logger.fatal("Can not register database driver {}", DB_DRIVER);
-      throw new RuntimeException("Can not register database driver " + DB_DRIVER);
+      throw new ExceptionInInitializerError("Can not register database driver " + DB_DRIVER);
     } catch (SQLException e) {
       logger.fatal("Database access error {}", e.getMessage());
       throw new RuntimeException("Database access error " + e.getMessage());
@@ -101,16 +100,5 @@ public class ConnectionPool {
         logger.error("Deregister driver error {}", e.getMessage());
       }
     });
-  }
-
-  private Connection generateConnectionFromDriverManager() throws SQLException {
-    Properties connectionProp = new Properties();
-    connectionProp.put("user", DB_USER);
-    connectionProp.put("password", DB_PASSWORD);
-    connectionProp.put("serverTimezone", DB_TIMEZONE);
-    connectionProp.put("useUnicode", true);
-    connectionProp.put("characterEncoding", DB_ENCODING);
-
-    return DriverManager.getConnection(DB_URL, connectionProp);
   }
 }

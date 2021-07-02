@@ -3,11 +3,13 @@ package by.antonov.webproject.dao;
 public final class DatabaseColumnName {
   // USERS_LIST
   public static final String USER_ID = "id";
-  public static final String USER_LOGIN = "login";
+  public static final String USER_EMAIL = "email";
   public static final String USER_PSWD_HASH = "pswd_hash";
   public static final String USER_PSWD_SALT = "pswd_salt";
-  public static final String USER_EMAIL = "email";
   public static final String USER_REGISTRATION_DATE = "registration_date";
+  public static final String USER_FIRST_NAME = "first_name";
+  public static final String USER_LAST_NAME = "last_name";
+  public static final String USER_PHONE = "phone";
   public static final String USER_ROLE_ID = "role_id";
   public static final String USER_STATUS_ID = "status_id";
 

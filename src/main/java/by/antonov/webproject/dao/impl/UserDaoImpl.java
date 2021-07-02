@@ -1,8 +1,10 @@
 package by.antonov.webproject.dao.impl;
 
+import static by.antonov.webproject.dao.DatabaseColumnName.USER_FIRST_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_ID;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_LOGIN;
+import static by.antonov.webproject.dao.DatabaseColumnName.USER_LAST_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_EMAIL;
+import static by.antonov.webproject.dao.DatabaseColumnName.USER_PHONE;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
 import static by.antonov.webproject.dao.DatabaseColumnName.ROLE_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.STATUS_NAME;
@@ -25,25 +27,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
-  private static final String SQL_FIND_ALL_USERS = "SELECT `users_list`.`id`, `users_list`.`login`, " +
-      "`users_list`.`email`, `users_list`.`registration_date`, `users_role`.`role`, `users_status`.`status` " +
+  private static final String SQL_FIND_ALL_USERS = "SELECT `users_list`.`id`, `users_list`.`first_name`, " +
+      "`users_list`.`last_name`, `users_list`.`email`, `users_list`.`phone`, `users_list`.`registration_date`, " +
+      "`users_role`.`role`, `users_status`.`status` " +
       "FROM `users_list` " +
       "JOIN `users_role` ON `users_role`.`id` = `role_id` " +
       "JOIN `users_status` ON `users_status`.`id` = `status_id`";
-  private static final String SQL_FIND_USER_BY_ID = "SELECT `users_list`.`id`, `users_list`.`login`, " +
-      "`users_list`.`email`, `users_list`.`registration_date`, `users_role`.`role`, `users_status`.`status` " +
+  private static final String SQL_FIND_USER_BY_ID = "SELECT `users_list`.`id`, `users_list`.`first_name`, " +
+      "`users_list`.`last_name`, `users_list`.`email`, `users_list`.`phone`, `users_list`.`registration_date`, " +
+      "`users_role`.`role`, `users_status`.`status` " +
       "FROM `users_list` " +
       "JOIN `users_role` ON `users_role`.`id` = `role_id` " +
       "JOIN `users_status` ON `users_status`.`id` = `status_id`" +
       "WHERE `users_list`.`id`=?";
-  private Connection connection;
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-  public UserDaoImpl() {}
-
-  public UserDaoImpl(Connection connection) {
-    this.connection = connection;
-  }
 
   @Override
   public List<User> findAll()
@@ -52,20 +49,22 @@ public class UserDaoImpl implements UserDao {
     Connection connection = null;
     Statement statement = null;
     try {
-      connection = (this.connection == null) ? ConnectionPool.getInstance().getConnection() : this.connection;
+      connection = ConnectionPool.getInstance().getConnection();
       statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_USERS);
       while (resultSet.next()) {
-        User user = new User();
+        User.Builder builder = new User.Builder();
 
-        user.setId(resultSet.getLong(USER_ID));
-        user.setLogin(resultSet.getString(USER_LOGIN));
-        user.setEmail(resultSet.getString(USER_EMAIL));
-        user.setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf));
-        user.setUserRole(UserRole.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()));
-        user.setUserStatus(UserStatus.valueOf(resultSet.getString(STATUS_NAME).toUpperCase()));
+        builder.setId(resultSet.getLong(USER_ID))
+               .setEmail(resultSet.getString(USER_EMAIL))
+               .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+               .setLastName(resultSet.getString(USER_LAST_NAME))
+               .setFirstName(resultSet.getString(USER_FIRST_NAME))
+               .setPhone(resultSet.getString(USER_PHONE))
+               .setUserRole(UserRole.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()))
+               .setUserStatus(UserStatus.valueOf(resultSet.getString(STATUS_NAME).toUpperCase()));
 
-        users.add(user);
+        users.add(builder.build());
       }
     } catch (SQLException e) {
       throw new DaoException("SQL request error. " + e.getMessage());
@@ -84,19 +83,22 @@ public class UserDaoImpl implements UserDao {
     Connection connection = null;
     PreparedStatement statement = null;
     try {
-      connection = (this.connection == null) ? ConnectionPool.getInstance().getConnection() : this.connection;
+      connection = ConnectionPool.getInstance().getConnection();
       statement = connection.prepareStatement(SQL_FIND_USER_BY_ID);
       statement.setLong(1, id);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        user = new User();
+        User.Builder builder = new User.Builder();
 
-        user.setId(resultSet.getLong(USER_ID));
-        user.setLogin(resultSet.getString(USER_LOGIN));
-        user.setEmail(resultSet.getString(USER_EMAIL));
-        user.setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf));
-        user.setUserRole(UserRole.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()));
-        user.setUserStatus(UserStatus.valueOf(resultSet.getString(STATUS_NAME).toUpperCase()));
+        user = builder.setId(resultSet.getLong(USER_ID))
+               .setEmail(resultSet.getString(USER_EMAIL))
+               .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+               .setLastName(resultSet.getString(USER_LAST_NAME))
+               .setFirstName(resultSet.getString(USER_FIRST_NAME))
+               .setPhone(resultSet.getString(USER_PHONE))
+               .setUserRole(UserRole.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()))
+               .setUserStatus(UserStatus.valueOf(resultSet.getString(STATUS_NAME).toUpperCase()))
+               .build();
       }
     } catch (SQLException e) {
       throw new DaoException("SQL request error. " + e.getMessage());

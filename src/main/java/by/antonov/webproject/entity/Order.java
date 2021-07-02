@@ -8,7 +8,7 @@ public class Order extends EntityBase {
   private String details;
   private LocalDateTime readyDate;
   private LocalDateTime endDate;
-  private String user;
+  private User user;
   private List<Offer> offers;
 
   public Long getId() {
@@ -43,11 +43,11 @@ public class Order extends EntityBase {
     this.endDate = endDate;
   }
 
-  public String getUser() {
+  public User getUser() {
     return user;
   }
 
-  public void setUser(String user) {
+  public void setUser(User user) {
     this.user = user;
   }
 
