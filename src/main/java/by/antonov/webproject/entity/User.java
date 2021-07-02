@@ -12,7 +12,7 @@ public class User extends EntityBase{
   private UserRole userRole;
   private UserStatus userStatus;
 
-  public User(long id,
+  protected User(long id,
               String email,
               LocalDateTime registrationDate,
               String firstName,

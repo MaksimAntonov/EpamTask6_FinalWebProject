@@ -7,12 +7,14 @@ public class Offer extends EntityBase {
   private double price;
   private LocalDateTime offerDate;
   private User user;
+  private OfferStatus offerStatus;
 
-  public Offer(long id, double price, LocalDateTime offerDate, User user) {
+  protected Offer(long id, double price, LocalDateTime offerDate, User user, OfferStatus offerStatus) {
     this.id = id;
     this.price = price;
     this.offerDate = offerDate;
     this.user = user;
+    this.offerStatus = offerStatus;
   }
 
   public long getId() {
@@ -82,6 +84,7 @@ public class Offer extends EntityBase {
     private double price;
     private LocalDateTime offerDate;
     private User user;
+    private OfferStatus offerStatus;
 
     public Builder setId(long id) {
       this.id = id;
@@ -103,8 +106,13 @@ public class Offer extends EntityBase {
       return this;
     }
 
+    public Builder setOfferStatus(OfferStatus offerStatus) {
+      this.offerStatus = offerStatus;
+      return this;
+    }
+
     public Offer build() {
-      return new Offer(id, price, offerDate, user);
+      return new Offer(id, price, offerDate, user, offerStatus);
     }
   }
 }

@@ -11,44 +11,36 @@ public class Order extends EntityBase {
   private User user;
   private List<Offer> offers;
 
-  public Long getId() {
-    return id;
+  protected Order(Long id,
+               String details,
+               LocalDateTime readyDate,
+               LocalDateTime endDate,
+               User user) {
+    this.id = id;
+    this.details = details;
+    this.readyDate = readyDate;
+    this.endDate = endDate;
+    this.user = user;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public Long getId() {
+    return id;
   }
 
   public String getDetails() {
     return details;
   }
 
-  public void setDetails(String details) {
-    this.details = details;
-  }
-
   public LocalDateTime getReadyDate() {
     return readyDate;
-  }
-
-  public void setReadyDate(LocalDateTime readyDate) {
-    this.readyDate = readyDate;
   }
 
   public LocalDateTime getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(LocalDateTime endDate) {
-    this.endDate = endDate;
-  }
-
   public User getUser() {
     return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
   }
 
   public List<Offer> getOffers() {
@@ -110,5 +102,42 @@ public class Order extends EntityBase {
     sb.append(", offers=").append(offers);
     sb.append('}');
     return sb.toString();
+  }
+
+  public static class Builder {
+    private Long id;
+    private String details;
+    private LocalDateTime readyDate;
+    private LocalDateTime endDate;
+    private User user;
+
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder setDetails(String details) {
+      this.details = details;
+      return this;
+    }
+
+    public Builder setReadyDate(LocalDateTime readyDate) {
+      this.readyDate = readyDate;
+      return this;
+    }
+
+    public Builder setEndDate(LocalDateTime endDate) {
+      this.endDate = endDate;
+      return this;
+    }
+
+    public Builder setUser(User user) {
+      this.user = user;
+      return this;
+    }
+
+    public Order build() {
+      return new Order(id, details, readyDate, endDate, user);
+    }
   }
 }

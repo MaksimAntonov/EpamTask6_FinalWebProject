@@ -1,7 +1,7 @@
 package by.antonov.webproject.entity;
 
- public enum UserStatus {
+public enum OrderStatus {
   NEW,
-  VERIFIED,
-  BLOCKED
+  FINISHED,
+  EXPIRED
 }
