@@ -5,12 +5,15 @@ import static by.antonov.webproject.dao.DatabaseColumnName.USER_ID;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_LAST_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_EMAIL;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_PHONE;
+import static by.antonov.webproject.dao.DatabaseColumnName.USER_PSWD_HASH;
+import static by.antonov.webproject.dao.DatabaseColumnName.USER_PSWD_SALT;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_ROLE_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_STATUS_NAME;
 
 import by.antonov.webproject.connection.ConnectionPool;
 import by.antonov.webproject.dao.UserDao;
+import by.antonov.webproject.entity.LogInData;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.UserRole;
 import by.antonov.webproject.entity.UserStatus;
@@ -40,6 +43,9 @@ public class UserDaoImpl implements UserDao {
       "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id` " +
       "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`" +
       "WHERE `users_list`.`user_id`=?";
+  private static final String SQL_FIND_LOGIN_DATA_BY_EMAIL = "SELECT `users_list`.`user_email`, " +
+      "`users_list`.`user_pswd_hash`, `users_list`.`user_pswd_salt` FROM `users_list` " +
+      "WHERE `users_list`.`user_email`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -108,5 +114,32 @@ public class UserDaoImpl implements UserDao {
     }
 
     return Optional.ofNullable(user);
+  }
+
+  @Override
+  public Optional<LogInData> findLoginDataByEmail(String email)
+      throws DaoException {
+    LogInData logInData = null;
+    Connection connection = null;
+    PreparedStatement statement = null;
+    try {
+      connection = ConnectionPool.getInstance().getConnection();
+      statement = connection.prepareStatement(SQL_FIND_LOGIN_DATA_BY_EMAIL);
+      statement.setString(1, email);
+      ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next()) {
+        logInData = new LogInData(
+            resultSet.getString(USER_EMAIL),
+            resultSet.getString(USER_PSWD_HASH),
+            resultSet.getString(USER_PSWD_SALT)
+        );
+      }
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage());
+    } finally {
+      close(statement);
+      close(connection);
+    }
+    return Optional.ofNullable(logInData);
   }
 }

@@ -4,23 +4,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order extends EntityBase {
-  private Long id;
-  private String details;
-  private LocalDateTime readyDate;
-  private LocalDateTime endDate;
-  private User user;
+  private final Long id;
+  private final String details;
+  private final LocalDateTime readyDate;
+  private final LocalDateTime endDate;
+  private final User user;
+  private final OrderStatus orderStatus;
   private List<Offer> offers;
 
   protected Order(Long id,
                String details,
                LocalDateTime readyDate,
                LocalDateTime endDate,
-               User user) {
+               User user,
+               OrderStatus orderStatus) {
     this.id = id;
     this.details = details;
     this.readyDate = readyDate;
     this.endDate = endDate;
     this.user = user;
+    this.orderStatus = orderStatus;
   }
 
   public Long getId() {
@@ -41,6 +44,10 @@ public class Order extends EntityBase {
 
   public User getUser() {
     return user;
+  }
+
+  public OrderStatus getOrderStatus() {
+    return orderStatus;
   }
 
   public List<Offer> getOffers() {
@@ -110,6 +117,7 @@ public class Order extends EntityBase {
     private LocalDateTime readyDate;
     private LocalDateTime endDate;
     private User user;
+    private OrderStatus orderStatus;
 
     public Builder setId(Long id) {
       this.id = id;
@@ -136,8 +144,13 @@ public class Order extends EntityBase {
       return this;
     }
 
+    public Builder setOrderStatus(OrderStatus orderStatus) {
+      this.orderStatus = orderStatus;
+      return this;
+    }
+
     public Order build() {
-      return new Order(id, details, readyDate, endDate, user);
+      return new Order(id, details, readyDate, endDate, user, orderStatus);
     }
   }
 }

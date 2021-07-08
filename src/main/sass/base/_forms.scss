@@ -1,0 +1,15 @@
+.forms {
+  width: 300px;
+  height: auto;
+
+  &> input {
+    border-radius: 15px;
+    padding: 1px 4px;
+    @include font(1.5rem);
+  }
+
+  &> input[type=submit] {
+    width: 20px;
+    margin: auto;
+  }
+}

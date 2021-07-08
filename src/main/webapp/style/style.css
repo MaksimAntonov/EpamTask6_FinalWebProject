@@ -1,0 +1,32 @@
+html {
+  font-size: 10px; }
+
+p {
+  margin: 0; }
+
+.forms {
+  width: 300px;
+  height: auto; }
+  .forms > input {
+    border-radius: 15px;
+    padding: 1px 4px;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-weight: normal;
+    font-style: normal; }
+  .forms > input[type=submit] {
+    width: 20px;
+    margin: auto; }
+
+.user-login-and-registration {
+  font-size: 1.6rem;
+  line-height: 1.6rem;
+  font-weight: normal;
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+  .user-login-and-registration__item {
+    width: 40%; }
+
+/*# sourceMappingURL=style.css.map */

@@ -4,6 +4,7 @@ import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_ID;
 import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_DETAILS;
 import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_READY_DATE;
 import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_END_DATE;
+import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_STATUS;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_ROLE_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_STATUS_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_EMAIL;
@@ -16,6 +17,7 @@ import static by.antonov.webproject.dao.DatabaseColumnName.USER_REGISTRATION_DAT
 import by.antonov.webproject.connection.ConnectionPool;
 import by.antonov.webproject.dao.OrderDao;
 import by.antonov.webproject.entity.Order;
+import by.antonov.webproject.entity.OrderStatus;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.UserRole;
 import by.antonov.webproject.entity.UserStatus;
@@ -33,29 +35,29 @@ import java.util.Optional;
 
 public class OrderDaoImpl implements OrderDao {
   private static final String SQL_FIND_ALL_ORDERS = "SELECT `orders_list`.`order_id`, `orders_list`.`order_details`, " +
-      "`orders_list`.`order_ready_date`, `orders_list`.`order_end_date`, `users_list`.`user_id`, " +
-      "`users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, " +
-      "`users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, " +
-      "`users_status`.`status_name` " +
+      "`orders_list`.`order_ready_date`, `orders_list`.`order_end_date`, `orders_list`.`order_status`, " +
+      "`users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, " +
+      "`users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, " +
+      "`users_role`.`role_name`, `users_status`.`status_name` " +
       "FROM `orders_list` " +
       "JOIN `users_list` ON `users_list`.`user_id` = `orders_list`.`order_shipper_id` " +
       "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id` " +
       "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`";
   private static final String SQL_FIND_ORDER_BY_ID = "SELECT `orders_list`.`order_id`, `orders_list`.`order_details`, " +
-      "`orders_list`.`order_ready_date`, `orders_list`.`order_end_date`, `users_list`.`user_id`, " +
-      "`users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, " +
-      "`users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, " +
-      "`users_status`.`status_name` " +
+      "`orders_list`.`order_ready_date`, `orders_list`.`order_end_date`, `orders_list`.`order_status`, " +
+      "`users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, " +
+      "`users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, " +
+      "`users_role`.`role_name`, `users_status`.`status_name` " +
       "FROM `orders_list` " +
       "JOIN `users_list` ON `users_list`.`user_id` = `orders_list`.`order_shipper_id` " +
       "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id` " +
       "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`" +
       "WHERE `orders_list`.`order_id`=?";
   private static final String SQL_FIND_ALL_ORDERS_BY_SHIPPER = "SELECT `orders_list`.`order_id`, `orders_list`.`order_details`, " +
-      "`orders_list`.`order_ready_date`, `orders_list`.`order_end_date`, `users_list`.`user_id`, " +
-      "`users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, " +
-      "`users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, " +
-      "`users_status`.`status_name` " +
+      "`orders_list`.`order_ready_date`, `orders_list`.`order_end_date`, `orders_list`.`order_status`, " +
+      "`users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, " +
+      "`users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, " +
+      "`users_role`.`role_name`, `users_status`.`status_name` " +
       "FROM `orders_list` " +
       "JOIN `users_list` ON `users_list`.`user_id` = `orders_list`.`order_shipper_id` " +
       "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id` " +
@@ -75,10 +77,11 @@ public class OrderDaoImpl implements OrderDao {
       ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_ORDERS);
       while (resultSet.next()) {
         Order.Builder orderBuilder = new Order.Builder();
-        orderBuilder.setId(resultSet.getLong(ORDER_ID));
-        orderBuilder.setDetails(resultSet.getString(ORDER_DETAILS));
-        orderBuilder.setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf));
-        orderBuilder.setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf));
+        orderBuilder.setId(resultSet.getLong(ORDER_ID))
+                    .setDetails(resultSet.getString(ORDER_DETAILS))
+                    .setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf))
+                    .setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf))
+                    .setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -117,10 +120,11 @@ public class OrderDaoImpl implements OrderDao {
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
         Order.Builder orderBuilder = new Order.Builder();
-        orderBuilder.setId(resultSet.getLong(ORDER_ID));
-        orderBuilder.setDetails(resultSet.getString(ORDER_DETAILS));
-        orderBuilder.setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf));
-        orderBuilder.setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf));
+        orderBuilder.setId(resultSet.getLong(ORDER_ID))
+                    .setDetails(resultSet.getString(ORDER_DETAILS))
+                    .setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf))
+                    .setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf))
+                    .setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -159,10 +163,11 @@ public class OrderDaoImpl implements OrderDao {
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
         Order.Builder orderBuilder = new Order.Builder();
-        orderBuilder.setId(resultSet.getLong(ORDER_ID));
-        orderBuilder.setDetails(resultSet.getString(ORDER_DETAILS));
-        orderBuilder.setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf));
-        orderBuilder.setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf));
+        orderBuilder.setId(resultSet.getLong(ORDER_ID))
+                    .setDetails(resultSet.getString(ORDER_DETAILS))
+                    .setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf))
+                    .setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf))
+                    .setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 

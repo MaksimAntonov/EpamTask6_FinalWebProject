@@ -1,0 +1,10 @@
+.user-login-and-registration {
+  @include font(1.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  &__item {
+    width: 40%;
+  }
+}
