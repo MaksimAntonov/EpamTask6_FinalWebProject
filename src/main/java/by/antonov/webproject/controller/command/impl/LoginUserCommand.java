@@ -1,22 +1,47 @@
 package by.antonov.webproject.controller.command.impl;
 
+import static by.antonov.webproject.controller.RequestFieldKey.*;
+
+import by.antonov.webproject.controller.ResponceKey;
+import by.antonov.webproject.controller.RouterPath;
+import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
-import by.antonov.webproject.controller.command.Router;
+import by.antonov.webproject.controller.Router;
+import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.exception.ProjectException;
 import by.antonov.webproject.exception.ServiceException;
+import by.antonov.webproject.localization.LocalizeKey;
+import by.antonov.webproject.localization.Localizer;
 import by.antonov.webproject.service.ServiceDefinition;
 import by.antonov.webproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class LoginUserCommand implements Command {
 
   @Override
-  public Router execute(HttpServletRequest request, HttpServletResponse response)
+  public Router execute(HttpServletRequest request)
       throws ProjectException {
     UserService userService = ServiceDefinition.getInstance().getUserService();
     Router router = null;
-
+    String currentLocale = (String) request.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
+    if (currentLocale == null) {
+      currentLocale = "en";
+    }
+    Localizer localizer = Localizer.valueOf(currentLocale.toUpperCase());
+    try {
+      String email = request.getParameter(KEY_USER_EMAIL.getValue());
+      String password = request.getParameter(KEY_USER_PASSWORD.getValue());
+      if (userService.checkLogin(email, password)) {
+        // TODO: change page after login
+        router = new Router(RouterType.FORWARD, RouterPath.LOGIN_REGISTRATION_PAGE);
+      } else {
+        request.setAttribute(ResponceKey.RESP_LOGIN_RESULT_STATUS.name(), "error");
+        request.setAttribute(ResponceKey.RESP_LOGIN_RESULT_MESSAGE.name(), localizer.getText(LocalizeKey.TEXT_LOGIN_ERROR));
+        router = new Router(RouterType.FORWARD, RouterPath.LOGIN_REGISTRATION_PAGE);
+      }
+    } catch (ServiceException serviceException) {
+      throw new ProjectException("Login command error.", serviceException);
+    }
     return router;
   }
 }

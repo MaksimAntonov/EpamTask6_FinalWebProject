@@ -1,32 +1,64 @@
 html {
   font-size: 10px; }
 
+.wrapper {
+  width: 1020px;
+  margin: 5px auto; }
+
 p {
   margin: 0; }
 
+input:focus,
+textarea:focus {
+  outline: none; }
+
 .forms {
-  width: 300px;
-  height: auto; }
-  .forms > input {
-    border-radius: 15px;
-    padding: 1px 4px;
+  width: 450px;
+  height: auto;
+  margin: 0 auto; }
+  .forms__element {
+    width: 100%;
+    display: block;
     font-size: 1.5rem;
     line-height: 1.5rem;
     font-weight: normal;
+    font-style: normal;
+    margin: 5px 0; }
+  .forms__result {
+    text-align: center; }
+    .forms__result_error {
+      color: #ff0000; }
+  .forms__header {
+    text-align: center;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    font-weight: normal;
+    font-style: italic;
+    border-bottom: 1px dashed; }
+  .forms input, .forms select {
+    border-radius: 15px;
+    border: 1px solid;
+    padding: 1px 10px;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    font-weight: normal;
     font-style: normal; }
-  .forms > input[type=submit] {
-    width: 20px;
-    margin: auto; }
+  .forms input:required:focus:invalid {
+    border: 2px solid #ff0000; }
+  .forms input[type=submit] {
+    width: auto;
+    margin: auto;
+    padding: 5px 10px; }
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline; }
 
 .user-login-and-registration {
   font-size: 1.6rem;
   line-height: 1.6rem;
   font-weight: normal;
-  font-style: normal;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; }
-  .user-login-and-registration__item {
-    width: 40%; }
+  font-style: normal; }
 
 /*# sourceMappingURL=style.css.map */

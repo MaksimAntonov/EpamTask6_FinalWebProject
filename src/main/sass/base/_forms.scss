@@ -1,15 +1,43 @@
 .forms {
-  width: 300px;
+  width: 450px;
   height: auto;
+  margin: 0 auto;
 
-  &> input {
-    border-radius: 15px;
-    padding: 1px 4px;
+  &__element {
+    width: 100%;
+    display: block;
     @include font(1.5rem);
+    margin: 5px 0;
   }
 
-  &> input[type=submit] {
-    width: 20px;
+  &__result {
+    text-align: center;
+    &_error {
+      color: #ff0000;
+    }
+  }
+
+  &__header {
+    text-align: center;
+    @include font(1.8rem, $style: italic);
+    border-bottom: 1px dashed;
+  }
+
+  & input,
+  & select {
+    border-radius: 15px;
+    border: 1px solid;
+    padding: 1px 10px;
+    @include font(1.6rem);
+  }
+
+  & input:required:focus:invalid {
+    border: 2px solid #ff0000;
+  }
+
+  & input[type=submit] {
+    width: auto;
     margin: auto;
+    padding: 5px 10px;
   }
 }

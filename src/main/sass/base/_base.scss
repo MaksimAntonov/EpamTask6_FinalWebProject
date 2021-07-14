@@ -4,8 +4,14 @@ html {
 
 .wrapper {
   width: 1020px;
+  margin: 5px auto;
 }
 
 p {
   margin: 0;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
 }

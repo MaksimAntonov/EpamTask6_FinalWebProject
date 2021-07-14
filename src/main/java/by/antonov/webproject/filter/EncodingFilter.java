@@ -9,6 +9,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebInitParam;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam (name = "encoding", value = "UTF-8") })
 public class EncodingFilter implements Filter {
