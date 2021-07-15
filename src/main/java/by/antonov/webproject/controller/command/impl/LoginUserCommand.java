@@ -8,6 +8,7 @@ import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
+import by.antonov.webproject.entity.User;
 import by.antonov.webproject.exception.ProjectException;
 import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.localization.LocalizeKey;
@@ -15,6 +16,8 @@ import by.antonov.webproject.localization.Localizer;
 import by.antonov.webproject.service.ServiceDefinition;
 import by.antonov.webproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 
 public class LoginUserCommand implements Command {
 
@@ -23,7 +26,8 @@ public class LoginUserCommand implements Command {
       throws ProjectException {
     UserService userService = ServiceDefinition.getInstance().getUserService();
     Router router = null;
-    String currentLocale = (String) request.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
+    HttpSession session = request.getSession();
+    String currentLocale = (String) session.getAttribute(SessionKey.CURRENT_LOCALE.name());
     if (currentLocale == null) {
       currentLocale = "en";
     }
@@ -31,8 +35,9 @@ public class LoginUserCommand implements Command {
     try {
       String email = request.getParameter(KEY_USER_EMAIL.getValue());
       String password = request.getParameter(KEY_USER_PASSWORD.getValue());
-      if (userService.checkLogin(email, password)) {
-        // TODO: change page after login
+      Optional<User> userOpt;
+      if (userService.checkLogin(email, password) && (userOpt = userService.getUserByEmail(email)).isPresent()) {
+        session.setAttribute(SessionKey.USER_OBJ.name(), userOpt.get());
         router = new Router(RouterType.FORWARD, RouterPath.LOGIN_REGISTRATION_PAGE);
       } else {
         request.setAttribute(ResponceKey.RESP_LOGIN_RESULT_STATUS.name(), "error");

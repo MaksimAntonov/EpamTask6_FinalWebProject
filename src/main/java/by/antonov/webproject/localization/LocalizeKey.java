@@ -23,6 +23,9 @@ public enum LocalizeKey implements EnumBase {
   TEXT_REGISTRATION_CHOOSE_ROLE("registration.choose_role"),
   TEXT_REGISTRATION_SHIPPER("registration.shipper_name"),
   TEXT_REGISTRATION_CARRIER("registration.carrier_name"),
+  TEXT_REGISTRATION_SUCCESS_MESSAGE("registration.success_status_message"),
+  TEXT_REGISTRATION_ERROR_MESSAGE("registration.error_status_message"),
+  TEXT_REGISTRATION_INSERT_ERROR_MESSAGE("registration.insert_error_status_message"),
   TEXT_REGISTRATION_SUBMIT("registration.submit");
   private final String key;
 

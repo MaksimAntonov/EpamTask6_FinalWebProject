@@ -5,6 +5,7 @@ import by.antonov.webproject.controller.command.impl.ChangeLocale;
 import by.antonov.webproject.controller.command.impl.GoToLoginRegistrationPage;
 import by.antonov.webproject.controller.command.impl.LoginUserCommand;
 import by.antonov.webproject.controller.command.impl.OpenOrdersCommand;
+import by.antonov.webproject.controller.command.impl.RegisterUserCommand;
 
 public enum CommandDefinition {
   // goto command
@@ -15,7 +16,8 @@ public enum CommandDefinition {
   // action command
   CHANGE_LOCALE(new ChangeLocale()),
   ADD_ORDER(new AddOrderCommand()),
-  LOGIN_USER(new LoginUserCommand());
+  LOGIN_USER(new LoginUserCommand()),
+  REGISTRATION_USER(new RegisterUserCommand());
 
   private final Command command;
 

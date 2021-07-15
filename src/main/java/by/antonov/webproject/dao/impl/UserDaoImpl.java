@@ -1,19 +1,19 @@
 package by.antonov.webproject.dao.impl;
 
+import static by.antonov.webproject.dao.DatabaseColumnName.ROLE_ID;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_FIRST_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_ID;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_LAST_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_EMAIL;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_PHONE;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_PSWD_HASH;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_PSWD_SALT;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_ROLE_NAME;
 import static by.antonov.webproject.dao.DatabaseColumnName.USER_STATUS_NAME;
 
 import by.antonov.webproject.connection.ConnectionPool;
+import by.antonov.webproject.controller.ResponceKey;
 import by.antonov.webproject.dao.UserDao;
-import by.antonov.webproject.entity.LogInData;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.UserRole;
 import by.antonov.webproject.entity.UserStatus;
@@ -26,7 +26,9 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
@@ -43,9 +45,20 @@ public class UserDaoImpl implements UserDao {
       "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id` " +
       "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`" +
       "WHERE `users_list`.`user_id`=?";
-  private static final String SQL_FIND_LOGIN_DATA_BY_EMAIL = "SELECT `users_list`.`user_email`, " +
-      "`users_list`.`user_pswd_hash`, `users_list`.`user_pswd_salt` FROM `users_list` " +
+  private static final String SQL_FIND_USER_BY_EMAIL = "SELECT `users_list`.`user_id`, `users_list`" +
+      ".`user_first_name`, " +
+      "`users_list`.`user_last_name`, `users_list`.`user_email`, `users_list`.`user_phone`, " +
+      "`users_list`.`user_registration_date`, `users_role`.`role_name`, `users_status`.`status_name` " +
+      "FROM `users_list` " +
+      "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id` " +
+      "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`" +
       "WHERE `users_list`.`user_email`=?";
+  private static final String SQL_FIND_LOGIN_DATA_BY_EMAIL = "SELECT `users_list`.`user_email`, " +
+      "`users_list`.`user_pswd_hash` FROM `users_list` " +
+      "WHERE `users_list`.`user_email`=?";
+  private static final String SQL_FIND_ROLE_ID_BY_NAME = "SELECT `role_id` FROM `users_role` WHERE `role_name`=?";
+  private static final String SQL_INSERT_NEW_USER = "INSERT IGNORE INTO `users_list` (`user_email`, `user_pswd_hash`, " +
+      "`user_pswd_salt`, `user_first_name`, `user_last_name`, `user_phone`, `user_role_id`) VALUES (?,?,?,?,?,?,?)";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -117,9 +130,43 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public Optional<LogInData> findLoginDataByEmail(String email)
+  public Optional<User> findUserByEmail(String email)
       throws DaoException {
-    LogInData logInData = null;
+    User user = null;
+    Connection connection = null;
+    PreparedStatement statement = null;
+    try {
+      connection = ConnectionPool.getInstance().getConnection();
+      statement = connection.prepareStatement(SQL_FIND_USER_BY_EMAIL);
+      statement.setString(1, email);
+      ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next()) {
+        User.Builder builder = new User.Builder();
+
+        user = builder.setId(resultSet.getLong(USER_ID))
+                      .setEmail(resultSet.getString(USER_EMAIL))
+                      .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+                      .setLastName(resultSet.getString(USER_LAST_NAME))
+                      .setFirstName(resultSet.getString(USER_FIRST_NAME))
+                      .setPhone(resultSet.getString(USER_PHONE))
+                      .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                      .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()))
+                      .build();
+      }
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage());
+    } finally {
+      close(statement);
+      close(connection);
+    }
+
+    return Optional.ofNullable(user);
+  }
+
+  @Override
+  public Optional<Map<ResponceKey, String>> findLoginDataByEmail(String email)
+      throws DaoException {
+    Map<ResponceKey, String> result = null;
     Connection connection = null;
     PreparedStatement statement = null;
     try {
@@ -128,11 +175,9 @@ public class UserDaoImpl implements UserDao {
       statement.setString(1, email);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        logInData = new LogInData(
-            resultSet.getString(USER_EMAIL),
-            resultSet.getString(USER_PSWD_HASH),
-            resultSet.getString(USER_PSWD_SALT)
-        );
+        result = new EnumMap<>(ResponceKey.class);
+        result.put(ResponceKey.RESP_LOGIN_EMAIL, resultSet.getString(USER_EMAIL));
+        result.put(ResponceKey.RESP_LOGIN_PASSWORD, resultSet.getString(USER_PSWD_HASH));
       }
     } catch (SQLException e) {
       throw new DaoException("SQL request error. " + e.getMessage());
@@ -140,6 +185,61 @@ public class UserDaoImpl implements UserDao {
       close(statement);
       close(connection);
     }
-    return Optional.ofNullable(logInData);
+    return Optional.ofNullable(result);
+  }
+
+  @Override
+  public Optional<Long> findRoleIdByName(String roleName)
+      throws DaoException {
+    Optional<Long> result = Optional.empty();
+    Connection connection = null;
+    PreparedStatement statement = null;
+    try {
+      connection = ConnectionPool.getInstance().getConnection();
+      statement = connection.prepareStatement(SQL_FIND_ROLE_ID_BY_NAME);
+      statement.setString(1, roleName);
+      ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next()) {
+        result = Optional.of(resultSet.getLong(ROLE_ID));
+      }
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage(), e);
+    } finally {
+      close(statement);
+      close(connection);
+    }
+    return result;
+  }
+
+  @Override
+  public boolean insertUser(String email,
+                            String passwordHash,
+                            String passwordSalt,
+                            String firstName,
+                            String lastName,
+                            String phone,
+                            long userRole)
+      throws DaoException {
+    boolean result = false;
+    Connection connection = null;
+    PreparedStatement statement = null;
+    try {
+      connection = ConnectionPool.getInstance().getConnection();
+      statement = connection.prepareStatement(SQL_INSERT_NEW_USER);
+      statement.setString(1, email);
+      statement.setString(2, passwordHash);
+      statement.setString(3, passwordSalt);
+      statement.setString(4, firstName);
+      statement.setString(5, lastName);
+      statement.setString(6, phone);
+      statement.setLong(7, userRole);
+      result = (statement.executeUpdate() == 1);
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage(), e);
+    } finally {
+      close(statement);
+      close(connection);
+    }
+    return result;
   }
 }

@@ -21,7 +21,7 @@
         <input class="forms__element" id="login_pass" name="${KEY_USER_PASSWORD}" type="password" pattern="${VALIDATION_PASSWORD_PATTERN}" required/>
         <input class="forms__element" type="submit" value="${LOCALE[TEXT_LOGIN_SUBMIT]}">
       </form>
-      <form method="post" action="controller?command=registration" class="user-login-and-registration__item forms">
+      <form method="post" action="controller?command=registration_user" class="user-login-and-registration__item forms">
         <h2 class="forms__element forms__header">${LOCALE[TEXT_REGISTRATION_HEADER]}</h2>
         <c:if test="${RESP_REGISTRATION_RESULT_STATUS != null}">
           <div class="forms__element forms__result forms__result_${RESP_REGISTRATION_RESULT_STATUS}">${RESP_REGISTRATION_RESULT_MESSAGE}</div>

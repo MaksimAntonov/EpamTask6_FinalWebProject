@@ -28,6 +28,38 @@ public class User extends EntityBase{
     this.userStatus = userStatus;
   }
 
+  public long getId() {
+    return id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public LocalDateTime getRegistrationDate() {
+    return registrationDate;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public UserRole getUserRole() {
+    return userRole;
+  }
+
+  public UserStatus getUserStatus() {
+    return userStatus;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

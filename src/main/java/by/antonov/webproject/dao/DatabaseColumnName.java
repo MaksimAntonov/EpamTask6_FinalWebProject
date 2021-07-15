@@ -14,6 +14,7 @@ public final class DatabaseColumnName {
   public static final String USER_STATUS_ID = "user_status_id";
 
   // USERS_ROLE
+  public static final String ROLE_ID = "role_id";
   public static final String USER_ROLE_NAME = "role_name";
 
   // USERS_STATUS

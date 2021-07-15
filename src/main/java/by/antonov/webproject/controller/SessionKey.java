@@ -3,5 +3,6 @@ package by.antonov.webproject.controller;
 public enum SessionKey {
   LOCALE,
   CURRENT_LOCALE,
-  REQUIRED_URI;
+  REQUIRED_URI,
+  USER_OBJ;
 }
