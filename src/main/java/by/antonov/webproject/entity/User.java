@@ -3,21 +3,34 @@ package by.antonov.webproject.entity;
 import java.time.LocalDateTime;
 
 public class User extends EntityBase{
-  private long id;
-  private String email;
-  private LocalDateTime registrationDate;
-  private String firstName;
-  private String lastName;
-  private String phone;
-  private UserRole userRole;
-  private UserStatus userStatus;
+  private final long id;
+  private final String email;
+  private final LocalDateTime registrationDate;
+  private final String firstName;
+  private final String lastName;
+  private final String phone;
+  private final Role userRole;
+  private final Status userStatus;
+
+  public enum Role {
+    GUEST,
+    ADMINISTRATOR,
+    SHIPPER,
+    CARRIER
+  }
+
+  public enum Status {
+    NEW,
+    VERIFIED,
+    BLOCKED
+  }
 
   protected User(long id,
               String email,
               LocalDateTime registrationDate,
               String firstName,
               String lastName,
-              String phone, UserRole userRole, UserStatus userStatus) {
+              String phone, Role userRole, Status userStatus) {
     this.id = id;
     this.email = email;
     this.registrationDate = registrationDate;
@@ -52,11 +65,11 @@ public class User extends EntityBase{
     return phone;
   }
 
-  public UserRole getUserRole() {
+  public Role getUserRole() {
     return userRole;
   }
 
-  public UserStatus getUserStatus() {
+  public Status getUserStatus() {
     return userStatus;
   }
 
@@ -130,8 +143,8 @@ public class User extends EntityBase{
     private String firstName;
     private String lastName;
     private String phone;
-    private UserRole userRole;
-    private UserStatus userStatus;
+    private Role userRole;
+    private Status userStatus;
 
     public Builder setId(long id) {
       this.id = id;
@@ -163,12 +176,12 @@ public class User extends EntityBase{
       return this;
     }
 
-    public Builder setUserRole(UserRole userRole) {
+    public Builder setUserRole(Role userRole) {
       this.userRole = userRole;
       return this;
     }
 
-    public Builder setUserStatus(UserStatus userStatus) {
+    public Builder setUserStatus(Status userStatus) {
       this.userStatus = userStatus;
       return this;
     }

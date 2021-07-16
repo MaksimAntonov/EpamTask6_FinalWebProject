@@ -3,13 +3,19 @@ package by.antonov.webproject.entity;
 import java.time.LocalDateTime;
 
 public class Offer extends EntityBase {
-  private long id;
-  private double price;
-  private LocalDateTime offerDate;
-  private User user;
-  private OfferStatus offerStatus;
+  private final long id;
+  private final double price;
+  private final LocalDateTime offerDate;
+  private final User user;
+  private Status offerStatus;
 
-  protected Offer(long id, double price, LocalDateTime offerDate, User user, OfferStatus offerStatus) {
+  public enum Status {
+    OFFERED,
+    ACCEPTED,
+    DENIED
+  }
+
+  protected Offer(long id, double price, LocalDateTime offerDate, User user, Status offerStatus) {
     this.id = id;
     this.price = price;
     this.offerDate = offerDate;
@@ -84,7 +90,7 @@ public class Offer extends EntityBase {
     private double price;
     private LocalDateTime offerDate;
     private User user;
-    private OfferStatus offerStatus;
+    private Status offerStatus;
 
     public Builder setId(long id) {
       this.id = id;
@@ -106,7 +112,7 @@ public class Offer extends EntityBase {
       return this;
     }
 
-    public Builder setOfferStatus(OfferStatus offerStatus) {
+    public Builder setOfferStatus(Status offerStatus) {
       this.offerStatus = offerStatus;
       return this;
     }

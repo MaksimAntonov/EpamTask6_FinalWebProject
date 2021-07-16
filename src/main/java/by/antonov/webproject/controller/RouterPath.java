@@ -8,9 +8,9 @@ public enum RouterPath implements EnumBase {
   TEMPLATE_HEAD_DATA("/WEB-INF/jsp/templates/tmpl_head_data.jsp"),
   TEMPLATE_HEADER("/WEB-INF/jsp/templates/tmpl_header.jsp");
 
-  String pagePath;
+  private String pagePath;
 
-  RouterPath(String pagePath) {
+  private RouterPath(String pagePath) {
     this.pagePath = pagePath;
   }
 

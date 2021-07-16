@@ -1,6 +1,6 @@
 package by.antonov.webproject.connection;
 
-import static by.antonov.webproject.connection.DatabaseProperties.*;
+import static by.antonov.webproject.connection.DatabaseProperty.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,7 +32,7 @@ public class ConnectionPool {
       throw new ExceptionInInitializerError("Can not register database driver " + DB_DRIVER);
     } catch (SQLException e) {
       logger.fatal("Database access error {}", e.getMessage());
-      throw new RuntimeException("Database access error " + e.getMessage());
+      throw new ExceptionInInitializerError("Database access error " + e.getMessage());
     }
   }
 

@@ -16,8 +16,6 @@ import org.apache.logging.log4j.Logger;
 
 @WebFilter(urlPatterns = { "/controller" })
 public class LocaleFilter implements Filter {
-  private static final Logger logger = LogManager.getLogger();
-
   @Override
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
       throws IOException, ServletException {
@@ -25,7 +23,7 @@ public class LocaleFilter implements Filter {
     HttpSession session = httpServletRequest.getSession();
     String locale = (String) session.getAttribute(SessionKey.CURRENT_LOCALE.name());
     if (locale == null) {
-      session.setAttribute(SessionKey.CURRENT_LOCALE.name(), "en");
+      session.setAttribute(SessionKey.CURRENT_LOCALE.name(), Localizer.EN.getLanguageCode());
       session.setAttribute(SessionKey.LOCALE.name(), Localizer.EN.getResourceBundle());
     }
 

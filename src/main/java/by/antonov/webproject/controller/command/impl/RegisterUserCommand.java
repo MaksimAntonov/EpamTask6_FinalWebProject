@@ -2,6 +2,7 @@ package by.antonov.webproject.controller.command.impl;
 
 import static by.antonov.webproject.controller.RequestFieldKey.*;
 
+import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.ResponceKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
@@ -22,12 +23,7 @@ public class RegisterUserCommand implements Command {
   @Override
   public Router execute(HttpServletRequest request)
       throws ProjectException {
-    UserService userService = ServiceDefinition.getInstance().getUserService();
-    Router router = null;
     String currentLocale = (String) request.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
-    if (currentLocale == null) {
-      currentLocale = "en";
-    }
     Localizer localizer = Localizer.valueOf(currentLocale.toUpperCase());
     try {
       String email = request.getParameter(KEY_USER_EMAIL.getValue());
@@ -38,21 +34,22 @@ public class RegisterUserCommand implements Command {
       String phone = request.getParameter(KEY_USER_PHONE.getValue());
       String role = request.getParameter(KEY_USER_ROLE.getValue());
 
+      UserService userService = ServiceDefinition.getInstance().getUserService();
       Map<ResponceKey, String> resultMap = userService.registerUser(email, password, passwordConfirm, firstName,
                                                                    lastName, phone, role);
 
-      if (resultMap.get(ResponceKey.RESP_REGISTRATION_RESULT_STATUS).equals("success")) {
+      if (resultMap.get(ResponceKey.RESP_REGISTRATION_RESULT_STATUS).equals(KEY_STYLE_SUCCESS.getValue())) {
         resultMap.put(ResponceKey.RESP_REGISTRATION_RESULT_MESSAGE,
                       localizer.getText(LocalizeKey.TEXT_REGISTRATION_SUCCESS_MESSAGE));
       } else {
-        if (resultMap.get(ResponceKey.RESP_REGISTRATION_RESULT_STATUS).equals("error")) {
+        if (resultMap.get(ResponceKey.RESP_REGISTRATION_RESULT_STATUS).equals(RequestFieldKey.KEY_STYLE_ERROR.getValue())) {
           resultMap.put(ResponceKey.RESP_REGISTRATION_RESULT_MESSAGE,
                         localizer.getText(LocalizeKey.TEXT_REGISTRATION_ERROR_MESSAGE));
         }
-        if (resultMap.get(ResponceKey.RESP_REGISTRATION_RESULT_STATUS).equals("insert_error")) {
+        if (resultMap.get(ResponceKey.RESP_REGISTRATION_RESULT_STATUS).equals(KEY_STYLE_INSERT_ERROR.getValue())) {
           resultMap.put(ResponceKey.RESP_REGISTRATION_RESULT_MESSAGE,
                         localizer.getText(LocalizeKey.TEXT_REGISTRATION_INSERT_ERROR_MESSAGE));
-          resultMap.put(ResponceKey.RESP_REGISTRATION_RESULT_STATUS, "error");
+          resultMap.put(ResponceKey.RESP_REGISTRATION_RESULT_STATUS, RequestFieldKey.KEY_STYLE_ERROR.getValue());
         }
       }
 
@@ -60,11 +57,9 @@ public class RegisterUserCommand implements Command {
         request.setAttribute(mapElement.getKey().name(), mapElement.getValue());
       }
 
-      router = new Router(RouterType.FORWARD, RouterPath.LOGIN_REGISTRATION_PAGE);
+      return new Router(RouterType.FORWARD, RouterPath.LOGIN_REGISTRATION_PAGE);
     } catch (ServiceException serviceException) {
       throw new ProjectException("Registration command error", serviceException);
     }
-
-    return router;
   }
 }

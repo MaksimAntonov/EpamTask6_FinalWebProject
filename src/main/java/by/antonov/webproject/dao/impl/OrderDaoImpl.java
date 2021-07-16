@@ -1,26 +1,11 @@
 package by.antonov.webproject.dao.impl;
 
-import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_ID;
-import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_DETAILS;
-import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_READY_DATE;
-import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_END_DATE;
-import static by.antonov.webproject.dao.DatabaseColumnName.ORDER_STATUS;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_ROLE_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_STATUS_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_EMAIL;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_FIRST_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_ID;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_LAST_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_PHONE;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
+import static by.antonov.webproject.dao.DatabaseColumnName.*;
 
 import by.antonov.webproject.connection.ConnectionPool;
 import by.antonov.webproject.dao.OrderDao;
 import by.antonov.webproject.entity.Order;
-import by.antonov.webproject.entity.OrderStatus;
 import by.antonov.webproject.entity.User;
-import by.antonov.webproject.entity.UserRole;
-import by.antonov.webproject.entity.UserStatus;
 import by.antonov.webproject.exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -68,20 +53,17 @@ public class OrderDaoImpl implements OrderDao {
   @Override
   public List<Order> findAll()
       throws DaoException {
-    List<Order> orders = new ArrayList<>();
-    Connection connection = null;
-    Statement statement = null;
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_ORDERS);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_ORDERS)) {
+      List<Order> orders = new ArrayList<>();
       while (resultSet.next()) {
         Order.Builder orderBuilder = new Order.Builder();
         orderBuilder.setId(resultSet.getLong(ORDER_ID))
                     .setDetails(resultSet.getString(ORDER_DETAILS))
                     .setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf))
                     .setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf))
-                    .setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
+                    .setOrderStatus(Order.Status.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -91,40 +73,33 @@ public class OrderDaoImpl implements OrderDao {
                .setLastName(resultSet.getString(USER_LAST_NAME))
                .setFirstName(resultSet.getString(USER_FIRST_NAME))
                .setPhone(resultSet.getString(USER_PHONE))
-               .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-               .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+               .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+               .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         orderBuilder.setUser(userBuilder.build());
 
         orders.add(orderBuilder.build());
       }
+      return orders;
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
-
-    return orders;
   }
 
   @Override
   public Optional<Order> findById(Long id)
       throws DaoException {
-    Order order = null;
-    Connection connection = null;
-    PreparedStatement statement = null;
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.prepareStatement(SQL_FIND_ORDER_BY_ID);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ORDER_BY_ID)) {
       statement.setLong(1, id);
       ResultSet resultSet = statement.executeQuery();
+      Order order = null;
       while (resultSet.next()) {
         Order.Builder orderBuilder = new Order.Builder();
         orderBuilder.setId(resultSet.getLong(ORDER_ID))
                     .setDetails(resultSet.getString(ORDER_DETAILS))
                     .setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf))
                     .setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf))
-                    .setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
+                    .setOrderStatus(Order.Status.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -134,40 +109,33 @@ public class OrderDaoImpl implements OrderDao {
                    .setLastName(resultSet.getString(USER_LAST_NAME))
                    .setFirstName(resultSet.getString(USER_FIRST_NAME))
                    .setPhone(resultSet.getString(USER_PHONE))
-                   .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-                   .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+                   .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                   .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         orderBuilder.setUser(userBuilder.build());
 
         order = orderBuilder.build();
       }
+      return Optional.ofNullable(order);
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
-
-    return Optional.ofNullable(order);
   }
 
   @Override
   public List<Order> findAllByShipperId(Long shipperId)
       throws DaoException {
-    List<Order> orders = new ArrayList<>();
-    Connection connection = null;
-    PreparedStatement statement = null;
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.prepareStatement(SQL_FIND_ALL_ORDERS_BY_SHIPPER);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_ORDERS_BY_SHIPPER)) {
       statement.setLong(1, shipperId);
       ResultSet resultSet = statement.executeQuery();
+      List<Order> orders = new ArrayList<>();
       while (resultSet.next()) {
         Order.Builder orderBuilder = new Order.Builder();
         orderBuilder.setId(resultSet.getLong(ORDER_ID))
                     .setDetails(resultSet.getString(ORDER_DETAILS))
                     .setReadyDate(LocalDateTime.parse(resultSet.getString(ORDER_READY_DATE), dtf))
                     .setEndDate(LocalDateTime.parse(resultSet.getString(ORDER_END_DATE), dtf))
-                    .setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
+                    .setOrderStatus(Order.Status.valueOf(resultSet.getString(ORDER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -177,19 +145,15 @@ public class OrderDaoImpl implements OrderDao {
                    .setLastName(resultSet.getString(USER_LAST_NAME))
                    .setFirstName(resultSet.getString(USER_FIRST_NAME))
                    .setPhone(resultSet.getString(USER_PHONE))
-                   .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-                   .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+                   .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                   .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         orderBuilder.setUser(userBuilder.build());
 
         orders.add(orderBuilder.build());
       }
+      return orders;
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
-
-    return orders;
   }
 }

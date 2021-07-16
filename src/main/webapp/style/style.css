@@ -29,7 +29,7 @@ textarea:focus {
     .forms__result_error {
       color: #ff0000; }
     .forms__result_success {
-      color: #90ee90; }
+      color: #008b8b; }
   .forms__header {
     text-align: center;
     font-size: 1.8rem;

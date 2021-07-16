@@ -9,15 +9,21 @@ public class Order extends EntityBase {
   private final LocalDateTime readyDate;
   private final LocalDateTime endDate;
   private final User user;
-  private final OrderStatus orderStatus;
+  private final Status orderStatus;
   private List<Offer> offers;
+
+  public enum Status {
+    NEW,
+    FINISHED,
+    EXPIRED
+  }
 
   protected Order(Long id,
                String details,
                LocalDateTime readyDate,
                LocalDateTime endDate,
                User user,
-               OrderStatus orderStatus) {
+               Status orderStatus) {
     this.id = id;
     this.details = details;
     this.readyDate = readyDate;
@@ -46,7 +52,7 @@ public class Order extends EntityBase {
     return user;
   }
 
-  public OrderStatus getOrderStatus() {
+  public Status getOrderStatus() {
     return orderStatus;
   }
 
@@ -117,7 +123,7 @@ public class Order extends EntityBase {
     private LocalDateTime readyDate;
     private LocalDateTime endDate;
     private User user;
-    private OrderStatus orderStatus;
+    private Status orderStatus;
 
     public Builder setId(Long id) {
       this.id = id;
@@ -144,7 +150,7 @@ public class Order extends EntityBase {
       return this;
     }
 
-    public Builder setOrderStatus(OrderStatus orderStatus) {
+    public Builder setOrderStatus(Status orderStatus) {
       this.orderStatus = orderStatus;
       return this;
     }

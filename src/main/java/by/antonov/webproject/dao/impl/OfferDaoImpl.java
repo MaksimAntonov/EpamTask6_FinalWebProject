@@ -1,26 +1,11 @@
 package by.antonov.webproject.dao.impl;
 
-import static by.antonov.webproject.dao.DatabaseColumnName.OFFER_CARRIER_ID;
-import static by.antonov.webproject.dao.DatabaseColumnName.OFFER_DATE;
-import static by.antonov.webproject.dao.DatabaseColumnName.OFFER_ID;
-import static by.antonov.webproject.dao.DatabaseColumnName.OFFER_PRICE;
-import static by.antonov.webproject.dao.DatabaseColumnName.OFFER_STATUS;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_ROLE_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_STATUS_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_EMAIL;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_FIRST_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_ID;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_LAST_NAME;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_PHONE;
-import static by.antonov.webproject.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
+import static by.antonov.webproject.dao.DatabaseColumnName.*;
 
 import by.antonov.webproject.connection.ConnectionPool;
 import by.antonov.webproject.dao.OfferDao;
 import by.antonov.webproject.entity.Offer;
-import by.antonov.webproject.entity.OfferStatus;
 import by.antonov.webproject.entity.User;
-import by.antonov.webproject.entity.UserRole;
-import by.antonov.webproject.entity.UserStatus;
 import by.antonov.webproject.exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -78,21 +63,17 @@ public class OfferDaoImpl implements OfferDao {
   @Override
   public List<Offer> findAll()
       throws DaoException {
-    List<Offer> offers = new ArrayList<>();
-    Connection connection = null;
-    Statement statement = null;
-
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_OFFERS);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_OFFERS)) {
+      List<Offer> offers = new ArrayList<>();
       while (resultSet.next()) {
         Offer.Builder offerBuilder = new Offer.Builder();
 
         offerBuilder.setId(resultSet.getLong(OFFER_ID))
                     .setPrice(resultSet.getDouble(OFFER_PRICE))
                     .setOfferDate(LocalDateTime.parse(resultSet.getString(OFFER_DATE), dtf))
-                    .setOfferStatus(OfferStatus.valueOf(resultSet.getString(OFFER_STATUS).toUpperCase()));
+                    .setOfferStatus(Offer.Status.valueOf(resultSet.getString(OFFER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -102,41 +83,33 @@ public class OfferDaoImpl implements OfferDao {
                .setLastName(resultSet.getString(USER_LAST_NAME))
                .setFirstName(resultSet.getString(USER_FIRST_NAME))
                .setPhone(resultSet.getString(USER_PHONE))
-               .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-               .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+               .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+               .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         offerBuilder.setUser(userBuilder.build());
 
         offers.add(offerBuilder.build());
       }
+      return offers;
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
-
-    return offers;
   }
 
   @Override
   public Optional<Offer> findById(Long id)
       throws DaoException {
-    Offer offer = null;
-    Connection connection = null;
-    PreparedStatement statement = null;
-
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.prepareStatement(SQL_FIND_OFFER_BY_ID);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_OFFER_BY_ID)) {
       statement.setLong(1, id);
       ResultSet resultSet = statement.executeQuery();
+      Offer offer = null;
       while (resultSet.next()) {
         Offer.Builder offerBuilder = new Offer.Builder();
 
         offerBuilder.setId(resultSet.getLong(OFFER_ID))
                     .setPrice(resultSet.getDouble(OFFER_PRICE))
                     .setOfferDate(LocalDateTime.parse(resultSet.getString(OFFER_DATE), dtf))
-                    .setOfferStatus(OfferStatus.valueOf(resultSet.getString(OFFER_STATUS).toUpperCase()));
+                    .setOfferStatus(Offer.Status.valueOf(resultSet.getString(OFFER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -146,40 +119,32 @@ public class OfferDaoImpl implements OfferDao {
                    .setLastName(resultSet.getString(USER_LAST_NAME))
                    .setFirstName(resultSet.getString(USER_FIRST_NAME))
                    .setPhone(resultSet.getString(USER_PHONE))
-                   .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-                   .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+                   .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                   .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         offerBuilder.setUser(userBuilder.build());
 
         offer = offerBuilder.build();
       }
+      return Optional.ofNullable(offer);
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
-
-    return Optional.ofNullable(offer);
   }
 
   @Override
   public List<Offer> findAllByCarrierId(Long carrierId) throws DaoException {
-    List<Offer> offers = new ArrayList<>();
-    Connection connection = null;
-    PreparedStatement statement = null;
-
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.prepareStatement(SQL_FIND_ALL_OFFERS_BY_CARRIER);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_OFFERS_BY_CARRIER)) {
       statement.setLong(1, carrierId);
       ResultSet resultSet = statement.executeQuery();
+      List<Offer> offers = new ArrayList<>();
       while (resultSet.next()) {
         Offer.Builder offerBuilder = new Offer.Builder();
 
         offerBuilder.setId(resultSet.getLong(OFFER_ID))
                     .setPrice(resultSet.getDouble(OFFER_PRICE))
                     .setOfferDate(LocalDateTime.parse(resultSet.getString(OFFER_DATE), dtf))
-                    .setOfferStatus(OfferStatus.valueOf(resultSet.getString(OFFER_STATUS).toUpperCase()));
+                    .setOfferStatus(Offer.Status.valueOf(resultSet.getString(OFFER_STATUS).toUpperCase()));
 
         User.Builder userBuilder = new User.Builder();
 
@@ -189,32 +154,25 @@ public class OfferDaoImpl implements OfferDao {
                    .setLastName(resultSet.getString(USER_LAST_NAME))
                    .setFirstName(resultSet.getString(USER_FIRST_NAME))
                    .setPhone(resultSet.getString(USER_PHONE))
-                   .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-                   .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+                   .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                   .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         offerBuilder.setUser(userBuilder.build());
 
         offers.add(offerBuilder.build());
       }
+      return offers;
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
-
-    return offers;
   }
 
   @Override
   public List<Offer> findAllByOrderId(Long orderId)
       throws DaoException {
     List<Offer> offers = new ArrayList<>();
-    Connection connection = null;
-    PreparedStatement statement = null;
 
-    try {
-      connection = ConnectionPool.getInstance().getConnection();
-      statement = connection.prepareStatement(SQL_FIND_ALL_OFFERS_BY_ORDER);
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_OFFERS_BY_ORDER)) {
       statement.setLong(1, orderId);
       ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
@@ -232,17 +190,14 @@ public class OfferDaoImpl implements OfferDao {
                    .setLastName(resultSet.getString(USER_LAST_NAME))
                    .setFirstName(resultSet.getString(USER_FIRST_NAME))
                    .setPhone(resultSet.getString(USER_PHONE))
-                   .setUserRole(UserRole.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-                   .setUserStatus(UserStatus.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+                   .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                   .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         offerBuilder.setUser(userBuilder.build());
 
         offers.add(offerBuilder.build());
       }
     } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage());
-    } finally {
-      close(statement);
-      close(connection);
+      throw new DaoException("Database error. " + e.getMessage(), e);
     }
 
     return offers;

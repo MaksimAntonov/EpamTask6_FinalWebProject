@@ -1,6 +1,5 @@
 package by.antonov.webproject.controller;
 
-import by.antonov.webproject.connection.ConnectionPool;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.controller.command.CommandFactory;
 import jakarta.servlet.ServletException;
@@ -28,24 +27,26 @@ public class Controller extends HttpServlet {
     processRequest(req, resp);
   }
 
-  private void processRequest(HttpServletRequest req, HttpServletResponse resp) {
+  private void processRequest(HttpServletRequest request, HttpServletResponse response) {
     try {
-      String commandName = req.getParameter("command");
+      String commandName = request.getParameter(RequestFieldKey.KEY_COMMAND.getValue());
       Command command = CommandFactory.defineCommand(commandName);
-      Router router = command.execute(req);
+      Router router = command.execute(request);
       switch (router.getRouterType()) {
         case FORWARD -> {
-          req.getRequestDispatcher(router.getRouterPath()).forward(req, resp);
+          request.getRequestDispatcher(router.getRouterPath()).forward(request, response);
         }
         case REDIRECT -> {
-          resp.sendRedirect(router.getRouterPath());
+          response.sendRedirect(router.getRouterPath());
         }
         default -> {
           logger.error("Controller: wrong RouterType {}", router.getRouterType());
-          resp.sendRedirect("");
+          // TODO: make redirect to 404 error
+          response.sendRedirect("");
         }
       }
     } catch (Exception e) {
+      // TODO: make error pages
       e.fillInStackTrace();
     }
   }

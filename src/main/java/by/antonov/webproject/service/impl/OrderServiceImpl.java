@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
       throws ServiceException {
     List<Order> orders = new ArrayList<>();
     try {
-      orders = this.orderDao.findAll();
+      orders = orderDao.findAll();
     } catch (DaoException daoException) {
       logger.error("findAllOrders > Can not read data from database: {}", daoException.getMessage());
       throw new ServiceException("Can not read data from database", daoException);

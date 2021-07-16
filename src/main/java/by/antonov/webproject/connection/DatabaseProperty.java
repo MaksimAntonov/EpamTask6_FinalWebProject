@@ -3,7 +3,7 @@ package by.antonov.webproject.connection;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-class DatabaseProperties {
+class DatabaseProperty {
   static final String DB_DRIVER;
   static final String DB_URL;
   static final int DB_POOL_SIZE;
@@ -23,10 +23,9 @@ class DatabaseProperties {
       DB_TIMEZONE = resourceBundle.getString("db.timezone");
       DB_ENCODING = resourceBundle.getString("db.encoding");
     } catch (MissingResourceException e) {
-      e.printStackTrace();
       throw new ExceptionInInitializerError("Database properties reading error: " + e.getMessage());
     }
   }
 
-  private DatabaseProperties() {}
+  private DatabaseProperty() {}
 }
