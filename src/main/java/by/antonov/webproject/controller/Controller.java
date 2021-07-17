@@ -2,6 +2,7 @@ package by.antonov.webproject.controller;
 
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.controller.command.CommandFactory;
+import by.antonov.webproject.exception.ProjectException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,7 +28,8 @@ public class Controller extends HttpServlet {
     processRequest(req, resp);
   }
 
-  private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+  private void processRequest(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
     try {
       String commandName = request.getParameter(RequestFieldKey.KEY_COMMAND.getValue());
       Command command = CommandFactory.defineCommand(commandName);
@@ -41,13 +43,11 @@ public class Controller extends HttpServlet {
         }
         default -> {
           logger.error("Controller: wrong RouterType {}", router.getRouterType());
-          // TODO: make redirect to 404 error
-          response.sendRedirect("");
+          response.sendRedirect(RouterPath.ERROR_404_PAGE.getValue());
         }
       }
-    } catch (Exception e) {
-      // TODO: make error pages
-      e.fillInStackTrace();
+    } catch (ProjectException projectException) {
+      throw new ServletException("Project Exception: " + projectException.getMessage(), projectException);
     }
   }
 }

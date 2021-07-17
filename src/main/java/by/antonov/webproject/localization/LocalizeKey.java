@@ -3,6 +3,18 @@ package by.antonov.webproject.localization;
 import by.antonov.webproject.controller.EnumBase;
 
 public enum LocalizeKey implements EnumBase {
+  // Error texts
+  TEXT_ERROR_403_TITLE("error_403.page_title"),
+  TEXT_ERROR_403_MESSAGE("error_403.page_message"),
+  TEXT_ERROR_404_TITLE("error_404.page_title"),
+  TEXT_ERROR_404_MESSAGE("error_404.page_message"),
+  TEXT_ERROR_RUNTIME_TITLE("error_runtime.page_title"),
+  TEXT_ERROR_RUNTIME_STATUS_CODE("error_runtime.status_code"),
+  TEXT_ERROR_RUNTIME_REQUESTED_URI("error_runtime.requested_uri"),
+  TEXT_ERROR_RUNTIME_SERVLET_NAME("error_runtime.servlet_name"),
+  TEXT_ERROR_RUNTIME_EXCEPTION_TYPE("error_runtime.exception_type"),
+  TEXT_ERROR_RUNTIME_EXCEPTION_MESSAGE("error_runtime.exception_message"),
+
   // Login texts
   TEXT_LOGIN_PAGE_TITLE("login.page_title"),
   TEXT_LOGIN_HEADER("login.header"),

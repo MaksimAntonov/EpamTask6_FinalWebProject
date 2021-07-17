@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
   <title>${LOCALE[TEXT_LOGIN_PAGE_TITLE]}</title>
@@ -9,7 +8,7 @@
 <body>
   <div class="wrapper">
     <jsp:include page="${TEMPLATE_HEADER}" />
-    <div class="user-login-and-registration flex">
+    <div class="user-login-and-registration flex flex__space-between">
       <form method="post" action="controller?command=login_user" class="user-login-and-registration__item forms" >
         <h2 class="forms__element forms__header">${LOCALE[TEXT_LOGIN_HEADER]}</h2>
         <c:if test="${RESP_LOGIN_RESULT_STATUS != null}">

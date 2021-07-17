@@ -1,5 +1,8 @@
 .flex {
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
+}
+
+.flex__space-between {
+  justify-content: space-between;
 }

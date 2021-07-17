@@ -3,3 +3,6 @@
 <link type="text/css" rel="stylesheet" href="https://necolas.github.io/normalize.css/latest/normalize.css"/>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
 <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
+<script type="application/javascript">
+    const PROJECT_ROOT = ${PROJECT_ROOT};
+</script>

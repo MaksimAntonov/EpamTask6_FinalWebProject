@@ -14,7 +14,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@WebFilter(urlPatterns = { "/controller" })
+@WebFilter(urlPatterns = { "/*" })
 public class LocaleFilter implements Filter {
   @Override
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)

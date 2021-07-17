@@ -54,13 +54,30 @@ textarea:focus {
 
 .flex {
   display: flex;
-  justify-content: space-between;
   align-items: baseline; }
+
+.flex__space-between {
+  justify-content: space-between; }
 
 .user-login-and-registration {
   font-size: 1.6rem;
   line-height: 1.6rem;
   font-weight: normal;
   font-style: normal; }
+
+.error-page {
+  font-size: 1.7rem;
+  line-height: 1.7rem;
+  font-weight: normal;
+  font-style: normal; }
+  .error-page__paragraph {
+    width: 100%; }
+  .error-page__parameter {
+    width: 200px; }
+  .error-page__message {
+    text-align: left; }
+  .error-page__single_message {
+    display: block;
+    text-align: center; }
 
 /*# sourceMappingURL=style.css.map */
