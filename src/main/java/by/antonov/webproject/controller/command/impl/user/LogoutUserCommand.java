@@ -1,4 +1,4 @@
-package by.antonov.webproject.controller.command.impl;
+package by.antonov.webproject.controller.command.impl.user;
 
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;

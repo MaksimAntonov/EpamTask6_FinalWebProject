@@ -1,16 +1,15 @@
 package by.antonov.webproject.controller.command;
 
-import by.antonov.webproject.controller.command.impl.AddOrderCommand;
 import by.antonov.webproject.controller.command.impl.ChangeLocaleCommand;
-import by.antonov.webproject.controller.command.impl.ChangeUserNameCommand;
-import by.antonov.webproject.controller.command.impl.ChangeUserPasswordCommand;
-import by.antonov.webproject.controller.command.impl.ChangeUserPhoneCommand;
+import by.antonov.webproject.controller.command.impl.user.ChangeUserNameCommand;
+import by.antonov.webproject.controller.command.impl.user.ChangeUserPasswordCommand;
+import by.antonov.webproject.controller.command.impl.user.ChangeUserPhoneCommand;
 import by.antonov.webproject.controller.command.impl.GoToLoginRegistrationPageCommand;
 import by.antonov.webproject.controller.command.impl.GoToProfileCommand;
-import by.antonov.webproject.controller.command.impl.LoginUserCommand;
-import by.antonov.webproject.controller.command.impl.LogoutUserCommand;
+import by.antonov.webproject.controller.command.impl.user.LoginUserCommand;
+import by.antonov.webproject.controller.command.impl.user.LogoutUserCommand;
 import by.antonov.webproject.controller.command.impl.OpenOrdersCommand;
-import by.antonov.webproject.controller.command.impl.RegisterUserCommand;
+import by.antonov.webproject.controller.command.impl.user.RegisterUserCommand;
 
 public enum CommandDefinition {
   // goto command

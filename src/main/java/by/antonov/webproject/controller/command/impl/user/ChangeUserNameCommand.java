@@ -1,4 +1,4 @@
-package by.antonov.webproject.controller.command.impl;
+package by.antonov.webproject.controller.command.impl.user;
 
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_FIRST_NAME;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_LAST_NAME;

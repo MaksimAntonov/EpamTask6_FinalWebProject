@@ -1,4 +1,4 @@
-package by.antonov.webproject.controller.command.impl;
+package by.antonov.webproject.controller.command.impl.user;
 
 import static by.antonov.webproject.controller.RequestFieldKey.*;
 

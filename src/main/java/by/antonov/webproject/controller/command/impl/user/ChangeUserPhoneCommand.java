@@ -1,7 +1,7 @@
-package by.antonov.webproject.controller.command.impl;
+package by.antonov.webproject.controller.command.impl.user;
 
-import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD;
-import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD_CONFIRM;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_FIRST_NAME;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_LAST_NAME;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PHONE;
 
 import by.antonov.webproject.controller.RequestFieldKey;
@@ -20,7 +20,7 @@ import by.antonov.webproject.service.ServiceDefinition;
 import by.antonov.webproject.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class ChangeUserPasswordCommand implements Command {
+public class ChangeUserPhoneCommand implements Command {
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -31,11 +31,11 @@ public class ChangeUserPasswordCommand implements Command {
     try {
       User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
       Long userId = user.getId();
-      String password = request.getParameter(KEY_USER_PASSWORD.getValue());
-      String passwordConfirm = request.getParameter(KEY_USER_PASSWORD_CONFIRM.getValue());
+      String phone = request.getParameter(KEY_USER_PHONE.getValue());
 
       UserService userService = ServiceDefinition.getInstance().getUserService();
-      if (userService.changeUserPassword(userId, password, passwordConfirm)) {
+      if (userService.changeUserPhone(userId, phone)) {
+        user.setPhone(phone);
         request.setAttribute(ResponceKey.RESP_PROFILE_UPDATE_RESULT_STATUS.name(),
                              RequestFieldKey.KEY_STYLE_SUCCESS.getValue());
         request.setAttribute(ResponceKey.RESP_PROFILE_UPDATE_RESULT_MESSAGE.name(),
