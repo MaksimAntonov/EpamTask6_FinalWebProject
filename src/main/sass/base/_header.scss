@@ -1,0 +1,8 @@
+.header {
+  border-bottom: 1px dashed;
+  padding-bottom: 5px;
+
+  &__page-title {
+    @include font(1.6rem, $weight: 600);
+  }
+}

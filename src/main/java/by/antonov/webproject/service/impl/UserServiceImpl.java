@@ -118,4 +118,49 @@ public class UserServiceImpl implements UserService {
       throw new ServiceException("Can not read data from database", daoException);
     }
   }
+
+  @Override
+  public boolean changeUserName(Long userId, String firstName, String lastName)
+      throws ServiceException {
+    try {
+      boolean result = false;
+      if (Validator.checkName(firstName) && Validator.checkName(lastName)) {
+        result = userDao.updateUserName(userId, firstName, lastName);
+      }
+      return result;
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not update data in database", daoException);
+    }
+  }
+
+  @Override
+  public boolean changeUserPhone(Long userId, String phone)
+      throws ServiceException {
+    try {
+      boolean result = false;
+      if (Validator.checkPhone(phone)) {
+        result = userDao.updateUserPhone(userId, phone);
+      }
+      return result;
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not update data in database", daoException);
+    }
+  }
+
+  @Override
+  public boolean changeUserPassword(Long userId, String password, String passwordConfirm)
+      throws ServiceException {
+    try {
+      boolean result = false;
+      if (Validator.checkPassword(password) && Validator.checkPassword(passwordConfirm) && password.equals(passwordConfirm)) {
+        String passwordSalt = PasswordHash.generateSalt();
+        String passwordHash = PasswordHash.encryptPassword(password, passwordSalt);
+
+        result = userDao.updateUserPassword(userId, passwordHash, passwordSalt);
+      }
+      return result;
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not update data in database", daoException);
+    }
+  }
 }

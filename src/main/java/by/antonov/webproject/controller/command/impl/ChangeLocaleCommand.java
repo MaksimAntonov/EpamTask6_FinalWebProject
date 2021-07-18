@@ -10,7 +10,7 @@ import by.antonov.webproject.localization.Localizer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class ChangeLocale implements Command {
+public class ChangeLocaleCommand implements Command {
 
   @Override
   public Router execute(HttpServletRequest request)

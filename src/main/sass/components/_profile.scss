@@ -1,0 +1,52 @@
+.user-profile {
+  padding-top: 10px;
+
+  &__user-name {
+    @include font(1.7rem, $weight: 600);
+    text-align: center;
+  }
+
+  &__user-group {
+    @include font(1.5rem, $style: italic);
+  }
+
+  &__user-contacts {
+    @include font(1.4rem);
+  }
+
+  &__result {
+    text-align: center;
+    @include font(1.5rem);
+
+    &_error {
+      color: #ff0000;
+    }
+
+    &_success {
+      color: #008b8b;
+    }
+  }
+}
+
+.user-contacts {
+  &__block {
+
+  }
+
+  &__parameter {
+    width: 120px;
+    padding-right: 10px;
+  }
+
+  &__value {
+
+  }
+
+  &__buttons {
+
+  }
+
+  &__buttons-label {
+    @include font(1.5rem);
+  }
+}

@@ -1,15 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="pageTitle" scope="session" value="${LOCALE[TEXT_LOGIN_PAGE_TITLE]}" />
 <html>
 <head>
-  <title>${LOCALE[TEXT_LOGIN_PAGE_TITLE]}</title>
+  <title>${pageTitle}</title>
   <jsp:include page="${TEMPLATE_HEAD_DATA}" />
 </head>
 <body>
   <div class="wrapper">
     <jsp:include page="${TEMPLATE_HEADER}" />
-    <div class="user-login-and-registration flex flex__space-between">
-      <form method="post" action="controller?command=login_user" class="user-login-and-registration__item forms" >
+    <div class="user-login-and-registration flex flex__justify-content_space-between">
+      <form method="post" action="<c:url value='/controller?command=login_user' />" class="user-login-and-registration__item forms" >
         <h2 class="forms__element forms__header">${LOCALE[TEXT_LOGIN_HEADER]}</h2>
         <c:if test="${RESP_LOGIN_RESULT_STATUS != null}">
           <div class="forms__element forms__result forms__result_${RESP_LOGIN_RESULT_STATUS}">${RESP_LOGIN_RESULT_MESSAGE}</div>
@@ -20,7 +21,7 @@
         <input class="forms__element" id="login_pass" name="${KEY_USER_PASSWORD}" type="password" pattern="${VALIDATION_PASSWORD_PATTERN}" required/>
         <input class="forms__element" type="submit" value="${LOCALE[TEXT_LOGIN_SUBMIT]}">
       </form>
-      <form method="post" action="controller?command=registration_user" class="user-login-and-registration__item forms">
+      <form method="post" action="<c:url value='controller?command=registration_user' />" class="user-login-and-registration__item forms">
         <h2 class="forms__element forms__header">${LOCALE[TEXT_REGISTRATION_HEADER]}</h2>
         <c:if test="${RESP_REGISTRATION_RESULT_STATUS != null}">
           <div class="forms__element forms__result forms__result_${RESP_REGISTRATION_RESULT_STATUS}">${RESP_REGISTRATION_RESULT_MESSAGE}</div>
@@ -37,7 +38,7 @@
         <input class="forms__element" id="user_last_name" name="${KEY_USER_LAST_NAME}" type="text" pattern="${VALIDATION_NAME_PATTERN}" placeholder="Antonov" value="${RESP_REGISTRATION_LAST_NAME}" required/>
         <label class="forms__element" for="user_phone">${LOCALE[TEXT_REGISTRATION_PHONE]}:</label>
         <input class="forms__element" id="user_phone" name="${KEY_USER_PHONE}" type="text" pattern="${VALIDATION_PHONE_PATTERN}" placeholder="+375 (29) 123-45-67" value="${RESP_REGISTRATION_PHONE}" required/>
-        <label class="forms__element flex" for="user_group">${LOCALE[TEXT_REGISTRATION_ROLE]}:
+        <label class="forms__element flex flex__justify-content_space-between" for="user_group">${LOCALE[TEXT_REGISTRATION_ROLE]}:
           <select name="${KEY_USER_ROLE}" id="user_group">
             <option <c:if test="${RESP_REGISTRATION_GROUP == null}">selected</c:if>>${LOCALE[TEXT_REGISTRATION_CHOOSE_ROLE]}</option>
             <option value="shipper" <c:if test="${RESP_REGISTRATION_GROUP == 'shipper'}">selected</c:if>>${LOCALE[TEXT_REGISTRATION_SHIPPER]}</option>

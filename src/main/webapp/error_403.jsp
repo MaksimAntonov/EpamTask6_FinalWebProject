@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="pageTitle" scope="session" value="${LOCALE[TEXT_ERROR_403_TITLE]}" />
 <html>
 <head>
-  <title>${LOCALE[TEXT_ERROR_403_TITLE]}</title>
+  <title>${pageTitle}</title>
   <jsp:include page="${TEMPLATE_HEAD_DATA}" />
 </head>
 <body>

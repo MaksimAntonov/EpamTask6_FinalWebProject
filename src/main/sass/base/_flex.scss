@@ -3,6 +3,18 @@
   align-items: baseline;
 }
 
-.flex__space-between {
-  justify-content: space-between;
+.flex__justify-content {
+  &_space-between {
+    justify-content: space-between;
+  }
+
+  &_flex-end {
+    justify-content: flex-end;
+  }
+}
+
+.flex__align-items {
+  &_center {
+    align-items: center;
+  }
 }

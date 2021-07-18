@@ -35,7 +35,7 @@ public class LoginUserCommand implements Command {
       UserService userService = ServiceDefinition.getInstance().getUserService();
       if (userService.checkLogin(email, password) && (userOpt = userService.getUserByEmail(email)).isPresent()) {
         session.setAttribute(SessionKey.USER_OBJ.name(), userOpt.get());
-        router = new Router(RouterType.FORWARD, RouterPath.LOGIN_REGISTRATION_PAGE);
+        router = new Router(RouterType.REDIRECT, RouterPath.OPEN_LOGIN_REGISTRATION_PAGE);
       } else {
         request.setAttribute(ResponceKey.RESP_LOGIN_RESULT_STATUS.name(), "error");
         request.setAttribute(ResponceKey.RESP_LOGIN_RESULT_MESSAGE.name(), localizer.getText(LocalizeKey.TEXT_LOGIN_ERROR));

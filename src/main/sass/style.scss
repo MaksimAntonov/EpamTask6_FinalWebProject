@@ -3,6 +3,11 @@
 @import "base/base";
 @import "base/forms";
 @import "base/flex";
+@import "base/header";
+@import "base/button";
+@import "base/select";
+@import "base/modal-window";
 
 @import "components/login_registration_page";
+@import "components/profile";
 @import "components/errors";

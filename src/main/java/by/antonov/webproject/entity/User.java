@@ -6,11 +6,11 @@ public class User extends EntityBase{
   private final long id;
   private final String email;
   private final LocalDateTime registrationDate;
-  private final String firstName;
-  private final String lastName;
-  private final String phone;
   private final Role userRole;
   private final Status userStatus;
+  private String firstName;
+  private String lastName;
+  private String phone;
 
   public enum Role {
     GUEST,
@@ -71,6 +71,18 @@ public class User extends EntityBase{
 
   public Status getUserStatus() {
     return userStatus;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   @Override

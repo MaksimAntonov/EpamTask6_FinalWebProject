@@ -7,7 +7,7 @@ import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.exception.ProjectException;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class GoToLoginRegistrationPage implements Command {
+public class GoToLoginRegistrationPageCommand implements Command {
 
   @Override
   public Router execute(HttpServletRequest request)

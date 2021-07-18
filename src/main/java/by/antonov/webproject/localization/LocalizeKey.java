@@ -38,7 +38,28 @@ public enum LocalizeKey implements EnumBase {
   TEXT_REGISTRATION_SUCCESS_MESSAGE("registration.success_status_message"),
   TEXT_REGISTRATION_ERROR_MESSAGE("registration.error_status_message"),
   TEXT_REGISTRATION_INSERT_ERROR_MESSAGE("registration.insert_error_status_message"),
-  TEXT_REGISTRATION_SUBMIT("registration.submit");
+  TEXT_REGISTRATION_SUBMIT("registration.submit"),
+
+  // Profile texts
+  TEXT_PROFILE_PAGE_TITLE("profile.page_title"),
+  TEXT_PROFILE_UPDATE_SUCCESS_MESSAGE("profile.update_success_message"),
+  TEXT_PROFILE_UPDATE_ERROR_MESSAGE("profile.update_error_message"),
+  TEXT_PROFILE_CONTACT_PARAMETER_EMAIL("profile.contact_parameter_email"),
+  TEXT_PROFILE_CONTACT_PARAMETER_PHONE("profile.contact_parameter_phone"),
+  TEXT_PROFILE_EDIT_LABEL("profile.edit_label"),
+  TEXT_PROFILE_BUTTON_USER_NAME("profile.button_user_name"),
+  TEXT_PROFILE_BUTTON_USER_PHONE("profile.button_user_phone"),
+  TEXT_PROFILE_BUTTON_USER_PASSWORD("profile.button_user_password"),
+  TEXT_PROFILE_UPDATE_NAME_HEADER("profile.update_name_header"),
+  TEXT_PROFILE_UPDATE_PHONE_HEADER("profile.update_phone_header"),
+  TEXT_PROFILE_UPDATE_PASSWORD_HEADER("profile.update_password_header"),
+  TEXT_PROFILE_BUTTON_UPDATE_SAVE("profile.update_save_button_text"),
+
+  TEXT_HEADER_LOGIN_LINK_TEXT("header.login_link_text"),
+  TEXT_HEADER_REGISTRATION_LINK_TEXT("header.registration_link_text"),
+  TEXT_HEADER_PROFILE_LINK_TEXT("header.profile_link_text"),
+  TEXT_HEADER_LOGOUT_LINK_TEXT("header.logout_link_text"),
+  ;
   private final String key;
 
   LocalizeKey(String key) {

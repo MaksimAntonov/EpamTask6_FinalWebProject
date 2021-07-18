@@ -47,6 +47,11 @@ public class UserDaoImpl implements UserDao {
       "WHERE `users_list`.`user_email`=?";
   private static final String SQL_INSERT_NEW_USER = "INSERT IGNORE INTO `users_list` (`user_email`, `user_pswd_hash`, " +
       "`user_pswd_salt`, `user_first_name`, `user_last_name`, `user_phone`, `user_role_id`) VALUES (?,?,?,?,?,?,?)";
+  private static final String SQL_UPDATE_USER_NAME = "UPDATE IGNORE `users_list` SET `user_first_name`=?, " +
+      "`user_last_name`=? WHERE `user_id`=?";
+  private static final String SQL_UPDATE_USER_PHONE = "UPDATE IGNORE `users_list` SET `user_phone`=? WHERE `user_id`=?";
+  private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE IGNORE `users_list` SET `user_pswd_hash`=?, " +
+      "`user_pswd_salt`=? WHERE `user_id`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -165,7 +170,48 @@ public class UserDaoImpl implements UserDao {
       statement.setString(5, lastName);
       statement.setString(6, phone);
       statement.setLong(7, userRole);
-      return  (statement.executeUpdate() == 1);
+      return (statement.executeUpdate() == 1);
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public boolean updateUserName(Long userId, String firstName, String lastName)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER_NAME)) {
+      statement.setString(1, firstName);
+      statement.setString(2, lastName);
+      statement.setLong(3, userId);
+      return (statement.executeUpdate() == 1);
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public boolean updateUserPhone(Long userId, String phone)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER_PHONE)) {
+      statement.setString(1, phone);
+      statement.setLong(2, userId);
+      return (statement.executeUpdate() == 1);
+    } catch (SQLException e) {
+      throw new DaoException("SQL request error. " + e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public boolean updateUserPassword(Long userId, String passwordHash, String passwordSalt)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD)) {
+      statement.setString(1, passwordHash);
+      statement.setString(2, passwordSalt);
+      statement.setLong(3, userId);
+      return (statement.executeUpdate() == 1);
     } catch (SQLException e) {
       throw new DaoException("SQL request error. " + e.getMessage(), e);
     }
