@@ -4,6 +4,7 @@ public enum RequestFieldKey implements EnumBase {
   KEY_STYLE_SUCCESS("success"),
   KEY_STYLE_ERROR("error"),
   KEY_STYLE_INSERT_ERROR("insert_error"),
+  KEY_STYLE_INSERT_DUPLICATE_ERROR("duplicate_error"),
   KEY_COMMAND("command"),
   KEY_LOCALE("locale"),
   KEY_REDIRECT_URL("redirect_url"),

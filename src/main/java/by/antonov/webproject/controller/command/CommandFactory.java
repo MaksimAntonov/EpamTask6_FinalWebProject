@@ -1,16 +1,16 @@
 package by.antonov.webproject.controller.command;
 
-import by.antonov.webproject.exception.ProjectException;
+import by.antonov.webproject.exception.CommandException;
 
 public class CommandFactory {
   public static Command defineCommand(String commandName)
-      throws ProjectException {
+      throws CommandException {
     CommandDefinition commandDefinition;
     try {
       commandDefinition = CommandDefinition.valueOf(commandName.toUpperCase());
 
     } catch (IllegalArgumentException e) {
-      throw new ProjectException("Incorrect command type: " + commandName, e);
+      throw new CommandException("Incorrect command type: " + commandName, e);
     }
 
     return commandDefinition.getCommand();

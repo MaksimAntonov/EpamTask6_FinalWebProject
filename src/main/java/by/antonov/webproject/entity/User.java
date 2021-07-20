@@ -16,13 +16,21 @@ public class User extends EntityBase{
     GUEST,
     ADMINISTRATOR,
     SHIPPER,
-    CARRIER
+    CARRIER;
+
+    public int getDBIndex() {
+      return this.ordinal() + 1;
+    }
   }
 
   public enum Status {
     NEW,
     VERIFIED,
-    BLOCKED
+    BLOCKED;
+
+    public int getDBIndex() {
+      return this.ordinal() + 1;
+    }
   }
 
   protected User(long id,

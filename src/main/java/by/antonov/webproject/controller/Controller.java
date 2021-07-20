@@ -2,7 +2,7 @@ package by.antonov.webproject.controller;
 
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.controller.command.CommandFactory;
-import by.antonov.webproject.exception.ProjectException;
+import by.antonov.webproject.exception.CommandException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,8 +46,8 @@ public class Controller extends HttpServlet {
           response.sendRedirect(RouterPath.ERROR_404_PAGE.getValue());
         }
       }
-    } catch (ProjectException projectException) {
-      throw new ServletException("Project Exception: " + projectException.getMessage(), projectException);
+    } catch (CommandException commandException) {
+      throw new ServletException("Project Exception: " + commandException.getMessage(), commandException);
     }
   }
 }

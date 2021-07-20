@@ -5,8 +5,8 @@ import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
-import by.antonov.webproject.exception.ProjectException;
-import by.antonov.webproject.localization.Localizer;
+import by.antonov.webproject.exception.CommandException;
+import by.antonov.webproject.localization.Localization;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -14,12 +14,12 @@ public class ChangeLocaleCommand implements Command {
 
   @Override
   public Router execute(HttpServletRequest request)
-      throws ProjectException {
+      throws CommandException {
     String requiredLocale = request.getParameter(RequestFieldKey.KEY_LOCALE.getValue());
     HttpSession session = request.getSession();
-    Localizer localizer = Localizer.valueOf(requiredLocale.toUpperCase());
+    Localization localization = Localization.valueOf(requiredLocale.toUpperCase());
     session.setAttribute(SessionKey.CURRENT_LOCALE.name(), requiredLocale);
-    session.setAttribute(SessionKey.LOCALE.name(), localizer.getResourceBundle());
+    session.setAttribute(SessionKey.LOCALE.name(), localization.getResourceBundle());
     String prevPath = request.getParameter("redirect_url");
     return new Router(RouterType.REDIRECT, prevPath);
   }

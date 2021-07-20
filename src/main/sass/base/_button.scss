@@ -1,15 +1,15 @@
 .button {
   height: 25px;
-  border: 1px solid #000000;
+  border: 1px solid $button-border-color;
   border-radius: 5px;
   padding: 0 10px;
-  background: #ffffff;
-  color: #000000;
+  background: $button-background-color;
+  color: $button-text-color;
   cursor: pointer;
   @include font(1.5rem, 2.0rem);
   text-decoration: none;
 
   &:hover {
-    border-color: #00ffff;
+    border-color: $button-border-color-hover;
   }
 }

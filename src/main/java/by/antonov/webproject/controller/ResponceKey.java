@@ -1,6 +1,9 @@
 package by.antonov.webproject.controller;
 
 public enum ResponceKey {
+  RESP_FORM_RESULT_STATUS,
+  RESP_FORM_RESULT_MESSAGE,
+
   RESP_LOGIN_RESULT_STATUS,
   RESP_LOGIN_RESULT_MESSAGE,
   RESP_LOGIN_ID,

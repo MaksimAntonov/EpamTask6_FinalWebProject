@@ -19,11 +19,11 @@
     @include font(1.5rem);
 
     &_error {
-      color: #ff0000;
+      color: $profile-result-error-text-color;
     }
 
     &_success {
-      color: #008b8b;
+      color: $profile-result-success-text-color;
     }
   }
 }

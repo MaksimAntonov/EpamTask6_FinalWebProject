@@ -1,14 +1,14 @@
 .select {
   cursor: pointer;
   height: 25px;
-  border: 1px solid #000000;
+  border: 1px solid $select-border-color;
   border-radius: 5px;
-  background: #ffffff;
+  background: $select-background-color;
   appearance: none;
   padding: 0 10px;
   @include font(1.5rem, 1.6rem);
 
   &:hover {
-    border-color: #00ffff;
+    border-color: $select-border-color-hover;
   }
 }

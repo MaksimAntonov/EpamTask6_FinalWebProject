@@ -13,11 +13,11 @@
   &__result {
     text-align: center;
     &_error {
-      color: #ff0000;
+      color: $forms-result-error-text-color;
     }
 
     &_success {
-      color: #008b8b;
+      color: $forms-result-success-text-color;
     }
   }
 
@@ -36,17 +36,17 @@
   }
 
   & input:required:focus:invalid {
-    border: 2px solid #ff0000;
+    border: 2px solid $forms-input-invalid-border-color;
   }
 
   & input[type=submit] {
     width: auto;
     margin: auto;
     padding: 5px 10px;
-    background-color: #ffffff;
+    background-color: $forms-input-submit-background-color;
 
     &:hover {
-      border-color: #00ffff;
+      border-color: $forms-input-submit-border-color-hover;
     }
   }
 }
