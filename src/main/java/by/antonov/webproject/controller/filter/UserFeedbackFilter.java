@@ -26,10 +26,12 @@ public class UserFeedbackFilter implements Filter {
       String currentLocale = (String) httpRequest.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
       Localization localization = Localization.valueOf(currentLocale.toUpperCase());
       String localizationKeyReq = httpRequest.getParameter(RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue());
-      LocalizationKey localizationKey = LocalizationKey.valueOf(localizationKeyReq);
+      if (localizationKeyReq != null) {
+        LocalizationKey localizationKey = LocalizationKey.valueOf(localizationKeyReq);
 
-      httpRequest.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(), feedbackStatus);
-      httpRequest.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(), localization.getText(localizationKey));
+        httpRequest.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(), feedbackStatus);
+        httpRequest.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(), localization.getText(localizationKey));
+      }
     }
 
     filterChain.doFilter(servletRequest, servletResponse);
