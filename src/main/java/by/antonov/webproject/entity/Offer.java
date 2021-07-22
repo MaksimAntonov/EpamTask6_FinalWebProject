@@ -7,7 +7,7 @@ public class Offer extends EntityBase {
   private final double price;
   private final LocalDateTime offerDate;
   private final User user;
-  private Status offerStatus;
+  private final Status offerStatus;
 
   public enum Status {
     OFFERED,

@@ -2,13 +2,13 @@ package by.antonov.webproject.main;
 
 import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.localization.Localization;
+import java.net.URLDecoder;
+import java.util.Map;
 
 public class Main {
   public static void main(String[] args)
       throws ServiceException {
-    for (Localization localization : Localization.values()) {
-      System.out.println(localization.getLanguageCode() + " - " + localization.getLanguageName());
-    }
+    System.out.println("success_code".matches("^(.*success.*)$"));
 
 //    String email = "test@gmail.com";
 //    String userPswd = "Admin1990";

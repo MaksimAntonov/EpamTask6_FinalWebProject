@@ -11,7 +11,6 @@ import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.model.service.UserService;
 import by.antonov.webproject.util.PasswordHash;
 import by.antonov.webproject.util.Validator;
-import java.sql.SQLException;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;

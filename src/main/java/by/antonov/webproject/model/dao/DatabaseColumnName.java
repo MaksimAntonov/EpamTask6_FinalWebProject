@@ -24,9 +24,10 @@ public final class DatabaseColumnName {
 
   // ORDERS_LIST
   public static final String ORDER_ID = "order_id";
+  public static final String ORDER_ROUTE = "order_route";
   public static final String ORDER_DETAILS = "order_details";
-  public static final String ORDER_READY_DATE = "order_ready_date";
-  public static final String ORDER_END_DATE = "order_end_date";
+  public static final String ORDER_CREATE_DATE = "order_date";
+  public static final String ORDER_UPDATE_DATE = "order_update_date";
   public static final String ORDER_SHIPPER_ID = "order_shipper_id";
   public static final String ORDER_STATUS = "order_status";
 

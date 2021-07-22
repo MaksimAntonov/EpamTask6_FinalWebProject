@@ -5,6 +5,8 @@ import by.antonov.webproject.exception.DaoException;
 import java.util.List;
 
 public interface OrderDao extends BaseDao<Long, Order>{
-  List<Order> findAllByShipperId(Long id)
+  List<Order> findAllByShipperId(Long shipperId)
+      throws DaoException;
+  boolean closeOrderById(long orderId)
       throws DaoException;
 }

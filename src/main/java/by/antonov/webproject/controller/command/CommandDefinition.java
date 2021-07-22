@@ -2,6 +2,8 @@ package by.antonov.webproject.controller.command;
 
 import by.antonov.webproject.controller.command.impl.ChangeLocaleCommand;
 import by.antonov.webproject.controller.command.impl.GoToRegistrationPageCommand;
+import by.antonov.webproject.controller.command.impl.order.CloseOrderCommand;
+import by.antonov.webproject.controller.command.impl.order.OpenMyOrderCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserNameCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPasswordCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPhoneCommand;
@@ -9,7 +11,6 @@ import by.antonov.webproject.controller.command.impl.GoToLoginPageCommand;
 import by.antonov.webproject.controller.command.impl.GoToProfileCommand;
 import by.antonov.webproject.controller.command.impl.user.LoginUserCommand;
 import by.antonov.webproject.controller.command.impl.user.LogoutUserCommand;
-import by.antonov.webproject.controller.command.impl.OpenOrdersCommand;
 import by.antonov.webproject.controller.command.impl.user.RegisterUserCommand;
 
 public enum CommandDefinition {
@@ -17,8 +18,9 @@ public enum CommandDefinition {
   GO_TO_LOGIN_PAGE(new GoToLoginPageCommand()),
   GO_TO_REGISTRATION_PAGE(new GoToRegistrationPageCommand()),
   GO_TO_PROFILE(new GoToProfileCommand()),
+
   // open command
-  OPEN_ORDERS(new OpenOrdersCommand()),
+  OPEN_MY_ORDERS(new OpenMyOrderCommand()),
 
   // action command
   CHANGE_LOCALE(new ChangeLocaleCommand()),
@@ -28,6 +30,7 @@ public enum CommandDefinition {
   CHANGE_USER_NAME(new ChangeUserNameCommand()),
   CHANGE_USER_PHONE(new ChangeUserPhoneCommand()),
   CHANGE_USER_PASSWORD(new ChangeUserPasswordCommand()),
+  CLOSE_ORDER(new CloseOrderCommand()),
   ;
   private final Command command;
 

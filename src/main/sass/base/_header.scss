@@ -6,3 +6,9 @@
     @include font(1.6rem, $weight: 600);
   }
 }
+
+.user_buttons_block {
+  &> .button:nth-child(n) {
+    margin-left: 5px;
+  }
+}

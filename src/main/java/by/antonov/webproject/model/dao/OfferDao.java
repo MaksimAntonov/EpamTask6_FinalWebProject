@@ -9,4 +9,12 @@ public interface OfferDao extends BaseDao<Long, Offer>{
       throws DaoException;
   List<Offer> findAllByOrderId(Long orderId)
       throws DaoException;
+
+  int countOffersByOrderId(long orderId)
+      throws DaoException;
+
+  boolean acceptOfferById(long offerId)
+      throws DaoException;
+  boolean denyOffersByOrderId(long orderId)
+      throws DaoException;
 }

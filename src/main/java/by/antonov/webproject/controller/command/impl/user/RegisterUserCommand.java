@@ -47,9 +47,11 @@ public class RegisterUserCommand implements Command {
 
       Router router;
       if (resultMap.get(ResponceKey.RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_SUCCESS.getValue())) {
-        resultMap.put(ResponceKey.RESP_FORM_RESULT_MESSAGE,
-                      localization.getText(LocalizationKey.TEXT_REGISTRATION_SUCCESS_MESSAGE));
-        router = new Router(RouterType.FORWARD, RouterPath.LOGIN_PAGE);
+        router = new Router(RouterType.REDIRECT,
+                            RouterPath.CONTROLLER,
+                            KEY_COMMAND.getValue() + "=go_to_login_page",
+                            KEY_PARAMETER_STATUS.getValue() + "=success",
+                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_REGISTRATION_SUCCESS_MESSAGE.name());
       } else {
         if (resultMap.get(ResponceKey.RESP_FORM_RESULT_STATUS).equals(RequestFieldKey.KEY_STYLE_ERROR.getValue())) {
           resultMap.put(ResponceKey.RESP_FORM_RESULT_MESSAGE,

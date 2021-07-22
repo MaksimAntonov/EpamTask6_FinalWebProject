@@ -48,16 +48,23 @@ public class OfferDaoImpl implements OfferDao {
       "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`" +
       "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`" +
       "WHERE `offers_list`.`offer_carrier_id`=?";
-  private static final String SQL_FIND_ALL_OFFERS_BY_ORDER = "SELECT `offers_list`.`offer_id`, `offers_list`.`offer_price`, " +
-      "`offers_list`.`offer_date`, `offers_list`.`offer_status`, `users_list`.`user_id`, "+
-      "`users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, "+
-      "`users_list`.`user_phone`, `users_list`.`user_registration_date`, " +
-      "`users_role`.`role_name`, `users_status`.`status_name` " +
-      "FROM `offers_list`" +
-      "JOIN `users_list` ON `users_list`.`user_id` = `offers_list`.`offer_carrier_id`" +
-      "JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`" +
-      "JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`" +
-      "WHERE `offers_list`.`offer_order_id`=?";
+  private static final String SQL_FIND_ALL_OFFERS_BY_ORDER = """
+      SELECT `offers_list`.`offer_id`, `offers_list`.`offer_price`, `offers_list`.`offer_date`,
+      `offers_list`.`offer_status`, `users_list`.`user_id`, `users_list`.`user_first_name`,
+      `users_list`.`user_last_name`, `users_list`.`user_email`, `users_list`.`user_phone`,
+      `users_list`.`user_registration_date`, `users_role`.`role_name`, `users_status`.`status_name`
+      FROM `offers_list`
+      JOIN `users_list` ON `users_list`.`user_id` = `offers_list`.`offer_carrier_id`
+      JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
+      JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`
+      WHERE `offers_list`.`offer_order_id`=?
+      ORDER BY `offer_price`""";
+  private static final String SQL_ACCEPT_OFFER_BY_OFFER_ID = """
+      UPDATE `offers_list` SET `offer_status`='ACCEPTED' WHERE `offer_id`=?""";
+  private static final String SQL_DENY_ALL_OFFERS_BY_ORDER_ID = """
+      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_order_id`=?""";
+  private static final String SQL_OFFERS_COUNT_BY_ORDER_ID = "SELECT COUNT(`offer_id`) as `count` FROM `offers_list` " +
+      "WHERE `offer_order_id`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -90,8 +97,8 @@ public class OfferDaoImpl implements OfferDao {
         offers.add(offerBuilder.build());
       }
       return offers;
-    } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage(), e);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }
   }
 
@@ -126,8 +133,8 @@ public class OfferDaoImpl implements OfferDao {
         offer = offerBuilder.build();
       }
       return Optional.ofNullable(offer);
-    } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage(), e);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }
   }
 
@@ -161,20 +168,19 @@ public class OfferDaoImpl implements OfferDao {
         offers.add(offerBuilder.build());
       }
       return offers;
-    } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage(), e);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }
   }
 
   @Override
   public List<Offer> findAllByOrderId(Long orderId)
       throws DaoException {
-    List<Offer> offers = new ArrayList<>();
-
     try (Connection connection = ConnectionPool.getInstance().getConnection();
          PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_OFFERS_BY_ORDER)) {
       statement.setLong(1, orderId);
       ResultSet resultSet = statement.executeQuery();
+      List<Offer> offers = new ArrayList<>();
       while (resultSet.next()) {
         Offer.Builder offerBuilder = new Offer.Builder();
 
@@ -184,7 +190,7 @@ public class OfferDaoImpl implements OfferDao {
 
         User.Builder userBuilder = new User.Builder();
 
-        userBuilder.setId(resultSet.getLong(OFFER_CARRIER_ID))
+        userBuilder.setId(resultSet.getLong(USER_ID))
                    .setEmail(resultSet.getString(USER_EMAIL))
                    .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
                    .setLastName(resultSet.getString(USER_LAST_NAME))
@@ -196,10 +202,50 @@ public class OfferDaoImpl implements OfferDao {
 
         offers.add(offerBuilder.build());
       }
-    } catch (SQLException e) {
-      throw new DaoException("Database error. " + e.getMessage(), e);
+      return offers;
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }
+  }
 
-    return offers;
+  @Override
+  public int countOffersByOrderId(long orderId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_OFFERS_COUNT_BY_ORDER_ID)) {
+      statement.setLong(1, orderId);
+      ResultSet resultSet = statement.executeQuery();
+      int result = 0;
+      while (resultSet.next()) {
+        result = resultSet.getInt(COUNT);
+      }
+      return result;
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean acceptOfferById(long offerId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_ACCEPT_OFFER_BY_OFFER_ID)) {
+      statement.setLong(1, offerId);
+      return (statement.executeUpdate() == 1);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean denyOffersByOrderId(long orderId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_DENY_ALL_OFFERS_BY_ORDER_ID)) {
+      statement.setLong(1, orderId);
+      return (statement.executeUpdate() >= 1);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
   }
 }

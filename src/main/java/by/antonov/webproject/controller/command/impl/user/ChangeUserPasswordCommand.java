@@ -40,19 +40,20 @@ public class ChangeUserPasswordCommand implements Command {
       String passwordConfirm = request.getParameter(KEY_USER_PASSWORD_CONFIRM.getValue());
 
       UserService userService = ServiceDefinition.getInstance().getUserService();
+      String status;
+      String localizationKey;
       if (userService.changeUserPassword(userId, password, passwordConfirm)) {
-        request.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(),
-                             RequestFieldKey.KEY_STYLE_SUCCESS.getValue());
-        request.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(),
-                             localization.getText(LocalizationKey.TEXT_PROFILE_UPDATE_SUCCESS_MESSAGE));
+        status = RequestFieldKey.KEY_STYLE_SUCCESS.getValue();
+        localizationKey = LocalizationKey.TEXT_PROFILE_UPDATE_SUCCESS_MESSAGE.name();
       } else {
-        request.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(),
-                             RequestFieldKey.KEY_STYLE_ERROR.getValue());
-        request.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(),
-                             localization.getText(LocalizationKey.TEXT_PROFILE_UPDATE_ERROR_MESSAGE));
+        status = RequestFieldKey.KEY_STYLE_ERROR.getValue();
+        localizationKey = LocalizationKey.TEXT_PROFILE_UPDATE_ERROR_MESSAGE.name();
       }
 
-      return new Router(RouterType.FORWARD, RouterPath.PROFILE_PAGE);
+      return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
+                        RequestFieldKey.KEY_COMMAND.getValue() + "=go_to_profile",
+                        RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=" + status,
+                        RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
       throw new CommandException("Update user data", serviceException);
     }

@@ -37,11 +37,12 @@ CREATE TABLE IF NOT EXISTS `users_list` (
 
 CREATE TABLE IF NOT EXISTS `orders_list` (
     `order_id` BIGINT AUTO_INCREMENT NOT NULL,
-    `order_route` VARCHAR(200),
+    `order_route` VARCHAR(200) NOT NULL,
     `order_details` BLOB NOT NULL,
     `order_date` DATETIME DEFAULT current_timestamp,
+    `order_update_date` DATETIME DEFAULT current_timestamp,
     `order_shipper_id` BIGINT NOT NULL,
-    `order_status` ENUM('NEW', 'FINISHED', 'EXPIRED') NOT NULL DEFAULT 'NEW',
+    `order_status` ENUM('NEW', 'FINISHED', 'CLOSED') NOT NULL DEFAULT 'NEW',
     PRIMARY KEY (`order_id`),
     FOREIGN KEY (`order_shipper_id`) REFERENCES users_list(`user_id`)
 );
@@ -85,6 +86,6 @@ INSERT INTO `users_status` (`status_name`) VALUES ('NEW'), ('VERIFIED'), ('BLOCK
 
 INSERT INTO `users_list` (`user_id`, `user_email`, `user_pswd_hash`, `user_pswd_salt`, `user_first_name`, `user_last_name`, `user_role_id`, `user_status_id`) VALUES (1, 'test@gmail.com', '$2a$10$xZ5Z1E4PMARoa1nPfty8Ue5wV1FrLb42jFiX9TbXyYZeBJtfiHEYq', '$2a$10$xZ5Z1E4PMARoa1nPfty8Ue', 'Злой', 'админ', 2, 2);
 
-INSERT INTO `orders_list` (`order_id`, `order_route`, `order_details`, `order_shipper_id`) VALUES (1, 'Moscow - St. Petersburg', 'Перевозка из А в Б.', 1), (2, 'Минск - Москва', 'Перевозка из Б в В.', 1);
+INSERT INTO `orders_list` (`order_route`, `order_details`, `order_shipper_id`) VALUES ('Moscow - St. Petersburg', 'Перевозка из А в Б.', 1), ('Минск - Москва', 'Перевозка из Б в В.', 1);
 
-INSERT INTO `offers_list` (`offer_id`, `offer_price`, `offer_date`, `offer_order_id`, `offer_carrier_id`) VALUES (1, 10000, '2021/06/16', 2, 1);
+INSERT INTO `offers_list` (`offer_price`, `offer_order_id`, `offer_carrier_id`) VALUES (10000, 2, 1), (5000, 2, 1);

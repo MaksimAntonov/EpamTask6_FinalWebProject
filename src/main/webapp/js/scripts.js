@@ -18,7 +18,7 @@ const modalWindow = (modalWindow) => {
 
 window.onload = () => {
   document.querySelector("select[name=locale]").addEventListener("change", (event) => {
-    let currentPage = window.location.href;
+    let currentPage = encodeURIComponent(window.location.pathname + window.location.search);
     window.location.href = PROJECT_ROOT + "controller?command=change_locale&locale="+event.target.value+"&redirect_url="+currentPage;
   });
 

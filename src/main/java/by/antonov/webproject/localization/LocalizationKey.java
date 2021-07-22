@@ -15,6 +15,11 @@ public enum LocalizationKey implements EnumBase {
   TEXT_ERROR_RUNTIME_EXCEPTION_TYPE("error_runtime.exception_type"),
   TEXT_ERROR_RUNTIME_EXCEPTION_MESSAGE("error_runtime.exception_message"),
 
+  TEXT_HEADER_LOGIN_LINK_TEXT("header.login_link_text"),
+  TEXT_HEADER_REGISTRATION_LINK_TEXT("header.registration_link_text"),
+  TEXT_HEADER_PROFILE_LINK_TEXT("header.profile_link_text"),
+  TEXT_HEADER_LOGOUT_LINK_TEXT("header.logout_link_text"),
+
   // Login texts
   TEXT_LOGIN_PAGE_TITLE("login.page_title"),
   TEXT_LOGIN_HEADER("login.header"),
@@ -57,10 +62,17 @@ public enum LocalizationKey implements EnumBase {
   TEXT_PROFILE_UPDATE_PASSWORD_HEADER("profile.update_password_header"),
   TEXT_PROFILE_BUTTON_UPDATE_SAVE("profile.update_save_button_text"),
 
-  TEXT_HEADER_LOGIN_LINK_TEXT("header.login_link_text"),
-  TEXT_HEADER_REGISTRATION_LINK_TEXT("header.registration_link_text"),
-  TEXT_HEADER_PROFILE_LINK_TEXT("header.profile_link_text"),
-  TEXT_HEADER_LOGOUT_LINK_TEXT("header.logout_link_text"),
+  // Order text
+  TEXT_ORDER_PAGE_TITLE("order.page_title"),
+  TEXT_ORDER_USER_PAGE_TITLE("order.user_page_title"),
+  TEXT_ORDER_BUTTON_OPEN_ORDER("order.button_open_order"),
+  TEXT_ORDER_BUTTON_CLOSE_ORDER("order.button_close_order"),
+  TEXT_ORDER_UPDATE_CLOSE_SUCCESS_MESSAGE("order.status_update_close_success_message"),
+  TEXT_ORDER_UPDATE_ERROR_MESSAGE("order.status_update_error_message"),
+
+  // Offer text
+  TEXT_OFFER_BEST_OFFER_FROM("offer.best_offer_from"),
+  TEXT_OFFER_BUTTON_ACCEPT_OFFER("offer.button_accept_offer"),
   ;
   private final String key;
 

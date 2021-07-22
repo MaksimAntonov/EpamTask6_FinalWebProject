@@ -2,6 +2,7 @@ package by.antonov.webproject.controller.command.impl.user;
 
 import static by.antonov.webproject.controller.RequestFieldKey.*;
 
+import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.ResponceKey;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
@@ -31,8 +32,6 @@ public class LoginUserCommand implements Command {
     }
 
     HttpSession session = request.getSession();
-    String currentLocale = (String) session.getAttribute(SessionKey.CURRENT_LOCALE.name());
-    Localization localization = Localization.valueOf(currentLocale.toUpperCase());
     try {
       Router router;
       String email = request.getParameter(KEY_USER_EMAIL.getValue());
@@ -45,9 +44,10 @@ public class LoginUserCommand implements Command {
         session.setAttribute(SessionKey.USER_ROLE.name(), user.getUserRole());
         router = new Router(RouterType.REDIRECT, RouterPath.OPEN_PROFILE_PAGE);
       } else {
-        request.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(), "error");
-        request.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(), localization.getText(LocalizationKey.TEXT_LOGIN_ERROR));
-        router = new Router(RouterType.FORWARD, RouterPath.LOGIN_PAGE);
+        router = new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
+                            KEY_COMMAND.getValue() + "=go_to_login_page",
+                            KEY_PARAMETER_STATUS.getValue() + "=error",
+                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_LOGIN_ERROR.name());
       }
       return router;
     } catch (ServiceException serviceException) {
