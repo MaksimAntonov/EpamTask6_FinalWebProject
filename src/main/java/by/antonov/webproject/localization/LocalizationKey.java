@@ -69,10 +69,24 @@ public enum LocalizationKey implements EnumBase {
   TEXT_ORDER_BUTTON_CLOSE_ORDER("order.button_close_order"),
   TEXT_ORDER_UPDATE_CLOSE_SUCCESS_MESSAGE("order.status_update_close_success_message"),
   TEXT_ORDER_UPDATE_ERROR_MESSAGE("order.status_update_error_message"),
+  TEXT_ORDER_ACCEPT_SUCCESS_MESSAGE("order.accept_success_message"),
+  TEXT_ORDER_ACCEPT_ERROR_MESSAGE("order.accept_error_message"),
+  TEXT_ORDER_DECLINE_SUCCESS_MESSAGE("order.decline_success_message"),
+  TEXT_ORDER_DECLINE_ERROR_MESSAGE("order.decline_error_message"),
+  TEXT_ORDER_VIEW_ERROR_MESSAGE("order.view_error_message"),
+  TEXT_ORDER_OFFERS_TITLE("order.offers_title"),
+  TEXT_ORDER_NEW_ORDER_HEADER("order.new_order_header"),
+  TEXT_ORDER_NEW_ORDER_ROUTE("order.new_order_route"),
+  TEXT_ORDER_NEW_ORDER_DETAILS("order.new_order_details"),
+  TEXT_ORDER_BUTTON_CREATE("order.new_order_button_create_text"),
+  TEXT_ORDER_NEW_ORDER_SUCCESS_MESSAGE("order.new_order_success_message"),
+  TEXT_ORDER_NEW_ORDER_ERROR_MESSAGE("order.new_order_error_message"),
 
   // Offer text
   TEXT_OFFER_BEST_OFFER_FROM("offer.best_offer_from"),
+  TEXT_OFFER_CARRIER("offer.carrier_text"),
   TEXT_OFFER_BUTTON_ACCEPT_OFFER("offer.button_accept_offer"),
+  TEXT_OFFER_BUTTON_DECLINE_OFFER("offer.button_decline_offer"),
   ;
   private final String key;
 

@@ -35,7 +35,7 @@ public class OpenMyOrderCommand implements Command {
       request.setAttribute(ResponceKey.RESP_ORDER_RESULT_LIST.name(), orders);
       return new Router(RouterType.FORWARD, RouterPath.MY_ORDER_PAGE);
     } catch (ServiceException serviceException) {
-      throw new CommandException(serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
     }
   }
 }

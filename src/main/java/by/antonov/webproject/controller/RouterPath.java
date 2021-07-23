@@ -12,13 +12,17 @@ public enum RouterPath implements EnumBase {
   LOGIN_PAGE("/WEB-INF/jsp/login_page.jsp"),
   REGISTRATION_PAGE("/WEB-INF/jsp/registration_page.jsp"),
   PROFILE_PAGE("/WEB-INF/jsp/user_profile.jsp"),
-  ORDER_PAGE("/WEB-INF/jsp/orders.jsp"),
   MY_ORDER_PAGE("/WEB-INF/jsp/user_orders.jsp"),
+  VIEW_ORDER_PAGE("/WEB-INF/jsp/view_order.jsp"),
 
   // Templates
   TEMPLATE_HEAD_DATA("/WEB-INF/jsp/templates/tmpl_head_data.jsp"),
-  TEMPLATE_HEADER("/WEB-INF/jsp/templates/tmpl_header.jsp");
+  TEMPLATE_HEADER("/WEB-INF/jsp/templates/tmpl_header.jsp"),
+  TEMPLATE_FORMS_ORDER("/WEB-INF/jsp/templates/tmpl_forms_order.jsp"),
+  TEMPLATE_FORMS_PROFILE("/WEB-INF/jsp/templates/tmpl_forms_profile.jsp"),
 
+  // TODO: Check it
+  ;
   private final String pagePath;
 
   private RouterPath(String pagePath) {

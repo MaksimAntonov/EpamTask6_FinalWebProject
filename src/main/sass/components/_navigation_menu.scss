@@ -1,0 +1,24 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+
+  &__item:not(:first-child)::before {
+    content: " ";
+    color: $navigation-link-text-color;
+    margin-right: 10px;
+  }
+
+  &__link {
+    @include font(1.5rem);
+    text-decoration: none;
+    color: $navigation-link-text-color;
+    transition: $transition-base;
+    cursor: pointer;
+
+    &:hover {
+      color: $navigation-link-hover-text-color;
+      text-decoration: underline;
+    }
+  }
+}

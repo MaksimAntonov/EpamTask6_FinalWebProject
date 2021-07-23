@@ -21,6 +21,9 @@ public enum RequestFieldKey implements EnumBase {
   KEY_USER_ROLE("user_group"),
   KEY_ORDER_ID("order_id"),
 
+  KEY_ORDER_ROUTE("order_route"),
+  KEY_ORDER_DETAILS("order_details"),
+
   KEY_OFFER_ID("offer_id");
 
   private final String key;

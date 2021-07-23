@@ -57,12 +57,16 @@ public class OfferDaoImpl implements OfferDao {
       JOIN `users_list` ON `users_list`.`user_id` = `offers_list`.`offer_carrier_id`
       JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
       JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`
-      WHERE `offers_list`.`offer_order_id`=?
+      WHERE `offers_list`.`offer_order_id`=? AND (`offers_list`.`offer_status`='OFFERED' OR `offers_list`.`offer_status`='ACCEPTED')
       ORDER BY `offer_price`""";
   private static final String SQL_ACCEPT_OFFER_BY_OFFER_ID = """
       UPDATE `offers_list` SET `offer_status`='ACCEPTED' WHERE `offer_id`=?""";
-  private static final String SQL_DENY_ALL_OFFERS_BY_ORDER_ID = """
+  private static final String SQL_DECLINE_ALL_OFFERS_BY_ORDER_ID = """
       UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_order_id`=?""";
+  private static final String SQL_DECLINE_ALL_OFFERS_BY_ORDER_ID_AND_EXCLUDE_ID = """
+      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_order_id`=? AND `offer_id`<>?""";
+  private static final String SQL_DECLINE_OFFER_BY_ID = """
+      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_id`=?""";
   private static final String SQL_OFFERS_COUNT_BY_ORDER_ID = "SELECT COUNT(`offer_id`) as `count` FROM `offers_list` " +
       "WHERE `offer_order_id`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -238,12 +242,37 @@ public class OfferDaoImpl implements OfferDao {
   }
 
   @Override
-  public boolean denyOffersByOrderId(long orderId)
+  public boolean declineOffersByOrderId(long orderId)
       throws DaoException {
     try (Connection connection = ConnectionPool.getInstance().getConnection();
-         PreparedStatement statement = connection.prepareStatement(SQL_DENY_ALL_OFFERS_BY_ORDER_ID)) {
+         PreparedStatement statement = connection.prepareStatement(SQL_DECLINE_ALL_OFFERS_BY_ORDER_ID)) {
       statement.setLong(1, orderId);
       return (statement.executeUpdate() >= 1);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean declineOffersByOrderId(long orderId, long excludeOfferId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_DECLINE_ALL_OFFERS_BY_ORDER_ID_AND_EXCLUDE_ID)) {
+      statement.setLong(1, orderId);
+      statement.setLong(2, excludeOfferId);
+      return (statement.executeUpdate() >= 1);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean declineOfferById(long offerId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_DECLINE_OFFER_BY_ID)) {
+      statement.setLong(1, offerId);
+      return (statement.executeUpdate() == 1);
     } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }

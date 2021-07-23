@@ -15,6 +15,10 @@ public interface OfferDao extends BaseDao<Long, Offer>{
 
   boolean acceptOfferById(long offerId)
       throws DaoException;
-  boolean denyOffersByOrderId(long orderId)
+  boolean declineOffersByOrderId(long orderId)
+      throws DaoException;
+  boolean declineOffersByOrderId(long orderId, long excludeOfferId)
+      throws DaoException;
+  boolean declineOfferById(long offerId)
       throws DaoException;
 }

@@ -24,24 +24,6 @@ public class GoToProfileCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-   /* String currentLocale = (String) request.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
-    Localization localization = Localization.valueOf(currentLocale.toUpperCase());
-
-    String status = request.getParameter(RequestFieldKey.KEY_PARAMETER_STATUS.getValue());
-    if (status != null) {
-      request.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(), status);
-      switch (status) {
-        case "success" -> {
-          request.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(),
-                               localization.getText(LocalizationKey.TEXT_PROFILE_UPDATE_SUCCESS_MESSAGE));
-        }
-        case "error" -> {
-          request.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(),
-                               localization.getText(LocalizationKey.TEXT_PROFILE_UPDATE_ERROR_MESSAGE));
-        }
-      }
-    }*/
-
     return new Router(RouterType.FORWARD, RouterPath.PROFILE_PAGE);
   }
 }

@@ -28,7 +28,8 @@
   }
 
   & input,
-  & select {
+  & select,
+  & textarea {
     border-radius: 15px;
     border: 1px solid;
     padding: 1px 10px;
@@ -44,6 +45,7 @@
     margin: auto;
     padding: 5px 10px;
     background-color: $forms-input-submit-background-color;
+    transition: $transition-base;
 
     &:hover {
       border-color: $forms-input-submit-border-color-hover;

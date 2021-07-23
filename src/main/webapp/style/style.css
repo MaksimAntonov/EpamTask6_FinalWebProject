@@ -45,7 +45,7 @@ a:active {
     font-weight: normal;
     font-style: italic;
     border-bottom: 1px dashed; }
-  .forms input, .forms select {
+  .forms input, .forms select, .forms textarea {
     border-radius: 15px;
     border: 1px solid;
     padding: 1px 10px;
@@ -59,13 +59,14 @@ a:active {
     width: auto;
     margin: auto;
     padding: 5px 10px;
-    background-color: #ffffff; }
+    background-color: #ffffff;
+    transition: all 0.5s ease; }
     .forms input[type=submit]:hover {
       border-color: #00ffff; }
 
 .flex {
   display: flex;
-  align-items: baseline; }
+  align-items: normal; }
 
 .flex__justify-content_space-between {
   justify-content: space-between; }
@@ -73,11 +74,20 @@ a:active {
 .flex__justify-content_flex-end {
   justify-content: flex-end; }
 
+.flex__justify-content_center {
+  justify-content: center; }
+
 .flex__align-items_center {
   align-items: center; }
 
 .flex__align-items_flex-start {
   align-items: flex-start; }
+
+.flex__align-items_baseline {
+  align-items: baseline; }
+
+.flex__flex-wrap_wrap {
+  flex-wrap: wrap; }
 
 .header {
   border-bottom: 1px dashed;
@@ -103,7 +113,8 @@ a:active {
   line-height: 2rem;
   font-weight: normal;
   font-style: normal;
-  text-decoration: none; }
+  text-decoration: none;
+  transition: all 0.5s ease; }
   .button:hover {
     border-color: #00ffff; }
 
@@ -118,7 +129,8 @@ a:active {
   font-size: 1.5rem;
   line-height: 1.6rem;
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+  transition: all 0.5s ease; }
   .select:hover {
     border-color: #00ffff; }
 
@@ -146,6 +158,27 @@ a:active {
     font-size: 1.5rem; }
   .modal-window_hidden {
     display: none; }
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  list-style: none; }
+  .navigation__item:not(:first-child)::before {
+    content: " ";
+    color: #000000;
+    margin-right: 10px; }
+  .navigation__link {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: none;
+    color: #000000;
+    transition: all 0.5s ease;
+    cursor: pointer; }
+    .navigation__link:hover {
+      color: #00ffff;
+      text-decoration: underline; }
 
 .user-login-and-registration {
   font-size: 1.6rem;
@@ -258,6 +291,34 @@ a:active {
     padding-bottom: 5px;
     margin-bottom: 5px; }
   .best-price .forms {
+    width: 100px;
+    margin-top: 5px; }
+
+.offers__header {
+  display: block;
+  font-size: 1.7rem;
+  line-height: 1.7rem;
+  font-weight: 700;
+  font-style: normal;
+  text-align: center; }
+
+.offer {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 5px 15px;
+  margin: 1px;
+  text-align: center; }
+  .offer > span {
+    display: block;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    font-weight: normal;
+    font-style: normal; }
+  .offer__header {
+    border-bottom: 1px dashed black;
+    padding-bottom: 5px;
+    margin-bottom: 5px; }
+  .offer .forms {
     width: 100px;
     margin-top: 5px; }
 

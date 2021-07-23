@@ -8,6 +8,7 @@
   cursor: pointer;
   @include font(1.5rem, 2.0rem);
   text-decoration: none;
+  transition: $transition-base;
 
   &:hover {
     border-color: $button-border-color-hover;

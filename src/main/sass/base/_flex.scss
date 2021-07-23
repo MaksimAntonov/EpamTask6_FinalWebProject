@@ -1,6 +1,6 @@
 .flex {
   display: flex;
-  align-items: baseline;
+  align-items: normal;
 }
 
 .flex__justify-content {
@@ -11,6 +11,10 @@
   &_flex-end {
     justify-content: flex-end;
   }
+
+  &_center {
+    justify-content: center;
+  }
 }
 
 .flex__align-items {
@@ -20,5 +24,16 @@
 
   &_flex-start {
     align-items: flex-start;
+  }
+
+  &_baseline {
+    align-items: baseline;
+  }
+
+}
+
+.flex__flex-wrap {
+  &_wrap {
+    flex-wrap: wrap;
   }
 }

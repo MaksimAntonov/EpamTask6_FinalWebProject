@@ -2,8 +2,12 @@ package by.antonov.webproject.controller.command;
 
 import by.antonov.webproject.controller.command.impl.ChangeLocaleCommand;
 import by.antonov.webproject.controller.command.impl.GoToRegistrationPageCommand;
+import by.antonov.webproject.controller.command.impl.order.AcceptOfferCommand;
 import by.antonov.webproject.controller.command.impl.order.CloseOrderCommand;
+import by.antonov.webproject.controller.command.impl.order.CreateOrderCommand;
+import by.antonov.webproject.controller.command.impl.order.DeclineOfferCommand;
 import by.antonov.webproject.controller.command.impl.order.OpenMyOrderCommand;
+import by.antonov.webproject.controller.command.impl.order.ViewOrderCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserNameCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPasswordCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPhoneCommand;
@@ -21,6 +25,7 @@ public enum CommandDefinition {
 
   // open command
   OPEN_MY_ORDERS(new OpenMyOrderCommand()),
+  VIEW_ORDER(new ViewOrderCommand()),
 
   // action command
   CHANGE_LOCALE(new ChangeLocaleCommand()),
@@ -31,6 +36,9 @@ public enum CommandDefinition {
   CHANGE_USER_PHONE(new ChangeUserPhoneCommand()),
   CHANGE_USER_PASSWORD(new ChangeUserPasswordCommand()),
   CLOSE_ORDER(new CloseOrderCommand()),
+  CREATE_ORDER(new CreateOrderCommand()),
+  ACCEPT_OFFER(new AcceptOfferCommand()),
+  DECLINE_OFFER(new DeclineOfferCommand()),
   ;
   private final Command command;
 

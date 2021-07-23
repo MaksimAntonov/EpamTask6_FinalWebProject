@@ -2,6 +2,7 @@ package by.antonov.webproject.model.dao.impl;
 
 import static by.antonov.webproject.model.dao.DatabaseColumnName.*;
 
+import by.antonov.webproject.entity.Order.Status;
 import by.antonov.webproject.model.connection.ConnectionPool;
 import by.antonov.webproject.model.dao.OrderDao;
 import by.antonov.webproject.entity.Order;
@@ -51,8 +52,10 @@ public class OrderDaoImpl implements OrderDao {
       JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
       JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`
       WHERE `orders_list`.`order_shipper_id`=?""";
-  private final String SQL_CLOSE_ORDER_BY_ID = """
-      UPDATE `orders_list` SET `order_status`='CLOSED' WHERE `order_id`=?""";
+  private static final String SQL_UPDATE_STATUS_ORDER_BY_ID = """
+      UPDATE `orders_list` SET `order_status`=?, `order_update_date`=current_timestamp WHERE `order_id`=?""";
+  private static final String SQL_INSERT_NEW_ORDER = """
+      INSERT INTO `orders_list` (`order_route`, `order_details`, `order_shipper_id`) VALUES (?, ?, ?)""";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -166,11 +169,26 @@ public class OrderDaoImpl implements OrderDao {
   }
 
   @Override
-  public boolean closeOrderById(long orderId)
+  public boolean changeOrderStatusById(long orderId, Status orderStatus)
       throws DaoException {
     try (Connection connection = ConnectionPool.getInstance().getConnection();
-         PreparedStatement statement = connection.prepareStatement(SQL_CLOSE_ORDER_BY_ID)) {
-      statement.setLong(1, orderId);
+         PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_STATUS_ORDER_BY_ID)) {
+      statement.setString(1, orderStatus.name());
+      statement.setLong(2, orderId);
+      return (statement.executeUpdate() == 1);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean insertOrder(String route, String details, long shipperId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_INSERT_NEW_ORDER)) {
+      statement.setString(1, route);
+      statement.setString(2, details);
+      statement.setLong(3, shipperId);
       return (statement.executeUpdate() == 1);
     } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);

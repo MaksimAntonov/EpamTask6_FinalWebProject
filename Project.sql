@@ -88,4 +88,4 @@ INSERT INTO `users_list` (`user_id`, `user_email`, `user_pswd_hash`, `user_pswd_
 
 INSERT INTO `orders_list` (`order_route`, `order_details`, `order_shipper_id`) VALUES ('Moscow - St. Petersburg', 'Перевозка из А в Б.', 1), ('Минск - Москва', 'Перевозка из Б в В.', 1);
 
-INSERT INTO `offers_list` (`offer_price`, `offer_order_id`, `offer_carrier_id`) VALUES (10000, 2, 1), (5000, 2, 1);
+INSERT INTO `offers_list` (`offer_price`, `offer_order_id`, `offer_carrier_id`) VALUES (10000, 2, 1), (5000, 2, 1), (7000, 1, 1), (7500, 1, 1);

@@ -26,7 +26,7 @@
       <label class="forms__element" for="user_last_name">${LOCALE[TEXT_REGISTRATION_LAST_NAME]}:</label>
       <input class="forms__element" id="user_last_name" name="${KEY_USER_LAST_NAME}" type="text" pattern="${VALIDATION_NAME_PATTERN}" placeholder="Antonov" value="${RESP_REGISTRATION_LAST_NAME}" required/>
       <label class="forms__element" for="user_phone">${LOCALE[TEXT_REGISTRATION_PHONE]}:</label>
-      <input class="forms__element" id="user_phone" name="${KEY_USER_PHONE}" type="text" pattern="${VALIDATION_PHONE_PATTERN}" placeholder="+375 (29) 123-45-67" value="${RESP_REGISTRATION_PHONE}" required/>
+      <input class="forms__element" id="user_phone" name="${KEY_USER_PHONE}" type="tel" pattern="${VALIDATION_PHONE_PATTERN}" placeholder="+375 (29) 123-45-67" value="${RESP_REGISTRATION_PHONE}" required/>
       <label class="forms__element flex flex__justify-content_space-between" for="user_group">${LOCALE[TEXT_REGISTRATION_ROLE]}:
         <select name="${KEY_USER_ROLE}" id="user_group">
           <option <c:if test="${RESP_REGISTRATION_GROUP == null}">selected</c:if>>${LOCALE[TEXT_REGISTRATION_CHOOSE_ROLE]}</option>

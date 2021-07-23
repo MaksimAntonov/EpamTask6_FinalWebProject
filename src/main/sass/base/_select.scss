@@ -7,6 +7,7 @@
   appearance: none;
   padding: 0 10px;
   @include font(1.5rem, 1.6rem);
+  transition: $transition-base;
 
   &:hover {
     border-color: $select-border-color-hover;
