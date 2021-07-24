@@ -27,6 +27,10 @@
     border-bottom: 1px dashed;
   }
 
+  &__error {
+    color: $forms-result-error-text-color;
+  }
+
   & input,
   & select,
   & textarea {

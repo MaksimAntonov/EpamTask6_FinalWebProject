@@ -9,10 +9,15 @@
                     <li class="navigation__item">
                         <a class="navigation__link" href="<c:url value="/controller?command=open_my_orders" />">${LOCALE[TEXT_ORDER_USER_PAGE_TITLE]}</a>
                     </li>
+                    <c:if test="${param.get('command') == 'open_my_orders' || param.get('command') == 'view_order'}">
+                        <li class="navigation__item">
+                            <a class="navigation__link" onclick="openModal('modal-new-order'); return false;">${LOCALE[TEXT_ORDER_NEW_ORDER_HEADER]}</a>
+                        </li>
+                    </c:if>
                 </c:if>
-                <c:if test="${param.get('command') == 'open_my_orders' || param.get('command') == 'view_order'}">
+                <c:if test="${USER_ROLE == 'ADMINISTRATOR' || USER_ROLE == 'CARRIER'}">
                     <li class="navigation__item">
-                        <a class="navigation__link" onclick="openModal('modal-new-order'); return false;">${LOCALE[TEXT_ORDER_NEW_ORDER_HEADER]}</a>
+                        <a class="navigation__link" href="<c:url value="/controller?command=open_carrier_orders" />">${LOCALE[TEXT_OFFER_PAGE_TITLE]}</a>
                     </li>
                 </c:if>
             </ul>

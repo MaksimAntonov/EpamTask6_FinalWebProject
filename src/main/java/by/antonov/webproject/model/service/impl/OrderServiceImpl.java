@@ -61,6 +61,26 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  public List<Order> getAllOrdersByShipperId(long shipperId, int limit)
+      throws ServiceException {
+    try {
+      List<Order> orders = orderDao.findAllByShipperId(shipperId, limit);
+
+      for (Order order : orders) {
+        List<Offer> offers = DaoDefinition.getInstance().getOfferDao().findAllByOrderId(order.getId());
+        Optional<Offer> bestOfferOpt = offers.stream().min(Comparator.comparingDouble(Offer::getPrice));
+        bestOfferOpt.ifPresent(order::setBestOffer);
+        order.setOffers(offers);
+      }
+
+      return orders;
+    } catch (DaoException daoException) {
+      logger.error("findAllOrders > Can not read data from database: {}", daoException.getMessage());
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
   public Optional<Order> getOrderById(long orderId)
       throws ServiceException {
     try {
@@ -132,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
   public boolean createOrder(String router, String details, long shipperId)
       throws ServiceException {
     boolean result = false;
-    if (Validator.checkText(router) && Validator.checkText(details)) {
+    if (Validator.checkRouteText(router) && Validator.checkText(details)) {
       try {
         result = orderDao.insertOrder(router, details, shipperId);
       } catch (DaoException daoException) {

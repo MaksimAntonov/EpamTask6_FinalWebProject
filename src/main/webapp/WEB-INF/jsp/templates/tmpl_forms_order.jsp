@@ -6,10 +6,10 @@
         <form method="post" action="<c:url value='controller?command=create_order' />" class="forms">
             <h2 class="forms__element forms__header">${LOCALE[TEXT_ORDER_NEW_ORDER_HEADER]}</h2>
             <label class="forms__element" for="order_route">${LOCALE[TEXT_ORDER_NEW_ORDER_ROUTE]}:</label>
-            <input class="forms__element" id="order_route" name="${KEY_ORDER_ROUTE}" type="text" pattern="${VALIDATION_TEXT_PATTERN}" required/>
+            <input class="forms__element forms__input" id="order_route" name="${KEY_ORDER_ROUTE}" type="text" data-invalid-text="${LOCALE[TEXT_FORM_ERROR_ROUTE_TEXT]}" pattern="${VALIDATION_ROUTE_PATTERN}" required/>
 
             <label class="forms__element" for="order_details">${LOCALE[TEXT_ORDER_NEW_ORDER_DETAILS]}:</label>
-            <textarea class="forms__element" id="order_details" name="${KEY_ORDER_DETAILS}" rows="10" required></textarea>
+            <textarea class="forms__element forms__input" id="order_details" name="${KEY_ORDER_DETAILS}" rows="10" required></textarea>
 
             <input class="forms__element" type="submit" value="${LOCALE[TEXT_ORDER_BUTTON_CREATE]}" />
         </form>

@@ -17,11 +17,19 @@ public class Validator {
     return (text != null && text.matches(VALIDATION_TEXT_PATTERN.getValue()));
   }
 
+  public static boolean checkRouteText(String text) {
+    return (text != null && text.matches(VALIDATION_ROUTE_PATTERN.getValue()));
+  }
+
   public static boolean checkName(String name) {
     return (name != null && name.matches(VALIDATION_NAME_PATTERN.getValue()));
   }
 
   public static boolean checkPhone(String phone) {
     return (phone != null && phone.matches(VALIDATION_PHONE_PATTERN.getValue()));
+  }
+
+  public static boolean checkPrice(String price) {
+    return (price != null && price.matches(VALIDATION_PRICE_PATTERN.getValue()));
   }
 }

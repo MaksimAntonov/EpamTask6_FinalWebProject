@@ -20,6 +20,14 @@ public enum LocalizationKey implements EnumBase {
   TEXT_HEADER_PROFILE_LINK_TEXT("header.profile_link_text"),
   TEXT_HEADER_LOGOUT_LINK_TEXT("header.logout_link_text"),
 
+  TEXT_FORM_ERROR_EMAIL_TEXT("form.error_email_text"),
+  TEXT_FORM_ERROR_PASSWORD_TEXT("form.error_password_text"),
+  TEXT_FORM_ERROR_FIRST_NAME_TEXT("form.error_first_name_text"),
+  TEXT_FORM_ERROR_LAST_NAME_TEXT("form.error_last_name_text"),
+  TEXT_FORM_ERROR_PHONE_TEXT("form.error_phone_text"),
+  TEXT_FORM_ERROR_ROUTE_TEXT("form.error_route_text"),
+  TEXT_FORM_ERROR_PRICE_TEXT("form.error_price_text"),
+
   // Login texts
   TEXT_LOGIN_PAGE_TITLE("login.page_title"),
   TEXT_LOGIN_HEADER("login.header"),
@@ -63,7 +71,6 @@ public enum LocalizationKey implements EnumBase {
   TEXT_PROFILE_BUTTON_UPDATE_SAVE("profile.update_save_button_text"),
 
   // Order text
-  TEXT_ORDER_PAGE_TITLE("order.page_title"),
   TEXT_ORDER_USER_PAGE_TITLE("order.user_page_title"),
   TEXT_ORDER_BUTTON_OPEN_ORDER("order.button_open_order"),
   TEXT_ORDER_BUTTON_CLOSE_ORDER("order.button_close_order"),
@@ -87,6 +94,14 @@ public enum LocalizationKey implements EnumBase {
   TEXT_OFFER_CARRIER("offer.carrier_text"),
   TEXT_OFFER_BUTTON_ACCEPT_OFFER("offer.button_accept_offer"),
   TEXT_OFFER_BUTTON_DECLINE_OFFER("offer.button_decline_offer"),
+  TEXT_OFFER_PAGE_TITLE("offer.page_title"),
+  TEXT_OFFER_PRICE("offer.price_text"),
+  TEXT_OFFER_BUTTON_MAKE_OFFER("offer.button_make_offer"),
+  TEXT_OFFER_BUTTON_CANCEL_OFFER("offer.button_cancel_offer"),
+  TEXT_OFFER_INSERT_OFFER_SUCCESS_MESSAGE("offer.insert_offer_success_message"),
+  TEXT_OFFER_INSERT_OFFER_ERROR_MESSAGE("offer.insert_offer_error_message"),
+  TEXT_OFFER_CANCEL_OFFER_SUCCESS_MESSAGE("offer.cancel_offer_success_message"),
+  TEXT_OFFER_CANCEL_OFFER_ERROR_MESSAGE("offer.cancel_offer_error_message"),
   ;
   private final String key;
 

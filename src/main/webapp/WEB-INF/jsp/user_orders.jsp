@@ -24,7 +24,7 @@
                             <c:when test="${order.status == 'NEW'}">
                                 <c:if test="${order.bestOffer != null}" >
                                     <div class="offer">
-                                        <span class="offer__header">${LOCALE[TEXT_OFFER_BEST_OFFER_FROM]} ${order.offers.size()}</span>
+                                        <span class="offer__header">${LOCALE[TEXT_OFFER_BEST_OFFER_FROM]} (${order.offers.size()})</span>
                                         <span class="offer__carrier-name">${order.bestOffer.user.firstName} ${order.bestOffer.user.lastName}</span>
                                         <span class="offer__carrier-price">${order.bestOffer.price} USD</span>
                                         <form class="forms" method="post" action="<c:url value='controller?command=accept_offer' />">

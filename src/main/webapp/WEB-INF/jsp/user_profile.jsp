@@ -33,6 +33,14 @@
                 </div>
             </div>
         </div>
+        <c:choose>
+            <c:when test="${USER_ROLE == 'SHIPPER' && RESP_ORDER_RESULT_LIST != null}">
+                <jsp:include page="${TEMPLATE_PROFILE_SHIPPER_BLOCK}" />
+            </c:when>
+            <c:when test="${USER_ROLE == 'CARRIER' && RESP_ORDER_RESULT_LIST != null}">
+                <jsp:include page="${TEMPLATE_PROFILE_CARRIER_BLOCK}" />
+            </c:when>
+        </c:choose>
     </div>
 
     <!-- Modal forms -->

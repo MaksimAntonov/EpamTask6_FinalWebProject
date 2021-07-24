@@ -14,12 +14,15 @@ public enum RouterPath implements EnumBase {
   PROFILE_PAGE("/WEB-INF/jsp/user_profile.jsp"),
   MY_ORDER_PAGE("/WEB-INF/jsp/user_orders.jsp"),
   VIEW_ORDER_PAGE("/WEB-INF/jsp/view_order.jsp"),
+  CARRIER_ORDERS("/WEB-INF/jsp/carrier_orders.jsp"),
 
   // Templates
   TEMPLATE_HEAD_DATA("/WEB-INF/jsp/templates/tmpl_head_data.jsp"),
   TEMPLATE_HEADER("/WEB-INF/jsp/templates/tmpl_header.jsp"),
   TEMPLATE_FORMS_ORDER("/WEB-INF/jsp/templates/tmpl_forms_order.jsp"),
   TEMPLATE_FORMS_PROFILE("/WEB-INF/jsp/templates/tmpl_forms_profile.jsp"),
+  TEMPLATE_PROFILE_SHIPPER_BLOCK("/WEB-INF/jsp/templates/tmpl_profile_shipper_block.jsp"),
+  TEMPLATE_PROFILE_CARRIER_BLOCK("/WEB-INF/jsp/templates/tmpl_profile_carrier_block.jsp"),
 
   // TODO: Check it
   ;

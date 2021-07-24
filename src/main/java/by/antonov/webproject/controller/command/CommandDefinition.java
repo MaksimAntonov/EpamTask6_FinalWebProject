@@ -1,18 +1,21 @@
 package by.antonov.webproject.controller.command;
 
 import by.antonov.webproject.controller.command.impl.ChangeLocaleCommand;
-import by.antonov.webproject.controller.command.impl.GoToRegistrationPageCommand;
-import by.antonov.webproject.controller.command.impl.order.AcceptOfferCommand;
-import by.antonov.webproject.controller.command.impl.order.CloseOrderCommand;
-import by.antonov.webproject.controller.command.impl.order.CreateOrderCommand;
-import by.antonov.webproject.controller.command.impl.order.DeclineOfferCommand;
-import by.antonov.webproject.controller.command.impl.order.OpenMyOrderCommand;
-import by.antonov.webproject.controller.command.impl.order.ViewOrderCommand;
+import by.antonov.webproject.controller.command.impl.user.GoToRegistrationPageCommand;
+import by.antonov.webproject.controller.command.impl.carrier.CancelOfferCommand;
+import by.antonov.webproject.controller.command.impl.carrier.MakeOfferCommand;
+import by.antonov.webproject.controller.command.impl.carrier.OpenOrderForCarrierCommand;
+import by.antonov.webproject.controller.command.impl.shipper.AcceptOfferCommand;
+import by.antonov.webproject.controller.command.impl.shipper.CloseOrderCommand;
+import by.antonov.webproject.controller.command.impl.shipper.CreateOrderCommand;
+import by.antonov.webproject.controller.command.impl.shipper.DeclineOfferCommand;
+import by.antonov.webproject.controller.command.impl.shipper.OpenMyOrderCommand;
+import by.antonov.webproject.controller.command.impl.shipper.ViewOrderCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserNameCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPasswordCommand;
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPhoneCommand;
-import by.antonov.webproject.controller.command.impl.GoToLoginPageCommand;
-import by.antonov.webproject.controller.command.impl.GoToProfileCommand;
+import by.antonov.webproject.controller.command.impl.user.GoToLoginPageCommand;
+import by.antonov.webproject.controller.command.impl.user.GoToProfileCommand;
 import by.antonov.webproject.controller.command.impl.user.LoginUserCommand;
 import by.antonov.webproject.controller.command.impl.user.LogoutUserCommand;
 import by.antonov.webproject.controller.command.impl.user.RegisterUserCommand;
@@ -26,6 +29,7 @@ public enum CommandDefinition {
   // open command
   OPEN_MY_ORDERS(new OpenMyOrderCommand()),
   VIEW_ORDER(new ViewOrderCommand()),
+  OPEN_CARRIER_ORDERS(new OpenOrderForCarrierCommand()),
 
   // action command
   CHANGE_LOCALE(new ChangeLocaleCommand()),
@@ -39,6 +43,8 @@ public enum CommandDefinition {
   CREATE_ORDER(new CreateOrderCommand()),
   ACCEPT_OFFER(new AcceptOfferCommand()),
   DECLINE_OFFER(new DeclineOfferCommand()),
+  MAKE_OFFER(new MakeOfferCommand()),
+  CANCEL_OFFER(new CancelOfferCommand()),
   ;
   private final Command command;
 

@@ -24,7 +24,8 @@ public enum RequestFieldKey implements EnumBase {
   KEY_ORDER_ROUTE("order_route"),
   KEY_ORDER_DETAILS("order_details"),
 
-  KEY_OFFER_ID("offer_id");
+  KEY_OFFER_ID("offer_id"),
+  KEY_OFFER_PRICE("offer_price");
 
   private final String key;
 

@@ -37,13 +37,18 @@
 }
 
 .order-info {
+  &__shipper {
+    @include font(1.5rem);
+  }
+
   &__route {
     @include font(1.6rem, $weight: 600);
-    margin: 0;
+    margin: 2px 0;
   }
 
   &__details {
     @include font(1.4rem);
+    margin: 5px 0;
   }
 }
 

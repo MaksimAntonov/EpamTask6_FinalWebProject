@@ -1,3 +1,12 @@
+const createFormErrorElement = (id, classes, parentNote, insertBeforeNode) => {
+  let elem = document.createElement("i");
+  elem.classList.add(...classes.split(' '));
+  elem.setAttribute("id", id);
+  parentNote.insertBefore(elem, insertBeforeNode)
+
+  return elem;
+}
+
 const openModal = (modalWindowId) => {
   document.querySelector(`#${modalWindowId}`).classList.remove("modal-window_hidden");
 }
@@ -16,6 +25,24 @@ const modalWindow = (modalWindow) => {
   closeButton.addEventListener("click", (event) => { closeFunction(event); });
 }
 
+const clearInputError = (event) => {
+  let elem = event.target;
+  let errorElem = elem.parentNode.querySelector("#" + elem.id + "-error");
+  if (errorElem !== null) {
+    errorElem.remove();
+  }
+}
+
+const invalidInputHandler = (event) => {
+  event.preventDefault();
+  let elem = event.target;
+  if (elem.dataset.invalidText !== undefined) {
+    let errElem = document.querySelector("#"+elem.getAttribute("id")+"-error")
+        || createFormErrorElement(elem.id + "-error", "forms__element forms__error", event.target.parentNode, elem.nextSibling);
+    errElem.innerText = elem.dataset.invalidText;
+  }
+}
+
 window.onload = () => {
   document.querySelector("select[name=locale]").addEventListener("change", (event) => {
     let currentPage = encodeURIComponent(window.location.pathname + window.location.search);
@@ -23,4 +50,9 @@ window.onload = () => {
   });
 
   document.querySelectorAll(".modal-window").forEach((modal) => modalWindow(modal));
+
+  document.querySelectorAll(".forms__input").forEach((inputEl) => {
+    inputEl.addEventListener('invalid', invalidInputHandler);
+    inputEl.addEventListener('input', clearInputError);
+  });
 }

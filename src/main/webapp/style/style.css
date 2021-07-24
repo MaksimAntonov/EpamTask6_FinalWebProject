@@ -45,6 +45,8 @@ a:active {
     font-weight: normal;
     font-style: italic;
     border-bottom: 1px dashed; }
+  .forms__error {
+    color: #ff0000; }
   .forms input, .forms select, .forms textarea {
     border-radius: 15px;
     border: 1px solid;
@@ -163,16 +165,16 @@ a:active {
   display: flex;
   justify-content: space-between;
   list-style: none; }
-  .navigation__item:not(:first-child)::before {
-    content: " ";
-    color: #000000;
-    margin-right: 10px; }
+  .navigation__item {
+    border: 1px solid #90ee90;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 0 2px; }
   .navigation__link {
     font-size: 1.5rem;
     line-height: 1.5rem;
     font-weight: normal;
     font-style: normal;
-    text-decoration: none;
     color: #000000;
     transition: all 0.5s ease;
     cursor: pointer; }
@@ -263,18 +265,25 @@ a:active {
   .order_closed {
     border-color: grey; }
 
+.order-info__shipper {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: normal;
+  font-style: normal; }
+
 .order-info__route {
   font-size: 1.6rem;
   line-height: 1.6rem;
   font-weight: 600;
   font-style: normal;
-  margin: 0; }
+  margin: 2px 0; }
 
 .order-info__details {
   font-size: 1.4rem;
   line-height: 1.4rem;
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+  margin: 5px 0; }
 
 .best-price {
   border-left: 1px dashed;
@@ -303,9 +312,10 @@ a:active {
   text-align: center; }
 
 .offer {
+  width: 200px;
   border: 1px solid;
   border-radius: 10px;
-  padding: 5px 15px;
+  padding: 5px;
   margin: 1px;
   text-align: center; }
   .offer > span {
@@ -319,7 +329,7 @@ a:active {
     padding-bottom: 5px;
     margin-bottom: 5px; }
   .offer .forms {
-    width: 100px;
+    max-width: 100%;
     margin-top: 5px; }
 
 /*# sourceMappingURL=style.css.map */

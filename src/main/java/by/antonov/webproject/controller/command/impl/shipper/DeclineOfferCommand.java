@@ -1,4 +1,4 @@
-package by.antonov.webproject.controller.command.impl.order;
+package by.antonov.webproject.controller.command.impl.shipper;
 
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_OFFER_ID;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_ORDER_ID;
