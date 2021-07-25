@@ -6,5 +6,5 @@ public enum SessionKey {
   CURRENT_LOCALE,
   REQUIRED_URI,
   USER_ROLE,
-  USER_OBJ;
+  USER_OBJ
 }

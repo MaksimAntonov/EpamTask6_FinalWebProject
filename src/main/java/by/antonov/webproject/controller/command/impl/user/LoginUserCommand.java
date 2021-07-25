@@ -2,8 +2,6 @@ package by.antonov.webproject.controller.command.impl.user;
 
 import static by.antonov.webproject.controller.RequestFieldKey.*;
 
-import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponceKey;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
@@ -14,7 +12,6 @@ import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.localization.LocalizationKey;
-import by.antonov.webproject.localization.Localization;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;

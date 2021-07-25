@@ -14,8 +14,6 @@ import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class CreateOrderCommand implements Command {
   private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};

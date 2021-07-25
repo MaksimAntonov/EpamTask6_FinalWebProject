@@ -1,8 +1,5 @@
 package by.antonov.webproject.controller;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 public class Router {
   private final RouterType routerType;
   private final String routerPath;

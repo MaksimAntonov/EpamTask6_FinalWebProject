@@ -20,9 +20,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserDaoImpl implements UserDao {
-  private Logger logger = LogManager.getLogger();
+  private static final Logger logger = LogManager.getLogger();
 
-  private static final int SQL_DUPLICATE_ERROR_CODE = 1062;
   private static final String SQL_FIND_ALL_USERS = """
       SELECT `users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, `users_status`.`status_name`
       FROM `users_list`

@@ -1,6 +1,6 @@
 package by.antonov.webproject.model.service;
 
-import by.antonov.webproject.controller.ResponceKey;
+import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.exception.ServiceException;
 import java.util.Map;
@@ -10,7 +10,7 @@ public interface UserService {
   boolean checkLogin(String email, String password)
       throws ServiceException;
 
-  Map<ResponceKey, String> registerUser(String email, String password, String passwordConfirm, String firstName,
+  Map<ResponseKey, String> registerUser(String email, String password, String passwordConfirm, String firstName,
                                         String lastName, String phone, String group)
       throws ServiceException;
   Optional<User> getUserByEmail(String email)

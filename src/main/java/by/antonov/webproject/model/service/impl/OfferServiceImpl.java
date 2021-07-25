@@ -8,7 +8,6 @@ import by.antonov.webproject.model.dao.DaoDefinition;
 import by.antonov.webproject.model.dao.OfferDao;
 import by.antonov.webproject.model.dao.OrderDao;
 import by.antonov.webproject.model.service.OfferService;
-import by.antonov.webproject.util.Validator;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;

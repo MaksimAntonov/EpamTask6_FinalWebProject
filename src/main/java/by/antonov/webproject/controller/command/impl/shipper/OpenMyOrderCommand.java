@@ -1,6 +1,6 @@
 package by.antonov.webproject.controller.command.impl.shipper;
 
-import by.antonov.webproject.controller.ResponceKey;
+import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
@@ -34,7 +34,7 @@ public class OpenMyOrderCommand implements Command {
       User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
       long userId = user.getId();
       List<Order> orders = orderService.getAllOrdersByShipperId(userId);
-      request.setAttribute(ResponceKey.RESP_ORDER_RESULT_LIST.name(), orders);
+      request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
       return new Router(RouterType.FORWARD, RouterPath.MY_ORDER_PAGE);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);

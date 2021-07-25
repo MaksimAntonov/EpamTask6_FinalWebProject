@@ -5,7 +5,6 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD_CONFIRM;
 
 import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponceKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
@@ -16,7 +15,6 @@ import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.localization.LocalizationKey;
-import by.antonov.webproject.localization.Localization;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;

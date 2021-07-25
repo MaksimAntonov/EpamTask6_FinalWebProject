@@ -35,12 +35,8 @@ public class Controller extends HttpServlet {
       Command command = CommandFactory.defineCommand(commandName);
       Router router = command.execute(request);
       switch (router.getRouterType()) {
-        case FORWARD -> {
-          request.getRequestDispatcher(router.getRouterPath()).forward(request, response);
-        }
-        case REDIRECT -> {
-          response.sendRedirect(router.getRouterPath());
-        }
+        case FORWARD -> request.getRequestDispatcher(router.getRouterPath()).forward(request, response);
+        case REDIRECT -> response.sendRedirect(router.getRouterPath());
         default -> {
           logger.error("Controller: wrong RouterType {}", router.getRouterType());
           response.sendRedirect(RouterPath.ERROR_404_PAGE.getValue());

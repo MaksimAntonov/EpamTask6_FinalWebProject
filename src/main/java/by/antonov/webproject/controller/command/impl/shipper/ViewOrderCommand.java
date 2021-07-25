@@ -1,7 +1,7 @@
 package by.antonov.webproject.controller.command.impl.shipper;
 
 import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponceKey;
+import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
@@ -37,7 +37,7 @@ public class ViewOrderCommand implements Command {
       orderId = Long.parseLong(request.getParameter(RequestFieldKey.KEY_ORDER_ID.getValue()));
       Optional<Order> orderOpt = orderService.getOrderById(orderId);
       if (orderOpt.isPresent()) {
-        request.setAttribute(ResponceKey.RESP_ORDER.name(), orderOpt.get());
+        request.setAttribute(ResponseKey.RESP_ORDER.name(), orderOpt.get());
         return new Router(RouterType.FORWARD, RouterPath.VIEW_ORDER_PAGE);
       } else {
         return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,

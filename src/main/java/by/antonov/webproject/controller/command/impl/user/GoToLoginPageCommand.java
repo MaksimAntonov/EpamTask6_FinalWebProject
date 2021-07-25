@@ -1,7 +1,5 @@
 package by.antonov.webproject.controller.command.impl.user;
 
-import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponceKey;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
@@ -10,8 +8,6 @@ import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
-import by.antonov.webproject.localization.Localization;
-import by.antonov.webproject.localization.LocalizationKey;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class GoToLoginPageCommand implements Command {

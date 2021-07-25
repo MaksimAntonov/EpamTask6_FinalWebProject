@@ -1,6 +1,6 @@
 package by.antonov.webproject.controller;
 
-public enum ResponceKey {
+public enum ResponseKey {
   RESP_FORM_RESULT_STATUS,
   RESP_FORM_RESULT_MESSAGE,
 

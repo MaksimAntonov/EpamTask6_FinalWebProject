@@ -1,7 +1,7 @@
 package by.antonov.webproject.controller.filter;
 
 import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponceKey;
+import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.localization.Localization;
 import by.antonov.webproject.localization.LocalizationKey;
@@ -29,8 +29,8 @@ public class UserFeedbackFilter implements Filter {
       if (localizationKeyReq != null) {
         LocalizationKey localizationKey = LocalizationKey.valueOf(localizationKeyReq);
 
-        httpRequest.setAttribute(ResponceKey.RESP_FORM_RESULT_STATUS.name(), feedbackStatus);
-        httpRequest.setAttribute(ResponceKey.RESP_FORM_RESULT_MESSAGE.name(), localization.getText(localizationKey));
+        httpRequest.setAttribute(ResponseKey.RESP_FORM_RESULT_STATUS.name(), feedbackStatus);
+        httpRequest.setAttribute(ResponseKey.RESP_FORM_RESULT_MESSAGE.name(), localization.getText(localizationKey));
       }
     }
 

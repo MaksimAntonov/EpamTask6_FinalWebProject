@@ -4,8 +4,6 @@ import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.exception.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Optional;
 
 public interface Command {
   Router execute(HttpServletRequest request)

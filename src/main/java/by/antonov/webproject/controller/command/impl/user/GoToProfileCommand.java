@@ -1,7 +1,6 @@
 package by.antonov.webproject.controller.command.impl.user;
 
-import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponceKey;
+import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
@@ -12,8 +11,6 @@ import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
-import by.antonov.webproject.localization.Localization;
-import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.model.service.OfferService;
 import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
@@ -36,12 +33,12 @@ public class GoToProfileCommand implements Command {
       if (user.getUserRole() == Role.SHIPPER) {
         OrderService orderService = ServiceDefinition.getInstance().getOrderService();
         List<Order> orders = orderService.getAllOrdersByShipperId(userId, 5);
-        request.setAttribute(ResponceKey.RESP_ORDER_RESULT_LIST.name(), orders);
+        request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
       }
       if (user.getUserRole() == Role.CARRIER) {
         OfferService offerService = ServiceDefinition.getInstance().getOfferService();
         List<Order> orders = offerService.getOrdersForCarrier(userId, 5);
-        request.setAttribute(ResponceKey.RESP_ORDER_RESULT_LIST.name(), orders);
+        request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
       }
       return new Router(RouterType.FORWARD, RouterPath.PROFILE_PAGE);
     } catch (ServiceException serviceException) {

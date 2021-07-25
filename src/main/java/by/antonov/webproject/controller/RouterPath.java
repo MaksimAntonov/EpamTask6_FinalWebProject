@@ -24,12 +24,10 @@ public enum RouterPath implements EnumBase {
   TEMPLATE_FORMS_PROFILE("/WEB-INF/jsp/templates/tmpl_forms_profile.jsp"),
   TEMPLATE_PROFILE_SHIPPER_BLOCK("/WEB-INF/jsp/templates/tmpl_profile_shipper_block.jsp"),
   TEMPLATE_PROFILE_CARRIER_BLOCK("/WEB-INF/jsp/templates/tmpl_profile_carrier_block.jsp"),
-
-  // TODO: Check it
   ;
   private final String pagePath;
 
-  private RouterPath(String pagePath) {
+  RouterPath(String pagePath) {
     this.pagePath = pagePath;
   }
 

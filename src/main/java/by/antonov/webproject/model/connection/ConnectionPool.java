@@ -59,13 +59,11 @@ public class ConnectionPool {
     return connection;
   }
 
-  public boolean releaseConnection(Connection connection) {
-    boolean result = false;
+  public void releaseConnection(Connection connection) {
     if (connection instanceof ProxyConnection) {
       try {
         reservedConnections.remove((ProxyConnection) connection);
         freeConnections.put((ProxyConnection) connection);
-        result = true;
       } catch (InterruptedException e) {
         logger.error("Interrupted exception. {}", e.getMessage());
         Thread.currentThread().interrupt();
@@ -73,8 +71,6 @@ public class ConnectionPool {
     } else {
       logger.error("Wrong connection instance.");
     }
-    
-    return result;
   }
 
   public void destroyPool() {
