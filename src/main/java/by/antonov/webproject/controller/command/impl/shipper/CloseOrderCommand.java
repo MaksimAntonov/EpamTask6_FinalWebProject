@@ -16,8 +16,11 @@ import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CloseOrderCommand implements Command {
+  private static final Logger logger = LogManager.getLogger();
   private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
@@ -27,9 +30,10 @@ public class CloseOrderCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
+    long orderId = -1;
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
-      long orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
+      orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
       String status;
       String localizationKey;
       if (orderService.closeOrder(orderId)) {
@@ -46,6 +50,9 @@ public class CloseOrderCommand implements Command {
                         RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
       throw new CommandException(serviceException.getMessage(), serviceException);
+    } catch (NumberFormatException exception) {
+      logger.error("Bad request: {}, orderId={}", exception.getMessage(), orderId);
+      return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
 }

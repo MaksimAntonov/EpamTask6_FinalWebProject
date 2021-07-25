@@ -31,7 +31,7 @@ public class ChangeUserPhoneCommand implements Command {
 
     try {
       User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
-      Long userId = user.getId();
+      long userId = user.getId();
       String phone = request.getParameter(KEY_USER_PHONE.getValue());
 
       UserService userService = ServiceDefinition.getInstance().getUserService();

@@ -15,8 +15,11 @@ import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OpenMyOrderCommand implements Command {
+  private static final Logger logger = LogManager.getLogger();
   private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
@@ -25,7 +28,6 @@ public class OpenMyOrderCommand implements Command {
     if (!checkUserGroup((User.Role) request.getSession().getAttribute(SessionKey.USER_ROLE.name()), allowedRole)) {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
-
 
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
@@ -36,6 +38,9 @@ public class OpenMyOrderCommand implements Command {
       return new Router(RouterType.FORWARD, RouterPath.MY_ORDER_PAGE);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+    } catch (NumberFormatException exception) {
+      logger.error("Bad request: {}", exception.getMessage());
+      return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
 }

@@ -5,6 +5,11 @@
   version="5.0">
 
   <error-page>
+    <error-code>400</error-code>
+    <location>/jsp/error_400.jsp</location>
+  </error-page>
+
+  <error-page>
     <error-code>403</error-code>
     <location>/jsp/error_403.jsp</location>
   </error-page>

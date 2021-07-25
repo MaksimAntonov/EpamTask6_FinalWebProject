@@ -2,6 +2,7 @@ package by.antonov.webproject.controller;
 
 public enum RouterPath implements EnumBase {
   PROJECT_ROOT("/EpamTask6_FinalWebProject_war_exploded/"),
+  ERROR_400_PAGE("jsp/error_400.jsp"),
   ERROR_404_PAGE("jsp/error_404.jsp"),
   CONTROLLER("controller"),
   OPEN_LOGIN_PAGE("controller?command=go_to_login_page"),

@@ -30,12 +30,9 @@ public class ChangeUserNameCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-    String currentLocale = (String) request.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
-    Localization localization = Localization.valueOf(currentLocale.toUpperCase());
-
     try {
       User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
-      Long userId = user.getId();
+      long userId = user.getId();
       String firstName = request.getParameter(KEY_USER_FIRST_NAME.getValue());
       String lastName = request.getParameter(KEY_USER_LAST_NAME.getValue());
 

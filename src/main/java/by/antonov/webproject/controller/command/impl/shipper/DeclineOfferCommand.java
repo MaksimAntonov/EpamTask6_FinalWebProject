@@ -17,8 +17,11 @@ import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DeclineOfferCommand implements Command {
+  private static final Logger logger = LogManager.getLogger();
   private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
@@ -28,13 +31,15 @@ public class DeclineOfferCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
+    long orderId = -1;
+    long offerId = -1;
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
-      long order_id = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
-      long offer_id = Long.parseLong(request.getParameter(KEY_OFFER_ID.getValue()));
+      orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
+      offerId = Long.parseLong(request.getParameter(KEY_OFFER_ID.getValue()));
       String status;
       String localizationKey;
-      if (orderService.declineOffer(offer_id)) {
+      if (orderService.declineOffer(offerId)) {
         status = RequestFieldKey.KEY_STYLE_SUCCESS.getValue();
         localizationKey = LocalizationKey.TEXT_ORDER_DECLINE_SUCCESS_MESSAGE.name();
       } else {
@@ -44,11 +49,14 @@ public class DeclineOfferCommand implements Command {
 
       return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
                         RequestFieldKey.KEY_COMMAND.getValue() + "=view_order",
-                        KEY_ORDER_ID.getValue() + "=" + order_id,
+                        KEY_ORDER_ID.getValue() + "=" + orderId,
                         RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=" + status,
                         RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
       throw new CommandException(serviceException.getMessage(), serviceException);
+    } catch (NumberFormatException exception) {
+      logger.error("Bad request: {}, orderId={}, offerId={}", exception.getMessage(), orderId, offerId);
+      return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
 }

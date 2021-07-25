@@ -14,8 +14,11 @@ import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.model.service.OfferService;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MakeOfferCommand implements Command {
+  private static final Logger logger = LogManager.getLogger();
   private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.CARRIER};
 
   @Override
@@ -25,12 +28,14 @@ public class MakeOfferCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
+    int price = -1;
+    long orderId = -1;
     OfferService offerService = ServiceDefinition.getInstance().getOfferService();
     try {
       User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
       long userId = user.getId();
-      int price = Integer.parseInt(request.getParameter(RequestFieldKey.KEY_OFFER_PRICE.getValue()));
-      long orderId = Long.parseLong(request.getParameter(RequestFieldKey.KEY_ORDER_ID.getValue()));
+      price = Integer.parseInt(request.getParameter(RequestFieldKey.KEY_OFFER_PRICE.getValue()));
+      orderId = Long.parseLong(request.getParameter(RequestFieldKey.KEY_ORDER_ID.getValue()));
 
       String status;
       String localizationKey;
@@ -48,6 +53,9 @@ public class MakeOfferCommand implements Command {
                         RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+    } catch (NumberFormatException exception) {
+      logger.error("Bad request: {}, price={}, orderId={}", exception.getMessage(), price, orderId);
+      return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
 }

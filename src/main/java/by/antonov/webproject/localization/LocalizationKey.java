@@ -4,6 +4,8 @@ import by.antonov.webproject.controller.EnumBase;
 
 public enum LocalizationKey implements EnumBase {
   // Error texts
+  TEXT_ERROR_400_TITLE("error_400.page_title"),
+  TEXT_ERROR_400_MESSAGE("error_400.page_message"),
   TEXT_ERROR_403_TITLE("error_403.page_title"),
   TEXT_ERROR_403_MESSAGE("error_403.page_message"),
   TEXT_ERROR_404_TITLE("error_404.page_title"),

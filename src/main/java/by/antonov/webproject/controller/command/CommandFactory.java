@@ -9,10 +9,9 @@ public class CommandFactory {
     try {
       commandDefinition = CommandDefinition.valueOf(commandName.toUpperCase());
 
+      return commandDefinition.getCommand();
     } catch (IllegalArgumentException e) {
       throw new CommandException("Incorrect command type: " + commandName, e);
     }
-
-    return commandDefinition.getCommand();
   }
 }
