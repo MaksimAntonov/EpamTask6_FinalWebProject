@@ -43,11 +43,13 @@ const invalidInputHandler = (event) => {
   }
 }
 
+const changeLocale = (event) => {
+  let currentPage = encodeURIComponent(window.location.pathname + window.location.search);
+  window.location.href = PROJECT_ROOT + "controller?command=change_locale&locale="+event.target.value+"&redirect_url="+currentPage;
+}
+
 window.onload = () => {
-  document.querySelector("select[name=locale]").addEventListener("change", (event) => {
-    let currentPage = encodeURIComponent(window.location.pathname + window.location.search);
-    window.location.href = PROJECT_ROOT + "controller?command=change_locale&locale="+event.target.value+"&redirect_url="+currentPage;
-  });
+  document.querySelector("#change-locale").addEventListener("change", changeLocale);
 
   document.querySelectorAll(".modal-window").forEach((modal) => modalWindow(modal));
 

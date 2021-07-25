@@ -24,7 +24,7 @@
         </nav>
     </c:if>
     <div class="header__item user_buttons_block flex flex__align-items_center">
-        <select class="select" name="locale">
+        <select id="change-locale" class="select" name="locale">
             <c:forEach var="localisation" items="${LOCALISATION_LIST}">
                 <option value="${localisation.key}" <c:if test="${CURRENT_LOCALE == localisation.key}">selected</c:if>>
                         ${localisation.value}
