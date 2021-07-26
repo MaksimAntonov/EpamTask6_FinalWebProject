@@ -1,0 +1,43 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: fit-content;
+  @include font(1.5rem);
+
+  &__head {
+    @include font(1.5rem, $weight: 600);
+    text-align: center;
+    border-bottom: 1px solid;
+  }
+
+  &__body {
+    & tr:nth-child(2n) {
+      background-color: #d3d3d3;
+    }
+  }
+
+  & td {
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+
+    &:first-child {
+      width: 20px;
+    }
+
+    &:last-child {
+      width: 100px;
+    }
+  }
+
+  &__context {
+    height: 20px;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

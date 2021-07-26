@@ -11,7 +11,7 @@
         <jsp:include page="${TEMPLATE_HEADER}" />
         <div class="orders">
             <c:if test="${RESP_FORM_RESULT_STATUS != null}">
-                <div class="user-profile__result user-profile__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
+                <div class="forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
             </c:if>
             <c:forEach var="order" items="${RESP_ORDER_RESULT_LIST}" >
                 <div class="flex flex__justify-content_space-between orders__item order order_${order.status}">

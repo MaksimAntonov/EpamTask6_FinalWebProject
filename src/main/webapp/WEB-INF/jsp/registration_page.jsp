@@ -13,7 +13,7 @@
     <form method="post" action="<c:url value='controller?command=registration_user' />" class="user-login-and-registration__item forms">
       <h2 class="forms__element forms__header">${LOCALE[TEXT_REGISTRATION_HEADER]}</h2>
       <c:if test="${RESP_FORM_RESULT_STATUS != null}">
-        <div class="forms__element forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
+        <div class="forms__element forms__result forms__result_forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
       </c:if>
       <label class="forms__element" for="user_email">${LOCALE[TEXT_REGISTRATION_EMAIL]}:</label>
       <input class="forms__element forms__input" id="user_email" name="${KEY_USER_EMAIL}" type="email" data-invalid-text="${LOCALE[TEXT_FORM_ERROR_EMAIL_TEXT]}" placeholder="yourname@gmail.com" pattern="${VALIDATION_EMAIL_PATTERN}" value="${RESP_REGISTRATION_EMAIL}" required/>

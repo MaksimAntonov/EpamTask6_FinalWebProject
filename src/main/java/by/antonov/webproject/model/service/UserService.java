@@ -3,10 +3,14 @@ package by.antonov.webproject.model.service;
 import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.exception.ServiceException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
+  List<User> getUsersList() throws ServiceException;
+  List<User> getUsersListByStatus(User.Status status) throws ServiceException;
+
   boolean checkLogin(String email, String password)
       throws ServiceException;
 
@@ -15,10 +19,12 @@ public interface UserService {
       throws ServiceException;
   Optional<User> getUserByEmail(String email)
       throws ServiceException;
-  boolean changeUserName(Long userId, String firstName, String lastName)
+  boolean changeUserName(long userId, String firstName, String lastName)
       throws ServiceException;
-  boolean changeUserPhone(Long userId, String phone)
+  boolean changeUserPhone(long userId, String phone)
       throws ServiceException;
-  boolean changeUserPassword(Long userId, String password, String passwordConfirm)
+  boolean changeUserPassword(long userId, String password, String passwordConfirm)
       throws ServiceException;
+  boolean banUser(long userId) throws ServiceException;
+  boolean unbanUser(long userId) throws ServiceException;
 }

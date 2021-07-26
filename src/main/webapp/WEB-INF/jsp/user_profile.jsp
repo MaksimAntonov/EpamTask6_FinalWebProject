@@ -11,7 +11,7 @@
         <jsp:include page="${TEMPLATE_HEADER}" />
         <div class="user-profile">
             <c:if test="${RESP_FORM_RESULT_STATUS != null}">
-                <div class="user-profile__result user-profile__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
+                <div class="forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
             </c:if>
             <h2 class="user-profile__user-name">${USER_OBJ.firstName} ${USER_OBJ.lastName} <i class="user-profile__user-group">${USER_OBJ.userRole}</i></h2>
             <div class="flex flex__justify-content_space-between flex__align-items_center">

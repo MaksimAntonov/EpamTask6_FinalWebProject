@@ -27,7 +27,7 @@ public class UserFeedbackFilter implements Filter {
       Localization localization = Localization.valueOf(currentLocale.toUpperCase());
       String localizationKeyReq = httpRequest.getParameter(RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue());
       if (localizationKeyReq != null) {
-        LocalizationKey localizationKey = LocalizationKey.valueOf(localizationKeyReq);
+        LocalizationKey localizationKey = LocalizationKey.valueOf(localizationKeyReq.toUpperCase());
 
         httpRequest.setAttribute(ResponseKey.RESP_FORM_RESULT_STATUS.name(), feedbackStatus);
         httpRequest.setAttribute(ResponseKey.RESP_FORM_RESULT_MESSAGE.name(), localization.getText(localizationKey));

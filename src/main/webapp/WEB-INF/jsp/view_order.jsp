@@ -10,7 +10,7 @@
     <div class="wrapper">
         <jsp:include page="${TEMPLATE_HEADER}" />
         <c:if test="${RESP_FORM_RESULT_STATUS != null}">
-            <div class="user-profile__result user-profile__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
+            <div class="forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
         </c:if>
         <div class="flex flex__justify-content_space-between orders__item order order_${RESP_ORDER.status}">
             <div class="order-info">

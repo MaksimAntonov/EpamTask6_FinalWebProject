@@ -71,6 +71,7 @@ public enum LocalizationKey implements EnumBase {
   TEXT_PROFILE_UPDATE_PHONE_HEADER("profile.update_phone_header"),
   TEXT_PROFILE_UPDATE_PASSWORD_HEADER("profile.update_password_header"),
   TEXT_PROFILE_BUTTON_UPDATE_SAVE("profile.update_save_button_text"),
+  TEXT_PROFILE_USER_BLOCKED_MESSAGE("profile.user_blocked_message"),
 
   // Order text
   TEXT_ORDER_USER_PAGE_TITLE("order.user_page_title"),
@@ -104,6 +105,22 @@ public enum LocalizationKey implements EnumBase {
   TEXT_OFFER_INSERT_OFFER_ERROR_MESSAGE("offer.insert_offer_error_message"),
   TEXT_OFFER_CANCEL_OFFER_SUCCESS_MESSAGE("offer.cancel_offer_success_message"),
   TEXT_OFFER_CANCEL_OFFER_ERROR_MESSAGE("offer.cancel_offer_error_message"),
+
+  // Admin texts
+  TEXT_ADMIN_USERS_LIST_PAGE_TITLE("admin.users_list_page_title"),
+  TEXT_ADMIN_USERS_ID("admin.users_list_id"),
+  TEXT_ADMIN_USERS_NAME("admin.users_list_name"),
+  TEXT_ADMIN_USERS_EMAIL("admin.users_list_email"),
+  TEXT_ADMIN_USERS_REGISTRATION_DATE("admin.users_list_registration_date"),
+  TEXT_ADMIN_USERS_GROUP("admin.users_list_group"),
+  TEXT_ADMIN_USERS_STATUS("admin.users_list_status"),
+  TEXT_ADMIN_USERS_ACTIONS("admin.users_list_actions"),
+  TEXT_ADMIN_USERS_BUTTON_BAN("admin.users_list_button_ban_text"),
+  TEXT_ADMIN_USERS_BUTTON_UNBAN("admin.users_list_button_unban_text"),
+  TEXT_ADMIN_USERS_SUCCESS_BAN_MESSAGE("admin.users_list_ban_success_message"),
+  TEXT_ADMIN_USERS_SUCCESS_UNBAN_MESSAGE("admin.users_list_unban_success_message"),
+  TEXT_ADMIN_USERS_ERROR_BAN_MESSAGE("admin.users_list_ban_error_message"),
+  TEXT_ADMIN_USERS_ERROR_UNBAN_MESSAGE("admin.users_list_unban_error_message"),
   ;
   private final String key;
 

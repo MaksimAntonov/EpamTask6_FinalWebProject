@@ -13,19 +13,6 @@
   &__user-contacts {
     @include font(1.4rem);
   }
-
-  &__result {
-    text-align: center;
-    @include font(1.5rem);
-
-    &_error {
-      color: $profile-result-error-text-color;
-    }
-
-    &_success {
-      color: $profile-result-success-text-color;
-    }
-  }
 }
 
 .user-contacts {

@@ -1,0 +1,29 @@
+.users-list__table {
+  & td {
+    text-align: left;
+
+    &:first-child {
+      width: 30px;
+      text-align: center;
+    }
+
+    &:nth-child(n+4) {
+      text-align: center
+    }
+
+    &:nth-child(5n) {
+      width: 150px;
+    }
+
+    &:nth-child(n+6) {
+      width: 100px;
+    }
+    &:last-child {
+      width: 130px;
+    }
+
+    & input[type=submit] {
+      min-width: 80px;
+    }
+  }
+}

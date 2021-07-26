@@ -14,10 +14,11 @@ public interface UserDao extends BaseDao<Long, User> {
   boolean insertUser(String email, String passwordHash, String passwordSalt, String firstName, String lastName,
                      String phone, long userRoleId, long userStatusId)
       throws DaoException;
-  boolean updateUserName(Long userId, String firstName, String lastName)
+  boolean updateUserName(long userId, String firstName, String lastName)
       throws DaoException;
-  boolean updateUserPhone(Long userId, String phone)
+  boolean updateUserPhone(long userId, String phone)
       throws DaoException;
-  boolean updateUserPassword(Long userId, String passwordHash, String passwordSalt)
+  boolean updateUserPassword(long userId, String passwordHash, String passwordSalt)
       throws DaoException;
+  boolean updateUserStatus(long userId, long statusId) throws DaoException;
 }

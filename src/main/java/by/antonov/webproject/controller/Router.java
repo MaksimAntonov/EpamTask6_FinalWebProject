@@ -16,7 +16,7 @@ public class Router {
 
   public Router(RouterType routerType, RouterPath routerPath, String... params) {
     this.routerType = routerType;
-    this.routerPath = routerPath.getValue() + "?" + String.join("&", params);
+    this.routerPath = routerPath.getValue() + "?" + String.join("&", params).toLowerCase();
   }
 
   public RouterType getRouterType() {

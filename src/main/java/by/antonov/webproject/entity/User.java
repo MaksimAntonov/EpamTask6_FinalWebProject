@@ -1,11 +1,12 @@
 package by.antonov.webproject.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class User extends EntityBase{
   private final long id;
   private final String email;
-  private final LocalDateTime registrationDate;
+  private final LocalDate registrationDate;
   private final Role userRole;
   private final Status userStatus;
   private String firstName;
@@ -35,7 +36,7 @@ public class User extends EntityBase{
 
   protected User(long id,
               String email,
-              LocalDateTime registrationDate,
+              LocalDate registrationDate,
               String firstName,
               String lastName,
               String phone, Role userRole, Status userStatus) {
@@ -57,7 +58,7 @@ public class User extends EntityBase{
     return email;
   }
 
-  public LocalDateTime getRegistrationDate() {
+  public LocalDate getRegistrationDate() {
     return registrationDate;
   }
 
@@ -207,7 +208,7 @@ public class User extends EntityBase{
     }
 
     public User build() {
-      return new User(id, email, registrationDate, firstName, lastName, phone, userRole, userStatus);
+      return new User(id, email, registrationDate.toLocalDate(), firstName, lastName, phone, userRole, userStatus);
     }
   }
 }

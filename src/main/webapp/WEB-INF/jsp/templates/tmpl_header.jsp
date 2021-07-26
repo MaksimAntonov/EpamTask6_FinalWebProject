@@ -20,6 +20,11 @@
                         <a class="navigation__link" href="<c:url value="/controller?command=open_carrier_orders" />">${LOCALE[TEXT_OFFER_PAGE_TITLE]}</a>
                     </li>
                 </c:if>
+                <c:if test="${USER_ROLE == 'ADMINISTRATOR'}">
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="<c:url value="/controller?command=users_list" />">${LOCALE[TEXT_ADMIN_USERS_LIST_PAGE_TITLE]}</a>
+                    </li>
+                </c:if>
             </ul>
         </nav>
     </c:if>

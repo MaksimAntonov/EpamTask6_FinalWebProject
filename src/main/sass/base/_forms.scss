@@ -1,5 +1,5 @@
 .forms {
-  width: 450px;
+  width: 100%;
   height: auto;
   margin: 0 auto;
 
@@ -12,6 +12,8 @@
 
   &__result {
     text-align: center;
+    @include font(1.5rem);
+
     &_error {
       color: $forms-result-error-text-color;
     }

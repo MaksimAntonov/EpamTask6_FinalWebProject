@@ -12,6 +12,7 @@ import by.antonov.webproject.model.service.UserService;
 import by.antonov.webproject.util.PasswordHash;
 import by.antonov.webproject.util.Validator;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,23 @@ import org.apache.logging.log4j.Logger;
 public class UserServiceImpl implements UserService {
   private static final Logger logger = LogManager.getLogger();
   private final UserDao userDao = DaoDefinition.getInstance().getUserDao();
+
+  @Override
+  public List<User> getUsersList()
+      throws ServiceException {
+    try {
+      return userDao.findAll();
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
+  public List<User> getUsersListByStatus(Status status)
+      throws ServiceException {
+    // TODO IMPLEMENT
+    return null;
+  }
 
   @Override
   public boolean checkLogin(String email, String password)
@@ -33,7 +51,7 @@ public class UserServiceImpl implements UserService {
         }
       } catch (DaoException daoException) {
         logger.error("checkLogin > Can not read data from database: {}", daoException.getMessage());
-        throw new ServiceException("Can not read data from database", daoException);
+        throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
       }
     }
     return result;
@@ -122,12 +140,12 @@ public class UserServiceImpl implements UserService {
       }
       return Optional.ofNullable(user);
     } catch (DaoException daoException) {
-      throw new ServiceException("Can not read data from database", daoException);
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
 
   @Override
-  public boolean changeUserName(Long userId, String firstName, String lastName)
+  public boolean changeUserName(long userId, String firstName, String lastName)
       throws ServiceException {
     try {
       boolean result = false;
@@ -136,12 +154,12 @@ public class UserServiceImpl implements UserService {
       }
       return result;
     } catch (DaoException daoException) {
-      throw new ServiceException("Can not update data in database", daoException);
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
 
   @Override
-  public boolean changeUserPhone(Long userId, String phone)
+  public boolean changeUserPhone(long userId, String phone)
       throws ServiceException {
     try {
       boolean result = false;
@@ -150,12 +168,12 @@ public class UserServiceImpl implements UserService {
       }
       return result;
     } catch (DaoException daoException) {
-      throw new ServiceException("Can not update data in database", daoException);
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
 
   @Override
-  public boolean changeUserPassword(Long userId, String password, String passwordConfirm)
+  public boolean changeUserPassword(long userId, String password, String passwordConfirm)
       throws ServiceException {
     try {
       boolean result = false;
@@ -167,7 +185,27 @@ public class UserServiceImpl implements UserService {
       }
       return result;
     } catch (DaoException daoException) {
-      throw new ServiceException("Can not update data in database", daoException);
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
+  public boolean banUser(long userId)
+      throws ServiceException {
+    try {
+      return userDao.updateUserStatus(userId, Status.BLOCKED.getDBIndex());
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
+  public boolean unbanUser(long userId)
+      throws ServiceException {
+    try {
+      return userDao.updateUserStatus(userId, Status.VERIFIED.getDBIndex());
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
 }

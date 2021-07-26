@@ -1,6 +1,8 @@
 .user-login-and-registration {
-  @include font(1.6rem);
+  width: 450px;
+  margin: 0 auto;
   padding-top: 10px;
+  @include font(1.6rem);
 
   &__item {
 

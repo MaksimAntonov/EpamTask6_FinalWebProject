@@ -3,6 +3,7 @@ package by.antonov.webproject.controller;
 public enum RouterPath implements EnumBase {
   PROJECT_ROOT("/EpamTask6_FinalWebProject_war_exploded/"),
   ERROR_400_PAGE("jsp/error_400.jsp"),
+  ERROR_403_PAGE("jsp/error_403.jsp"),
   ERROR_404_PAGE("jsp/error_404.jsp"),
   CONTROLLER("controller"),
   OPEN_LOGIN_PAGE("controller?command=go_to_login_page"),
@@ -16,6 +17,7 @@ public enum RouterPath implements EnumBase {
   MY_ORDER_PAGE("/WEB-INF/jsp/user_orders.jsp"),
   VIEW_ORDER_PAGE("/WEB-INF/jsp/view_order.jsp"),
   CARRIER_ORDERS("/WEB-INF/jsp/carrier_orders.jsp"),
+  USERS_LIST("/WEB-INF/jsp/admin/users_list.jsp"),
 
   // Templates
   TEMPLATE_HEAD_DATA("/WEB-INF/jsp/templates/tmpl_head_data.jsp"),
