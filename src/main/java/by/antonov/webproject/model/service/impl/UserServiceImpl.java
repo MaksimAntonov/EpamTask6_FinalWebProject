@@ -208,4 +208,15 @@ public class UserServiceImpl implements UserService {
       throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
+
+  @Override
+  public boolean checkUserStatus(long userId, Status requiredStatus)
+      throws ServiceException {
+    try {
+      Optional<User.Status> userStatusOptional = userDao.findStatusById(userId);
+      return (userStatusOptional.isPresent() && userStatusOptional.get() == requiredStatus);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
 }

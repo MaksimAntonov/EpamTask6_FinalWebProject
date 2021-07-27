@@ -9,6 +9,8 @@ public interface UserDao extends BaseDao<Long, User> {
       throws DaoException;
   Optional<User> findUserByEmail(String email)
       throws DaoException;
+  Optional<User.Status> findStatusById(long userId)
+      throws DaoException;
   boolean existRowsByEmail(String email)
       throws DaoException;
   boolean insertUser(String email, String passwordHash, String passwordSalt, String firstName, String lastName,

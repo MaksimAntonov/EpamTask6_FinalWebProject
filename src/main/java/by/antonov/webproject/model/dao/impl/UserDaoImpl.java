@@ -2,6 +2,7 @@ package by.antonov.webproject.model.dao.impl;
 
 import static by.antonov.webproject.model.dao.DatabaseColumnName.*;
 
+import by.antonov.webproject.entity.User.Status;
 import by.antonov.webproject.model.connection.ConnectionPool;
 import by.antonov.webproject.model.dao.UserDao;
 import by.antonov.webproject.entity.User;
@@ -54,6 +55,7 @@ public class UserDaoImpl implements UserDao {
   private static final String SQL_UPDATE_USER_PHONE = "UPDATE IGNORE `users_list` SET `user_phone`=? WHERE `user_id`=?";
   private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE IGNORE `users_list` SET `user_pswd_hash`=?, `user_pswd_salt`=? WHERE `user_id`=?";
   private static final String SQL_UPDATE_USER_STATUS = "UPDATE IGNORE `users_list` SET `user_status_id`=? WHERE `user_id`=?";
+  private static final String SQL_FIND_STATUS_BY_USER_ID = "SELECT `users_status`.`status_name` FROM `users_status`, `users_list` WHERE `users_status`.`status_id`=`users_list`.`user_status_id` AND `users_list`.`user_id`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -149,6 +151,24 @@ public class UserDaoImpl implements UserDao {
         result = resultSet.getString(USER_PSWD_HASH);
       }
       return Optional.ofNullable(result);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public Optional<Status> findStatusById(long userId)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_STATUS_BY_USER_ID)) {
+      statement.setLong(1, userId);
+      ResultSet resultSet = statement.executeQuery();
+
+      User.Status userStatus = null;
+      while (resultSet.next()) {
+        userStatus = User.Status.valueOf(resultSet.getString(USER_STATUS_NAME));
+      }
+      return Optional.ofNullable(userStatus);
     } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }

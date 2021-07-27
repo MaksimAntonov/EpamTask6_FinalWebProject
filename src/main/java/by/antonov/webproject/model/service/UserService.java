@@ -27,4 +27,5 @@ public interface UserService {
       throws ServiceException;
   boolean banUser(long userId) throws ServiceException;
   boolean unbanUser(long userId) throws ServiceException;
+  boolean checkUserStatus(long userId, User.Status requiredStatus) throws ServiceException;
 }
