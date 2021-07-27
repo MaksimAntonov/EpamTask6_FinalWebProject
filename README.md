@@ -1,5 +1,5 @@
 # Cargo logistic system
-> This platform should help shippers to find a better offer for transportation from carriers. Carriers can offer price for transportation, shipper can choose offer by transportation cost or carriers’ name. Administrator can block any users, excluding other administrators.
+> This platform should help shippers to find a better offer for transportation from carriers, based on competitive price. Carriers can offer price for transportation, shipper can choose offer by transportation cost or carriers’ name. Administrator can block any users, excluding other administrators.
 
 **Use cases**
 1. Guests:
