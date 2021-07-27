@@ -17,7 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class OpenOrderForCarrierCommand implements Command {
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.CARRIER};
+
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.CARRIER};
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -34,7 +35,7 @@ public class OpenOrderForCarrierCommand implements Command {
       request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
       return new Router(RouterType.FORWARD, RouterPath.CARRIER_ORDERS);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     }
   }
 }

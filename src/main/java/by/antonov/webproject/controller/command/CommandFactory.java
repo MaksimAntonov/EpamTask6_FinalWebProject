@@ -3,6 +3,7 @@ package by.antonov.webproject.controller.command;
 import by.antonov.webproject.exception.CommandException;
 
 public class CommandFactory {
+
   public static Command defineCommand(String commandName)
       throws CommandException {
     CommandDefinition commandDefinition;

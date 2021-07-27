@@ -11,6 +11,7 @@ import by.antonov.webproject.exception.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class GoToRegistrationPageCommand implements Command {
+
   private final User.Role allowedRole = Role.GUEST;
 
   @Override

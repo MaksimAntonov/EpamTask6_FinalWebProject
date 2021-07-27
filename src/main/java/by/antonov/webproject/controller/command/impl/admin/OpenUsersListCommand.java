@@ -6,7 +6,6 @@ import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
-import by.antonov.webproject.entity.Order;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
@@ -17,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class OpenUsersListCommand implements Command {
+
   private final User.Role allowedRole = Role.ADMINISTRATOR;
 
   @Override
@@ -32,7 +32,7 @@ public class OpenUsersListCommand implements Command {
       request.setAttribute(ResponseKey.RESP_USER_RESULT_LIST.name(), users);
       return new Router(RouterType.FORWARD, RouterPath.USERS_LIST);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     }
   }
 }

@@ -1,12 +1,21 @@
 package by.antonov.webproject.model.dao.impl;
 
-import static by.antonov.webproject.model.dao.DatabaseColumnName.*;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.COUNT;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_EMAIL;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_FIRST_NAME;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_ID;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_LAST_NAME;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_PHONE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_PSWD_HASH;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_ROLE_NAME;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_STATUS_NAME;
 
+import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Status;
+import by.antonov.webproject.exception.DaoException;
 import by.antonov.webproject.model.connection.ConnectionPool;
 import by.antonov.webproject.model.dao.UserDao;
-import by.antonov.webproject.entity.User;
-import by.antonov.webproject.exception.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserDaoImpl implements UserDao {
+
   private static final Logger logger = LogManager.getLogger();
 
   private static final String SQL_FIND_ALL_USERS = """
@@ -97,33 +107,6 @@ public class UserDaoImpl implements UserDao {
         User.Builder builder = new User.Builder();
 
         user = builder.setId(resultSet.getLong(USER_ID))
-               .setEmail(resultSet.getString(USER_EMAIL))
-               .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
-               .setLastName(resultSet.getString(USER_LAST_NAME))
-               .setFirstName(resultSet.getString(USER_FIRST_NAME))
-               .setPhone(resultSet.getString(USER_PHONE))
-               .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-               .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()))
-               .build();
-      }
-      return Optional.ofNullable(user);
-    } catch (SQLException sqlException) {
-      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
-    }
-  }
-
-  @Override
-  public Optional<User> findUserByEmail(String email)
-      throws DaoException {
-    try (Connection connection = ConnectionPool.getInstance().getConnection();
-         PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_EMAIL)) {
-      statement.setString(1, email);
-      ResultSet resultSet = statement.executeQuery();
-      User user = null;
-      while (resultSet.next()) {
-        User.Builder builder = new User.Builder();
-
-        user = builder.setId(resultSet.getLong(USER_ID))
                       .setEmail(resultSet.getString(USER_EMAIL))
                       .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
                       .setLastName(resultSet.getString(USER_LAST_NAME))
@@ -151,6 +134,33 @@ public class UserDaoImpl implements UserDao {
         result = resultSet.getString(USER_PSWD_HASH);
       }
       return Optional.ofNullable(result);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public Optional<User> findUserByEmail(String email)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_EMAIL)) {
+      statement.setString(1, email);
+      ResultSet resultSet = statement.executeQuery();
+      User user = null;
+      while (resultSet.next()) {
+        User.Builder builder = new User.Builder();
+
+        user = builder.setId(resultSet.getLong(USER_ID))
+                      .setEmail(resultSet.getString(USER_EMAIL))
+                      .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+                      .setLastName(resultSet.getString(USER_LAST_NAME))
+                      .setFirstName(resultSet.getString(USER_FIRST_NAME))
+                      .setPhone(resultSet.getString(USER_PHONE))
+                      .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                      .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()))
+                      .build();
+      }
+      return Optional.ofNullable(user);
     } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }

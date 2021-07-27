@@ -19,7 +19,8 @@ import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class ChangeUserNameCommand implements Command {
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.CARRIER, Role.SHIPPER};
+
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.CARRIER, Role.SHIPPER};
 
   @Override
   public Router execute(HttpServletRequest request)

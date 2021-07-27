@@ -3,7 +3,8 @@ package by.antonov.webproject.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class User extends EntityBase{
+public class User extends EntityBase {
+
   private final long id;
   private final String email;
   private final LocalDate registrationDate;
@@ -13,33 +14,12 @@ public class User extends EntityBase{
   private String lastName;
   private String phone;
 
-  public enum Role {
-    GUEST,
-    ADMINISTRATOR,
-    SHIPPER,
-    CARRIER;
-
-    public int getDBIndex() {
-      return this.ordinal() + 1;
-    }
-  }
-
-  public enum Status {
-    NEW,
-    VERIFIED,
-    BLOCKED;
-
-    public int getDBIndex() {
-      return this.ordinal() + 1;
-    }
-  }
-
   protected User(long id,
-              String email,
-              LocalDate registrationDate,
-              String firstName,
-              String lastName,
-              String phone, Role userRole, Status userStatus) {
+                 String email,
+                 LocalDate registrationDate,
+                 String firstName,
+                 String lastName,
+                 String phone, Role userRole, Status userStatus) {
     this.id = id;
     this.email = email;
     this.registrationDate = registrationDate;
@@ -66,12 +46,24 @@ public class User extends EntityBase{
     return firstName;
   }
 
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
   public String getLastName() {
     return lastName;
   }
 
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
   public String getPhone() {
     return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   public Role getUserRole() {
@@ -82,16 +74,17 @@ public class User extends EntityBase{
     return userStatus;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
+  @Override
+  public int hashCode() {
+    int result = (int) (id ^ (id >>> 32));
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
+    result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+    result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (phone != null ? phone.hashCode() : 0);
+    result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
+    result = 31 * result + (userStatus != null ? userStatus.hashCode() : 0);
+    return result;
   }
 
   @Override
@@ -130,19 +123,6 @@ public class User extends EntityBase{
   }
 
   @Override
-  public int hashCode() {
-    int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + (email != null ? email.hashCode() : 0);
-    result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
-    result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-    result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-    result = 31 * result + (phone != null ? phone.hashCode() : 0);
-    result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
-    result = 31 * result + (userStatus != null ? userStatus.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("User{");
     sb.append("id=").append(id);
@@ -157,7 +137,29 @@ public class User extends EntityBase{
     return sb.toString();
   }
 
+  public enum Role {
+    GUEST,
+    ADMINISTRATOR,
+    SHIPPER,
+    CARRIER;
+
+    public int getDBIndex() {
+      return this.ordinal() + 1;
+    }
+  }
+
+  public enum Status {
+    NEW,
+    VERIFIED,
+    BLOCKED;
+
+    public int getDBIndex() {
+      return this.ordinal() + 1;
+    }
+  }
+
   public static class Builder {
+
     private long id;
     private String email;
     private LocalDateTime registrationDate;

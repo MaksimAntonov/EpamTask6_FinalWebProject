@@ -4,7 +4,6 @@ import by.antonov.webproject.controller.command.impl.ChangeLocaleCommand;
 import by.antonov.webproject.controller.command.impl.admin.BanUserCommand;
 import by.antonov.webproject.controller.command.impl.admin.OpenUsersListCommand;
 import by.antonov.webproject.controller.command.impl.admin.UnBanUserCommand;
-import by.antonov.webproject.controller.command.impl.user.GoToRegistrationPageCommand;
 import by.antonov.webproject.controller.command.impl.carrier.CancelOfferCommand;
 import by.antonov.webproject.controller.command.impl.carrier.MakeOfferCommand;
 import by.antonov.webproject.controller.command.impl.carrier.OpenOrderForCarrierCommand;
@@ -19,6 +18,7 @@ import by.antonov.webproject.controller.command.impl.user.ChangeUserPasswordComm
 import by.antonov.webproject.controller.command.impl.user.ChangeUserPhoneCommand;
 import by.antonov.webproject.controller.command.impl.user.GoToLoginPageCommand;
 import by.antonov.webproject.controller.command.impl.user.GoToProfileCommand;
+import by.antonov.webproject.controller.command.impl.user.GoToRegistrationPageCommand;
 import by.antonov.webproject.controller.command.impl.user.LoginUserCommand;
 import by.antonov.webproject.controller.command.impl.user.LogoutUserCommand;
 import by.antonov.webproject.controller.command.impl.user.RegisterUserCommand;
@@ -50,8 +50,7 @@ public enum CommandDefinition {
   MAKE_OFFER(new MakeOfferCommand()),
   CANCEL_OFFER(new CancelOfferCommand()),
   BAN_USER(new BanUserCommand()),
-  UNBAN_USER(new UnBanUserCommand())
-  ;
+  UNBAN_USER(new UnBanUserCommand());
   private final Command command;
 
   CommandDefinition(Command command) {

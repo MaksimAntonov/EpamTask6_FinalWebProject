@@ -10,11 +10,13 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public interface BaseDao <K,T extends EntityBase> {
+public interface BaseDao<K, T extends EntityBase> {
+
   Logger logger = LogManager.getLogger(BaseDao.class);
 
   List<T> findAll()
       throws DaoException;
+
   Optional<T> findById(K id)
       throws DaoException;
 

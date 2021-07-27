@@ -1,11 +1,9 @@
 package by.antonov.webproject.main;
 
 import by.antonov.webproject.exception.ServiceException;
-import by.antonov.webproject.localization.Localization;
-import java.net.URLDecoder;
-import java.util.Map;
 
 public class Main {
+
   public static void main(String[] args)
       throws ServiceException {
     System.out.println("success_code".matches("^(.*success.*)$"));

@@ -5,6 +5,7 @@ import by.antonov.webproject.model.dao.impl.OrderDaoImpl;
 import by.antonov.webproject.model.dao.impl.UserDaoImpl;
 
 public class DaoDefinition {
+
   private static DaoDefinition instance;
   private final OrderDao orderDao;
   private final OfferDao offerDao;

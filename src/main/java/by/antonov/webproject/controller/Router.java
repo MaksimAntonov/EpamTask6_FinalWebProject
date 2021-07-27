@@ -1,6 +1,7 @@
 package by.antonov.webproject.controller;
 
 public class Router {
+
   private final RouterType routerType;
   private final String routerPath;
 

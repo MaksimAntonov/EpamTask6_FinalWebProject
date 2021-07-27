@@ -1,9 +1,17 @@
 package by.antonov.webproject.util;
 
-import static by.antonov.webproject.util.ValidationPattern.*;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_EMAIL_PATTERN;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_NAME_PATTERN;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_PASSWORD_PATTERN;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_PHONE_PATTERN;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_PRICE_PATTERN;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_ROUTE_PATTERN;
+import static by.antonov.webproject.util.ValidationPattern.VALIDATION_TEXT_PATTERN;
 
 public class Validator {
-  private Validator() {}
+
+  private Validator() {
+  }
 
   public static boolean checkEmail(String email) {
     return (email != null && email.matches(VALIDATION_EMAIL_PATTERN.getValue()));

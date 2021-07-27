@@ -21,8 +21,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ViewOrderCommand implements Command {
+
   private static final Logger logger = LogManager.getLogger();
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -43,10 +44,11 @@ public class ViewOrderCommand implements Command {
         return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
                           RequestFieldKey.KEY_COMMAND.getValue() + "=open_my_orders",
                           RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=error",
-                          RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_ORDER_VIEW_ERROR_MESSAGE.name());
+                          RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_ORDER_VIEW_ERROR_MESSAGE
+                              .name());
       }
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
       logger.error("Bad request: {}, orderId={}", exception.getMessage(), orderId);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);

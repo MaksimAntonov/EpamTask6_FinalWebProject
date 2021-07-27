@@ -21,8 +21,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AcceptOfferCommand implements Command {
+
   private static final Logger logger = LogManager.getLogger();
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
   public Router execute(HttpServletRequest request)

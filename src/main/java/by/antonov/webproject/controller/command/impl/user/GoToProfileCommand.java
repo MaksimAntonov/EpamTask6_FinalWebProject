@@ -18,7 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class GoToProfileCommand implements Command {
-  private final User.Role[] allowedRole = new User.Role[] { Role.CARRIER, Role.SHIPPER, Role.ADMINISTRATOR };
+
+  private final User.Role[] allowedRole = new User.Role[]{Role.CARRIER, Role.SHIPPER, Role.ADMINISTRATOR};
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -42,7 +43,7 @@ public class GoToProfileCommand implements Command {
       }
       return new Router(RouterType.FORWARD, RouterPath.PROFILE_PAGE);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     }
   }
 }

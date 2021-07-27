@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
+
   private static final Logger logger = LogManager.getLogger();
 
   @Override

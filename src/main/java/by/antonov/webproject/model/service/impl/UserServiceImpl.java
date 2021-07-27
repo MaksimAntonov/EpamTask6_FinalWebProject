@@ -2,12 +2,12 @@ package by.antonov.webproject.model.service.impl;
 
 import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.ResponseKey;
-import by.antonov.webproject.entity.User.Status;
-import by.antonov.webproject.model.dao.DaoDefinition;
-import by.antonov.webproject.model.dao.UserDao;
 import by.antonov.webproject.entity.User;
+import by.antonov.webproject.entity.User.Status;
 import by.antonov.webproject.exception.DaoException;
 import by.antonov.webproject.exception.ServiceException;
+import by.antonov.webproject.model.dao.DaoDefinition;
+import by.antonov.webproject.model.dao.UserDao;
 import by.antonov.webproject.model.service.UserService;
 import by.antonov.webproject.util.PasswordHash;
 import by.antonov.webproject.util.Validator;
@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
+
   private static final Logger logger = LogManager.getLogger();
   private final UserDao userDao = DaoDefinition.getInstance().getUserDao();
 
@@ -177,7 +178,8 @@ public class UserServiceImpl implements UserService {
       throws ServiceException {
     try {
       boolean result = false;
-      if (Validator.checkPassword(password) && Validator.checkPassword(passwordConfirm) && password.equals(passwordConfirm)) {
+      if (Validator.checkPassword(password) && Validator.checkPassword(passwordConfirm) && password.equals(
+          passwordConfirm)) {
         String passwordSalt = PasswordHash.generateSalt();
         String passwordHash = PasswordHash.encryptPassword(password, passwordSalt);
 

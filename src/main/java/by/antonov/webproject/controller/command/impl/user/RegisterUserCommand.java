@@ -1,6 +1,18 @@
 package by.antonov.webproject.controller.command.impl.user;
 
-import static by.antonov.webproject.controller.RequestFieldKey.*;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STATUS;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_INSERT_DUPLICATE_ERROR;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_INSERT_ERROR;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_EMAIL;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_FIRST_NAME;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_LAST_NAME;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD_CONFIRM;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PHONE;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_ROLE;
 
 import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.ResponseKey;
@@ -13,14 +25,15 @@ import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
-import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.localization.Localization;
+import by.antonov.webproject.localization.LocalizationKey;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class RegisterUserCommand implements Command {
+
   private final User.Role allowedRole = Role.GUEST;
 
   @Override
@@ -51,7 +64,8 @@ public class RegisterUserCommand implements Command {
                             RouterPath.CONTROLLER,
                             KEY_COMMAND.getValue() + "=go_to_login_page",
                             KEY_PARAMETER_STATUS.getValue() + "=success",
-                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_REGISTRATION_SUCCESS_MESSAGE.name());
+                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_REGISTRATION_SUCCESS_MESSAGE
+                                .name());
       } else {
         if (resultMap.get(ResponseKey.RESP_FORM_RESULT_STATUS).equals(RequestFieldKey.KEY_STYLE_ERROR.getValue())) {
           resultMap.put(ResponseKey.RESP_FORM_RESULT_MESSAGE,

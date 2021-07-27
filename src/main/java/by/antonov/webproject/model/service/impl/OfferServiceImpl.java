@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class OfferServiceImpl implements OfferService {
+
   private static final Logger logger = LogManager.getLogger();
   private final OfferDao offerDao = DaoDefinition.getInstance().getOfferDao();
 

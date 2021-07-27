@@ -1,6 +1,6 @@
 package by.antonov.webproject.exception;
 
-public class DaoException extends Exception{
+public class DaoException extends Exception {
 
   public DaoException() {
     super();

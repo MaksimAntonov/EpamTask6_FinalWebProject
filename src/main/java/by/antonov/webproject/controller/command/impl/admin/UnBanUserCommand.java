@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UnBanUserCommand implements Command {
+
   private static final Logger logger = LogManager.getLogger();
   private final User.Role allowedRole = Role.ADMINISTRATOR;
 
@@ -48,7 +49,7 @@ public class UnBanUserCommand implements Command {
                         RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=" + status,
                         RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
       logger.error("Bad request: {}, userId={}", exception.getMessage(), userId);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);

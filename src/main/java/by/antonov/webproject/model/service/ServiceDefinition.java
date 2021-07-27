@@ -5,6 +5,7 @@ import by.antonov.webproject.model.service.impl.OrderServiceImpl;
 import by.antonov.webproject.model.service.impl.UserServiceImpl;
 
 public class ServiceDefinition {
+
   private static ServiceDefinition instance;
   private final OfferService offerService;
   private final OrderService orderService;

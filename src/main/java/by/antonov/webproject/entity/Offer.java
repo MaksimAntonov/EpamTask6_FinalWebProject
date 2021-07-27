@@ -3,17 +3,12 @@ package by.antonov.webproject.entity;
 import java.time.LocalDateTime;
 
 public class Offer extends EntityBase {
+
   private final long id;
   private final double price;
   private final LocalDateTime offerDate;
   private final User user;
   private final Status offerStatus;
-
-  public enum Status {
-    OFFERED,
-    ACCEPTED,
-    DENIED
-  }
 
   protected Offer(long id, double price, LocalDateTime offerDate, User user, Status offerStatus) {
     this.id = id;
@@ -40,6 +35,18 @@ public class Offer extends EntityBase {
   }
 
   @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    result = (int) (id ^ (id >>> 32));
+    temp = Double.doubleToLongBits(price);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + (offerDate != null ? offerDate.hashCode() : 0);
+    result = 31 * result + (user != null ? user.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -63,18 +70,6 @@ public class Offer extends EntityBase {
   }
 
   @Override
-  public int hashCode() {
-    int result;
-    long temp;
-    result = (int) (id ^ (id >>> 32));
-    temp = Double.doubleToLongBits(price);
-    result = 31 * result + (int) (temp ^ (temp >>> 32));
-    result = 31 * result + (offerDate != null ? offerDate.hashCode() : 0);
-    result = 31 * result + (user != null ? user.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("Offer{");
     sb.append("id=").append(id);
@@ -85,7 +80,14 @@ public class Offer extends EntityBase {
     return sb.toString();
   }
 
+  public enum Status {
+    OFFERED,
+    ACCEPTED,
+    DENIED
+  }
+
   public static class Builder {
+
     private long id;
     private double price;
     private LocalDateTime offerDate;

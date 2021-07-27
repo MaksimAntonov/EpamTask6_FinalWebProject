@@ -19,8 +19,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class OpenMyOrderCommand implements Command {
+
   private static final Logger logger = LogManager.getLogger();
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -37,7 +38,7 @@ public class OpenMyOrderCommand implements Command {
       request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
       return new Router(RouterType.FORWARD, RouterPath.MY_ORDER_PAGE);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
       logger.error("Bad request: {}", exception.getMessage());
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);

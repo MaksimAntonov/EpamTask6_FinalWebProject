@@ -1,6 +1,7 @@
 package by.antonov.webproject.model.connection;
 
-import static by.antonov.webproject.model.connection.DatabaseProperty.*;
+import static by.antonov.webproject.model.connection.DatabaseProperty.DB_DRIVER;
+import static by.antonov.webproject.model.connection.DatabaseProperty.DB_POOL_SIZE;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,9 +13,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConnectionPool {
+
   private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
-  private static ConnectionPool instance;
   private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
+  private static ConnectionPool instance;
   private final BlockingQueue<ProxyConnection> freeConnections;
   private final BlockingQueue<ProxyConnection> reservedConnections;
 

@@ -1,12 +1,16 @@
 package by.antonov.webproject.controller.command.impl.user;
 
-import static by.antonov.webproject.controller.RequestFieldKey.*;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STATUS;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_EMAIL;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD;
 
+import by.antonov.webproject.controller.Router;
+import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
-import by.antonov.webproject.controller.Router;
-import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.entity.User.Status;
@@ -20,6 +24,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class LoginUserCommand implements Command {
+
   private final User.Role allowedRole = Role.GUEST;
 
   @Override
@@ -46,7 +51,8 @@ public class LoginUserCommand implements Command {
           router = new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
                               KEY_COMMAND.getValue() + "=go_to_login_page",
                               KEY_PARAMETER_STATUS.getValue() + "=error",
-                              KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_PROFILE_USER_BLOCKED_MESSAGE.name());
+                              KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_PROFILE_USER_BLOCKED_MESSAGE
+                                  .name());
         }
       } else {
         router = new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,

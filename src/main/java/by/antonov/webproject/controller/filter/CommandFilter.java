@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/controller" } )
+@WebFilter(urlPatterns = {"/controller"})
 public class CommandFilter implements Filter {
 
   @Override

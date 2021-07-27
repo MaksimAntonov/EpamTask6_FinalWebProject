@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order extends EntityBase {
+
   private final Long id;
   private final String route;
   private final String details;
@@ -14,23 +15,13 @@ public class Order extends EntityBase {
   private Offer bestOffer;
   private List<Offer> offers;
 
-  public enum Status {
-    NEW,
-    FINISHED,
-    CLOSED;
-
-    public int getDBIndex() {
-      return this.ordinal() + 1;
-    }
-  }
-
   protected Order(Long id,
-               String route,
-               String details,
-               LocalDateTime createDate,
-               LocalDateTime updateDate,
-               User user,
-               Status orderStatus) {
+                  String route,
+                  String details,
+                  LocalDateTime createDate,
+                  LocalDateTime updateDate,
+                  User user,
+                  Status orderStatus) {
     this.id = id;
     this.route = route;
     this.details = details;
@@ -85,6 +76,19 @@ public class Order extends EntityBase {
   }
 
   @Override
+  public int hashCode() {
+    int result = id != null ? id.hashCode() : 0;
+    result = 31 * result + (route != null ? route.hashCode() : 0);
+    result = 31 * result + (details != null ? details.hashCode() : 0);
+    result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
+    result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
+    result = 31 * result + (user != null ? user.hashCode() : 0);
+    result = 31 * result + (status != null ? status.hashCode() : 0);
+    result = 31 * result + (offers != null ? offers.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -120,19 +124,6 @@ public class Order extends EntityBase {
   }
 
   @Override
-  public int hashCode() {
-    int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (route != null ? route.hashCode() : 0);
-    result = 31 * result + (details != null ? details.hashCode() : 0);
-    result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
-    result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
-    result = 31 * result + (user != null ? user.hashCode() : 0);
-    result = 31 * result + (status != null ? status.hashCode() : 0);
-    result = 31 * result + (offers != null ? offers.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("Order{");
     sb.append("id=").append(id);
@@ -147,7 +138,18 @@ public class Order extends EntityBase {
     return sb.toString();
   }
 
+  public enum Status {
+    NEW,
+    FINISHED,
+    CLOSED;
+
+    public int getDBIndex() {
+      return this.ordinal() + 1;
+    }
+  }
+
   public static class Builder {
+
     private Long id;
     private String route;
     private String details;

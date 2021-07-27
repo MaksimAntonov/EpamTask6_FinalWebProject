@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 class ConnectionFactory {
-  private ConnectionFactory() {}
+
+  private ConnectionFactory() {
+  }
 
   static Connection createConnection()
       throws SQLException {

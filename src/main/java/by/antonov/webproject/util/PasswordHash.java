@@ -3,7 +3,9 @@ package by.antonov.webproject.util;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordHash {
-  private PasswordHash() {}
+
+  private PasswordHash() {
+  }
 
   public static String generateSalt() {
     return BCrypt.gensalt();

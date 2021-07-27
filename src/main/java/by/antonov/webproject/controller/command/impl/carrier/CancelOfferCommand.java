@@ -18,8 +18,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CancelOfferCommand implements Command {
+
   private static final Logger logger = LogManager.getLogger();
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.CARRIER};
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.CARRIER};
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -48,7 +49,7 @@ public class CancelOfferCommand implements Command {
                         RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=" + status,
                         RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
       logger.error("Bad request: {}, offerId={}", exception.getMessage(), offerId);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);

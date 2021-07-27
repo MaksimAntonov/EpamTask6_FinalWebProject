@@ -1,6 +1,7 @@
 package by.antonov.webproject.model.dao;
 
 public final class DatabaseColumnName {
+
   public static final String COUNT = "count";
 
   // USERS_LIST

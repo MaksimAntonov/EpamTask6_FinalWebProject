@@ -24,7 +24,9 @@ public enum Localization {
     return languageCode;
   }
 
-  public String getLanguageName() { return languageName; }
+  public String getLanguageName() {
+    return languageName;
+  }
 
   public String getText(LocalizationKey key) {
     return this.resourceBundle.getString(key.getValue());

@@ -16,7 +16,8 @@ import by.antonov.webproject.model.service.ServiceDefinition;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class CreateOrderCommand implements Command {
-  private final User.Role[] allowedRole = new Role[] {Role.ADMINISTRATOR, Role.SHIPPER};
+
+  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.SHIPPER};
 
   @Override
   public Router execute(HttpServletRequest request)
@@ -45,7 +46,7 @@ public class CreateOrderCommand implements Command {
                         RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=" + status,
                         RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
-      throw new CommandException("Command exception: " + serviceException.getMessage(),serviceException);
+      throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     }
   }
 }

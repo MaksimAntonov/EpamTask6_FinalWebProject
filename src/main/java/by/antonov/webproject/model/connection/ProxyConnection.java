@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
+
   private final Connection connection;
 
   ProxyConnection(Connection connection) {
@@ -51,10 +52,25 @@ public class ProxyConnection implements Connection {
     return connection.nativeSQL(sql);
   }
 
+  void closeConnection()
+      throws SQLException {
+    connection.close();
+  }
+
   @Override
+  public <T> T unwrap(Class<T> iface)
+      throws SQLException {
+    return connection.unwrap(iface);
+  }  @Override
   public void setAutoCommit(boolean autoCommit)
       throws SQLException {
     connection.setAutoCommit(autoCommit);
+  }
+
+  @Override
+  public boolean isWrapperFor(Class<?> iface)
+      throws SQLException {
+    return connection.isWrapperFor(iface);
   }
 
   @Override
@@ -62,6 +78,8 @@ public class ProxyConnection implements Connection {
       throws SQLException {
     return connection.getAutoCommit();
   }
+
+
 
   @Override
   public void commit()
@@ -80,9 +98,6 @@ public class ProxyConnection implements Connection {
     ConnectionPool.getInstance().releaseConnection(this);
   }
 
-  void closeConnection() throws SQLException {
-    connection.close();
-  }
 
   @Override
   public boolean isClosed()
@@ -384,15 +399,5 @@ public class ProxyConnection implements Connection {
     connection.setShardingKey(shardingKey);
   }
 
-  @Override
-  public <T> T unwrap(Class<T> iface)
-      throws SQLException {
-    return connection.unwrap(iface);
-  }
 
-  @Override
-  public boolean isWrapperFor(Class<?> iface)
-      throws SQLException {
-    return connection.isWrapperFor(iface);
-  }
 }

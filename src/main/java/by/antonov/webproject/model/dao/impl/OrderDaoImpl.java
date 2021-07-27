@@ -1,13 +1,26 @@
 package by.antonov.webproject.model.dao.impl;
 
-import static by.antonov.webproject.model.dao.DatabaseColumnName.*;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_CREATE_DATE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_DETAILS;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_ID;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_ROUTE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_STATUS;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_UPDATE_DATE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_EMAIL;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_FIRST_NAME;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_ID;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_LAST_NAME;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_PHONE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_REGISTRATION_DATE;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_ROLE_NAME;
+import static by.antonov.webproject.model.dao.DatabaseColumnName.USER_STATUS_NAME;
 
-import by.antonov.webproject.entity.Order.Status;
-import by.antonov.webproject.model.connection.ConnectionPool;
-import by.antonov.webproject.model.dao.OrderDao;
 import by.antonov.webproject.entity.Order;
+import by.antonov.webproject.entity.Order.Status;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.exception.DaoException;
+import by.antonov.webproject.model.connection.ConnectionPool;
+import by.antonov.webproject.model.dao.OrderDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderDaoImpl implements OrderDao {
+
   private static final String SQL_FIND_ALL_ORDERS = """
       SELECT `orders_list`.`order_id`, `orders_list`.`order_details`, `orders_list`.`order_route`,
       `orders_list`.`order_date`, `orders_list`.`order_update_date`, `orders_list`.`order_status`,
@@ -121,13 +135,13 @@ public class OrderDaoImpl implements OrderDao {
         User.Builder userBuilder = new User.Builder();
 
         userBuilder.setId(resultSet.getLong(USER_ID))
-               .setEmail(resultSet.getString(USER_EMAIL))
-               .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
-               .setLastName(resultSet.getString(USER_LAST_NAME))
-               .setFirstName(resultSet.getString(USER_FIRST_NAME))
-               .setPhone(resultSet.getString(USER_PHONE))
-               .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-               .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+                   .setEmail(resultSet.getString(USER_EMAIL))
+                   .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+                   .setLastName(resultSet.getString(USER_LAST_NAME))
+                   .setFirstName(resultSet.getString(USER_FIRST_NAME))
+                   .setPhone(resultSet.getString(USER_PHONE))
+                   .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                   .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
         orderBuilder.setUser(userBuilder.build());
 
         orders.add(orderBuilder.build());

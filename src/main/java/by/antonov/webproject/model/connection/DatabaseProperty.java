@@ -4,6 +4,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 class DatabaseProperty {
+
   static final String DB_DRIVER;
   static final String DB_URL;
   static final int DB_POOL_SIZE;
@@ -27,5 +28,6 @@ class DatabaseProperty {
     }
   }
 
-  private DatabaseProperty() {}
+  private DatabaseProperty() {
+  }
 }
