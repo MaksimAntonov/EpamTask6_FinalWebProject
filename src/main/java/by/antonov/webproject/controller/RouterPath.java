@@ -11,12 +11,12 @@ public enum RouterPath implements EnumBase {
   OPEN_PROFILE_PAGE("controller?command=go_to_profile"),
   OPEN_ORDER_PAGE("controller?command=open_my_orders"),
 
-  LOGIN_PAGE("/WEB-INF/jsp/login_page.jsp"),
-  REGISTRATION_PAGE("/WEB-INF/jsp/registration_page.jsp"),
-  PROFILE_PAGE("/WEB-INF/jsp/user_profile.jsp"),
-  MY_ORDER_PAGE("/WEB-INF/jsp/user_orders.jsp"),
-  VIEW_ORDER_PAGE("/WEB-INF/jsp/view_order.jsp"),
-  CARRIER_ORDERS("/WEB-INF/jsp/carrier_orders.jsp"),
+  LOGIN_PAGE("/WEB-INF/jsp/user/login_page.jsp"),
+  REGISTRATION_PAGE("/WEB-INF/jsp/user/registration_page.jsp"),
+  PROFILE_PAGE("/WEB-INF/jsp/user/user_profile.jsp"),
+  MY_ORDER_PAGE("/WEB-INF/jsp/shipper/user_orders.jsp"),
+  VIEW_ORDER_PAGE("/WEB-INF/jsp/shipper/view_order.jsp"),
+  CARRIER_ORDERS("/WEB-INF/jsp/carrier/carrier_orders.jsp"),
   USERS_LIST("/WEB-INF/jsp/admin/users_list.jsp"),
 
   // Templates
