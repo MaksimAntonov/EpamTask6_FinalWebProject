@@ -45,7 +45,7 @@ public class BanFilter implements Filter {
       }
     } catch (ServiceException serviceException) {
       logger.error("Filter error: {}", serviceException.getMessage());
-      throw new ServletException("Project Exception: " + serviceException.getMessage(), serviceException);
+      throw new ServletException("Filter error: " + serviceException.getMessage(), serviceException);
     }
   }
 }
