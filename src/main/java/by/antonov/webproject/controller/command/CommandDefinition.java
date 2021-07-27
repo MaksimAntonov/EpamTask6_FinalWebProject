@@ -1,9 +1,9 @@
 package by.antonov.webproject.controller.command;
 
 import by.antonov.webproject.controller.command.impl.ChangeLocaleCommand;
-import by.antonov.webproject.controller.command.impl.admin.BanUserCommand;
+import by.antonov.webproject.controller.command.impl.admin.BlockUserCommand;
 import by.antonov.webproject.controller.command.impl.admin.OpenUsersListCommand;
-import by.antonov.webproject.controller.command.impl.admin.UnBanUserCommand;
+import by.antonov.webproject.controller.command.impl.admin.UnBlockUserCommand;
 import by.antonov.webproject.controller.command.impl.carrier.CancelOfferCommand;
 import by.antonov.webproject.controller.command.impl.carrier.MakeOfferCommand;
 import by.antonov.webproject.controller.command.impl.carrier.OpenOrderForCarrierCommand;
@@ -49,8 +49,8 @@ public enum CommandDefinition {
   DECLINE_OFFER(new DeclineOfferCommand()),
   MAKE_OFFER(new MakeOfferCommand()),
   CANCEL_OFFER(new CancelOfferCommand()),
-  BAN_USER(new BanUserCommand()),
-  UNBAN_USER(new UnBanUserCommand());
+  BAN_USER(new BlockUserCommand()),
+  UNBAN_USER(new UnBlockUserCommand());
   private final Command command;
 
   CommandDefinition(Command command) {

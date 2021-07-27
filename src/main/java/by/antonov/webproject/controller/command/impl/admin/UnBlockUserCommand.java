@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UnBanUserCommand implements Command {
+public class UnBlockUserCommand implements Command {
 
   private static final Logger logger = LogManager.getLogger();
   private final User.Role allowedRole = Role.ADMINISTRATOR;
@@ -36,7 +36,7 @@ public class UnBanUserCommand implements Command {
       String status;
       String localizationKey;
       UserService userService = ServiceDefinition.getInstance().getUserService();
-      if (userService.unbanUser(userId)) {
+      if (userService.unblockUser(userId)) {
         status = RequestFieldKey.KEY_STYLE_SUCCESS.getValue();
         localizationKey = LocalizationKey.TEXT_ADMIN_USERS_SUCCESS_UNBAN_MESSAGE.name();
       } else {

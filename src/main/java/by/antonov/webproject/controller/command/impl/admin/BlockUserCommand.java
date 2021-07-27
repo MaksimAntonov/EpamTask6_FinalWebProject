@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BanUserCommand implements Command {
+public class BlockUserCommand implements Command {
 
   private static final Logger logger = LogManager.getLogger();
   private final User.Role allowedRole = Role.ADMINISTRATOR;
@@ -41,7 +41,7 @@ public class BanUserCommand implements Command {
       String status;
       String localizationKey;
       UserService userService = ServiceDefinition.getInstance().getUserService();
-      if (userService.banUser(userId)) {
+      if (userService.blockUser(userId)) {
         status = RequestFieldKey.KEY_STYLE_SUCCESS.getValue();
         localizationKey = LocalizationKey.TEXT_ADMIN_USERS_SUCCESS_BAN_MESSAGE.name();
       } else {
