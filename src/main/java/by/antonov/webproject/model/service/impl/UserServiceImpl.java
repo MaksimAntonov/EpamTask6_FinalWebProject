@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean banUser(long userId)
+  public boolean blockUser(long userId)
       throws ServiceException {
     try {
       return userDao.updateUserStatus(userId, Status.BLOCKED.getDBIndex());
@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean unbanUser(long userId)
+  public boolean unblockUser(long userId)
       throws ServiceException {
     try {
       return userDao.updateUserStatus(userId, Status.VERIFIED.getDBIndex());
@@ -212,11 +212,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean checkUserStatus(long userId, Status requiredStatus)
+  public boolean checkUserStatus(long userId, Status expectedStatus)
       throws ServiceException {
     try {
       Optional<User.Status> userStatusOptional = userDao.findStatusById(userId);
-      return (userStatusOptional.isPresent() && userStatusOptional.get() == requiredStatus);
+      return (userStatusOptional.isPresent() && userStatusOptional.get() == expectedStatus);
     } catch (DaoException daoException) {
       throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }

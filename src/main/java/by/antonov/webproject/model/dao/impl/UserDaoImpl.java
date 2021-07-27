@@ -58,14 +58,19 @@ public class UserDaoImpl implements UserDao {
       SELECT COUNT(`user_email`) as `count`
       FROM `users_list`
       WHERE `users_list`.`user_email`=?""";
-  private static final String SQL_INSERT_NEW_USER = "INSERT INTO `users_list` (`user_email`, `user_pswd_hash`," +
-      " `user_pswd_salt`, `user_first_name`, `user_last_name`, `user_phone`, `user_role_id`, `user_status_id`) VALUES (?,?,?," +
-      "?,?,?,?,?)";
-  private static final String SQL_UPDATE_USER_NAME = "UPDATE IGNORE `users_list` SET `user_first_name`=?, `user_last_name`=? WHERE `user_id`=?";
-  private static final String SQL_UPDATE_USER_PHONE = "UPDATE IGNORE `users_list` SET `user_phone`=? WHERE `user_id`=?";
-  private static final String SQL_UPDATE_USER_PASSWORD = "UPDATE IGNORE `users_list` SET `user_pswd_hash`=?, `user_pswd_salt`=? WHERE `user_id`=?";
-  private static final String SQL_UPDATE_USER_STATUS = "UPDATE IGNORE `users_list` SET `user_status_id`=? WHERE `user_id`=?";
-  private static final String SQL_FIND_STATUS_BY_USER_ID = "SELECT `users_status`.`status_name` FROM `users_status`, `users_list` WHERE `users_status`.`status_id`=`users_list`.`user_status_id` AND `users_list`.`user_id`=?";
+  private static final String SQL_INSERT_NEW_USER = """
+      INSERT INTO `users_list` (`user_email`, `user_pswd_hash`, `user_pswd_salt`, `user_first_name`, `user_last_name`,
+      `user_phone`, `user_role_id`, `user_status_id`) VALUES (?,?,?,?,?,?,?,?)""";
+  private static final String SQL_UPDATE_USER_NAME =
+      "UPDATE IGNORE `users_list` SET `user_first_name`=?, `user_last_name`=? WHERE `user_id`=?";
+  private static final String SQL_UPDATE_USER_PHONE =
+      "UPDATE IGNORE `users_list` SET `user_phone`=? WHERE `user_id`=?";
+  private static final String SQL_UPDATE_USER_PASSWORD =
+      "UPDATE IGNORE `users_list` SET `user_pswd_hash`=?, `user_pswd_salt`=? WHERE `user_id`=?";
+  private static final String SQL_UPDATE_USER_STATUS =
+      "UPDATE IGNORE `users_list` SET `user_status_id`=? WHERE `user_id`=?";
+  private static final String SQL_FIND_STATUS_BY_USER_ID =
+      "SELECT `users_status`.`status_name` FROM `users_status`, `users_list` WHERE `users_status`.`status_id`=`users_list`.`user_status_id` AND `users_list`.`user_id`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
