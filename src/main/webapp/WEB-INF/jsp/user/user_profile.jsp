@@ -35,10 +35,22 @@
         </div>
         <c:choose>
             <c:when test="${USER_ROLE == 'SHIPPER' && RESP_ORDER_RESULT_LIST != null}">
-                <jsp:include page="${TEMPLATE_PROFILE_SHIPPER_BLOCK}" />
+                <div class="orders">
+                    <h2 class="orders__header">${LOCALE[TEXT_ORDER_USER_PAGE_TITLE]}</h2>
+                    <jsp:include page="${TEMPLATE_ORDERS_FOR_SHIPPER_BLOCK}" />
+                </div>
             </c:when>
             <c:when test="${USER_ROLE == 'CARRIER' && RESP_ORDER_RESULT_LIST != null}">
-                <jsp:include page="${TEMPLATE_PROFILE_CARRIER_BLOCK}" />
+                <div class="orders">
+                    <h2 class="orders__header">${LOCALE[TEXT_OFFER_PAGE_TITLE]}</h2>
+                    <jsp:include page="${TEMPLATE_ORDERS_FOR_CARRIER_BLOCK}" />
+                </div>
+            </c:when>
+            <c:when test="${USER_ROLE == 'ADMINISTRATOR' && RESP_USER_RESULT_LIST != null}">
+                <div class="users-list">
+                    <h2 class="users-list__header">${LOCALE[TEXT_ADMIN_USERS_LIST_PAGE_TITLE]}</h2>
+                    <jsp:include page="${TEMPLATE_USERS_LIST_TABLE_BLOCK}" />
+                </div>
             </c:when>
         </c:choose>
     </div>

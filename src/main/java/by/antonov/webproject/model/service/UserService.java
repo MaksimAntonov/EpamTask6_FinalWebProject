@@ -22,6 +22,15 @@ public interface UserService {
 
   /**
    * Get all users
+   * @param limit maximum records
+   * @return List of Users
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  List<User> getUsersList(int limit)
+      throws ServiceException;
+
+  /**
+   * Get all users
    * @param status Status of Users
    * @return List of Users
    * @throws ServiceException in case of error(s) from Service implementation

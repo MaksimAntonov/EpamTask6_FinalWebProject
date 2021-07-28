@@ -24,8 +24,9 @@ public enum RouterPath implements EnumBase {
   TEMPLATE_HEADER("/WEB-INF/jsp/templates/tmpl_header.jsp"),
   TEMPLATE_FORMS_ORDER("/WEB-INF/jsp/templates/tmpl_forms_order.jsp"),
   TEMPLATE_FORMS_PROFILE("/WEB-INF/jsp/templates/tmpl_forms_profile.jsp"),
-  TEMPLATE_PROFILE_SHIPPER_BLOCK("/WEB-INF/jsp/templates/tmpl_profile_shipper_block.jsp"),
-  TEMPLATE_PROFILE_CARRIER_BLOCK("/WEB-INF/jsp/templates/tmpl_profile_carrier_block.jsp"),
+  TEMPLATE_ORDERS_FOR_SHIPPER_BLOCK("/WEB-INF/jsp/templates/tmpl_orders_for_shipper_block.jsp"),
+  TEMPLATE_ORDERS_FOR_CARRIER_BLOCK("/WEB-INF/jsp/templates/tmpl_orders_for_carrier_block.jsp"),
+  TEMPLATE_USERS_LIST_TABLE_BLOCK("/WEB-INF/jsp/templates/tmpl_users_list_table_block.jsp"),
   ;
   private final String pagePath;
 

@@ -14,6 +14,7 @@ import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.model.service.OfferService;
 import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
+import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class GoToProfileCommand implements Command {
         OfferService offerService = ServiceDefinition.getInstance().getOfferService();
         List<Order> orders = offerService.getOrdersForCarrier(userId, 5);
         request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
+      }
+      if (user.getUserRole() == Role.ADMINISTRATOR) {
+        UserService userService = ServiceDefinition.getInstance().getUserService();
+        List<User> users = userService.getUsersList(5);
+        request.setAttribute(ResponseKey.RESP_USER_RESULT_LIST.name(), users);
       }
       return new Router(RouterType.FORWARD, RouterPath.PROFILE_PAGE);
     } catch (ServiceException serviceException) {

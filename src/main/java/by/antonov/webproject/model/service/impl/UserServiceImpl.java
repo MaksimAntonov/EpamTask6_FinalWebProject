@@ -34,6 +34,15 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public List<User> getUsersList(int limit) throws ServiceException {
+    try {
+      return userDao.findAll(limit);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
   public List<User> getUsersListByStatus(Status status)
       throws ServiceException {
     // TODO IMPLEMENT

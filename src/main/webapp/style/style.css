@@ -276,6 +276,15 @@ a:active {
 
 .orders {
   padding-top: 5px; }
+  .orders__header {
+    padding: 5px 0;
+    border-top: 2px dashed;
+    border-bottom: 1px dashed;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    font-weight: 600;
+    font-style: normal;
+    text-align: center; }
 
 .order {
   border: 1px solid black;
@@ -362,6 +371,18 @@ a:active {
   .offer .forms {
     max-width: 100%;
     margin-top: 5px; }
+
+.users-list {
+  padding-top: 5px; }
+  .users-list__header {
+    padding: 5px 0;
+    border-top: 2px dashed;
+    border-bottom: 1px dashed;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    font-weight: 600;
+    font-style: normal;
+    text-align: center; }
 
 .users-list__table td {
   text-align: left; }

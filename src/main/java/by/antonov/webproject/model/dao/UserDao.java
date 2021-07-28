@@ -2,12 +2,22 @@ package by.antonov.webproject.model.dao;
 
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.exception.DaoException;
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Interface for class with SQL requests to `users_list`
  */
 public interface UserDao extends BaseDao<Long, User> {
+
+  /**
+   * Find all records from database
+   * @param limit maximum records, which should be in resultSet
+   * @return List of result objects of SQL request
+   * @throws DaoException in case of any SQL errors
+   */
+  List<User> findAll(int limit)
+      throws DaoException;
 
   /**
    * Find password hash by E-Mail
