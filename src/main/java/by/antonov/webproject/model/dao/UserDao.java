@@ -11,12 +11,22 @@ import java.util.Optional;
 public interface UserDao extends BaseDao<Long, User> {
 
   /**
-   * Find all records from database
+   * Find all records from database, SORTED BU REGISTRATION DATE
    * @param limit maximum records, which should be in resultSet
    * @return List of result objects of SQL request
    * @throws DaoException in case of any SQL errors
    */
   List<User> findAll(int limit)
+      throws DaoException;
+
+  /**
+   * Find all records from database
+   * @param offset offset for result
+   * @param limit maximum records, which should be in resultSet
+   * @return List of result objects of SQL request
+   * @throws DaoException in case of any SQL errors
+   */
+  List<User> findAll(int offset, int limit)
       throws DaoException;
 
   /**
@@ -112,5 +122,13 @@ public interface UserDao extends BaseDao<Long, User> {
    * @throws DaoException in case of any SQL errors
    */
   boolean updateUserStatus(long userId, long statusId)
+      throws DaoException;
+
+  /**
+   * Return count of rows
+   * @return count of rows
+   * @throws DaoException in case of any SQL errors
+   */
+  int countOfUsers()
       throws DaoException;
 }

@@ -1,0 +1,9 @@
+.pagination {
+  padding-top: 5px;
+  text-align: center;
+  @include font(1.5rem);
+
+  &__item {
+    margin: 0 2px;
+  }
+}

@@ -21,7 +21,7 @@ public interface UserService {
       throws ServiceException;
 
   /**
-   * Get all users
+   * Get all users, ORDERED BY REGISTRATION DATE
    * @param limit maximum records
    * @return List of Users
    * @throws ServiceException in case of error(s) from Service implementation
@@ -31,11 +31,12 @@ public interface UserService {
 
   /**
    * Get all users
-   * @param status Status of Users
+   * @param page current page
+   * @param limit maximum records
    * @return List of Users
    * @throws ServiceException in case of error(s) from Service implementation
    */
-  List<User> getUsersListByStatus(User.Status status)
+  List<User> getUsersList(int page, int limit)
       throws ServiceException;
 
   /**
@@ -131,5 +132,13 @@ public interface UserService {
    * @throws ServiceException in case of error(s) from Service implementation
    */
   boolean checkUserStatus(long userId, User.Status expectedStatus)
+      throws ServiceException;
+
+  /**
+   * Get count of users
+   * @return count of users
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  int countOfUsers()
       throws ServiceException;
 }

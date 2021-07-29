@@ -82,6 +82,26 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  public List<Order> getAllOrdersByShipperId(long shipperId, int page, int limit) throws ServiceException {
+    try {
+      page = page - 1;
+      List<Order> orders = orderDao.findAllByShipperId(shipperId, page, limit);
+
+      for (Order order : orders) {
+        List<Offer> offers = DaoDefinition.getInstance().getOfferDao().findAllByOrderId(order.getId());
+        Optional<Offer> bestOfferOpt = offers.stream().min(Comparator.comparingDouble(Offer::getPrice));
+        bestOfferOpt.ifPresent(order::setBestOffer);
+        order.setOffers(offers);
+      }
+
+      return orders;
+    } catch (DaoException daoException) {
+      logger.error("findAllOrders > Can not read data from database: {}", daoException.getMessage());
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
   public Optional<Order> getOrderById(long orderId)
       throws ServiceException {
     try {
@@ -161,5 +181,23 @@ public class OrderServiceImpl implements OrderService {
       }
     }
     return result;
+  }
+
+  @Override
+  public int getCountOfShipperOrders(long shipperId) throws ServiceException {
+    try {
+      return orderDao.countOfAllOrdersByShipperId(shipperId);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
+  public int getCountOfCarrierOrders(long carrierId) throws ServiceException {
+    try {
+      return orderDao.countOfAllOrdersByCarrierId(carrierId);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
   }
 }

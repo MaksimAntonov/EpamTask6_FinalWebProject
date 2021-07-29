@@ -12,6 +12,8 @@ public enum RequestFieldKey implements EnumBase {
   KEY_COMMAND("command"),
   KEY_LOCALE("locale"),
   KEY_REDIRECT_URL("redirect_url"),
+  KEY_PAGE("page"),
+
   KEY_USER_ID("user_id"),
   KEY_USER_EMAIL("user_email"),
   KEY_USER_PASSWORD("user_password"),

@@ -38,6 +38,17 @@ public interface OrderService {
       throws ServiceException;
 
   /**
+   * Get all orders for current User
+   * @param shipperId ID of User
+   * @param page current page
+   * @param limit maximum records
+   * @return List of Orders
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  List<Order> getAllOrdersByShipperId(long shipperId, int page, int limit)
+      throws ServiceException;
+
+  /**
    * Get order
    * @param orderId ID of order
    * @return Optional with Order
@@ -83,5 +94,23 @@ public interface OrderService {
    * @throws ServiceException in case of error(s) from Service implementation
    */
   boolean createOrder(String router, String details, long shipperId)
+      throws ServiceException;
+
+  /**
+   * Get count of orders for shipper
+   * @param shipperId ID of User
+   * @return count of orders
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  int getCountOfShipperOrders(long shipperId)
+      throws ServiceException;
+
+  /**
+   * Get count of orders for carrier
+   * @param carrierId ID of User
+   * @return count of orders
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  int getCountOfCarrierOrders(long carrierId)
       throws ServiceException;
 }

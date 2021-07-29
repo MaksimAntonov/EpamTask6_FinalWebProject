@@ -62,6 +62,28 @@ public class OfferServiceImpl implements OfferService {
   }
 
   @Override
+  public List<Order> getOrdersForCarrier(long userId, int page, int limit) throws ServiceException {
+    try {
+      page = page - 1;
+
+      OrderDao orderDao = DaoDefinition.getInstance().getOrderDao();
+      List<Order> orders = orderDao.findAllActiveOrdersByCarrierId(userId, page, limit);
+
+      for (Order order : orders) {
+        List<Offer> offers = offerDao.findAllByOrderIdAndCarrierId(order.getId(), userId);
+        Optional<Offer> bestOfferOpt = offers.stream().min(Comparator.comparingDouble(Offer::getPrice));
+        bestOfferOpt.ifPresent(order::setBestOffer);
+        order.setOffers(offers);
+      }
+
+      return orders;
+    } catch (DaoException daoException) {
+      logger.error("Can not read data from database: {}", daoException.getMessage());
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
   public boolean makeOffer(int price, long carrierId, long orderId)
       throws ServiceException {
     boolean result = false;

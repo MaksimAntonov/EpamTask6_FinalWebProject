@@ -29,6 +29,17 @@ public interface OrderDao extends BaseDao<Long, Order> {
       throws DaoException;
 
   /**
+   * Find all orders by Shipper
+   * @param shipperId ID of user
+   * @param offset offset for result
+   * @param limit maximum records, which should be in resultSet
+   * @return List<Offer> result of SQL request
+   * @throws DaoException in case of any SQL errors
+   */
+  List<Order> findAllByShipperId(long shipperId, int offset, int limit)
+      throws DaoException;
+
+  /**
    * Find all orders by Carrier
    * @param carrierId ID of user
    * @return List<Offer> result of SQL request
@@ -45,6 +56,17 @@ public interface OrderDao extends BaseDao<Long, Order> {
    * @throws DaoException in case of any SQL errors
    */
   List<Order> findAllActiveOrdersByCarrierId(long carrierId, int limit)
+      throws DaoException;
+
+  /**
+   * Find all orders by Carrier
+   * @param carrierId ID of user
+   * @param offset offset for result
+   * @param limit maximum records, which should be in resultSet
+   * @return List<Offer> result of SQL request
+   * @throws DaoException in case of any SQL errors
+   */
+  List<Order> findAllActiveOrdersByCarrierId(long carrierId, int offset, int limit)
       throws DaoException;
 
   /**
@@ -75,5 +97,23 @@ public interface OrderDao extends BaseDao<Long, Order> {
    * @throws DaoException in case of any SQL errors
    */
   boolean updateDateByOrderId(long orderId)
+      throws DaoException;
+
+  /**
+   * Get count of rows
+   * @param shipperID ID of User
+   * @return count of rows
+   * @throws DaoException in case of any SQL errors
+   */
+  int countOfAllOrdersByShipperId(long shipperID)
+      throws DaoException;
+
+  /**
+   * Get count of rows
+   * @param carrierId ID of User
+   * @return count of rows
+   * @throws DaoException in case of any SQL errors
+   */
+  int countOfAllOrdersByCarrierId(long carrierId)
       throws DaoException;
 }

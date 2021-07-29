@@ -1,5 +1,6 @@
 package by.antonov.webproject.controller.command.impl.admin;
 
+import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
@@ -14,6 +15,7 @@ import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 public class OpenUsersListCommand implements Command {
 
@@ -28,8 +30,22 @@ public class OpenUsersListCommand implements Command {
 
     try {
       UserService userService = ServiceDefinition.getInstance().getUserService();
-      List<User> users = userService.getUsersList();
+      int limit = 10;
+
+      String pageString = Optional.ofNullable(request.getParameter(RequestFieldKey.KEY_PAGE.getValue()))
+                                  .orElse("1");
+      int currentPage = Integer.parseInt(pageString);
+
+      double countOfOrders = userService.countOfUsers();
+      int maxPage = (int) Math.ceil(countOfOrders / limit);
+
+      if (maxPage < currentPage) { currentPage = maxPage; }
+
+      List<User> users = userService.getUsersList(currentPage, limit);
+
       request.setAttribute(ResponseKey.RESP_USER_RESULT_LIST.name(), users);
+      request.setAttribute(ResponseKey.RESP_CURRENT_PAGE.name(), currentPage);
+      request.setAttribute(ResponseKey.RESP_MAX_PAGE.name(), maxPage);
       return new Router(RouterType.FORWARD, RouterPath.USERS_LIST);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);

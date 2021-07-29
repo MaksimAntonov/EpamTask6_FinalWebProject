@@ -200,6 +200,16 @@ a:active {
   .modal-window_hidden {
     display: none; }
 
+.pagination {
+  padding-top: 5px;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: normal;
+  font-style: normal; }
+  .pagination__item {
+    margin: 0 2px; }
+
 .navigation {
   display: flex;
   justify-content: space-between;

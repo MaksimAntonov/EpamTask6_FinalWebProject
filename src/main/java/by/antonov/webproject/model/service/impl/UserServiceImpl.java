@@ -43,10 +43,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<User> getUsersListByStatus(Status status)
-      throws ServiceException {
-    // TODO IMPLEMENT
-    return null;
+  public List<User> getUsersList(int page, int limit) throws ServiceException {
+    try {
+      int offset = (page - 1) * limit;
+      return userDao.findAll(offset, limit);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
   }
 
   @Override
@@ -226,6 +229,15 @@ public class UserServiceImpl implements UserService {
     try {
       Optional<User.Status> userStatusOptional = userDao.findStatusById(userId);
       return (userStatusOptional.isPresent() && userStatusOptional.get() == expectedStatus);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
+
+  @Override
+  public int countOfUsers() throws ServiceException {
+    try {
+      return userDao.countOfUsers();
     } catch (DaoException daoException) {
       throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }

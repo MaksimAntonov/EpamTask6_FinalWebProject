@@ -57,4 +57,10 @@ window.onload = () => {
     inputEl.addEventListener('invalid', invalidInputHandler);
     inputEl.addEventListener('input', clearInputError);
   });
+
+  document.querySelectorAll("a.pagination__item").forEach((link) => {
+    let currentPage = window.location.href.replace(/&page=\d/ig, "");
+    let page = link.innerText;
+    link.href = currentPage + "&page=" + page;
+  })
 }

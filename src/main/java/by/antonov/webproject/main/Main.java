@@ -6,7 +6,10 @@ public class Main {
 
   public static void main(String[] args)
       throws ServiceException {
-    System.out.println("success_code".matches("^(.*success.*)$"));
+    double count = 8.0;
+    int limit = 10;
+    int res = (int) Math.ceil(count / limit);
+    System.out.println(res);
 
 //    String email = "test@gmail.com";
 //    String userPswd = "Admin1990";

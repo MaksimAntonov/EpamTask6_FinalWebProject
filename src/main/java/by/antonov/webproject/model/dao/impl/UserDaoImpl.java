@@ -15,6 +15,7 @@ import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Status;
 import by.antonov.webproject.exception.DaoException;
 import by.antonov.webproject.model.connection.ConnectionPool;
+import by.antonov.webproject.model.dao.DatabaseColumnName;
 import by.antonov.webproject.model.dao.UserDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,13 +39,19 @@ public class UserDaoImpl implements UserDao {
       FROM `users_list`
       JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
       JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`""";
+  private static final String SQL_FIND_ALL_USERS_WITH_LIMIT_ORDERED = """
+      SELECT `users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, `users_status`.`status_name`
+      FROM `users_list`
+      JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
+      JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`
+      ORDER BY `users_list`.`user_registration_date`
+      LIMIT ?""";
   private static final String SQL_FIND_ALL_USERS_WITH_LIMIT = """
       SELECT `users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, `users_status`.`status_name`
       FROM `users_list`
       JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
       JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`
-      ORDER BY `users_list`.`user_registration_date` DESC
-      LIMIT ?""";
+      LIMIT ?, ?""";
   private static final String SQL_FIND_USER_BY_ID = """
       SELECT `users_list`.`user_id`, `users_list`.`user_first_name`, `users_list`.`user_last_name`, `users_list`.`user_email`, `users_list`.`user_phone`, `users_list`.`user_registration_date`, `users_role`.`role_name`, `users_status`.`status_name`
       FROM `users_list`
@@ -78,6 +85,8 @@ public class UserDaoImpl implements UserDao {
       "UPDATE IGNORE `users_list` SET `user_status_id`=? WHERE `user_id`=?";
   private static final String SQL_FIND_STATUS_BY_USER_ID =
       "SELECT `users_status`.`status_name` FROM `users_status`, `users_list` WHERE `users_status`.`status_id`=`users_list`.`user_status_id` AND `users_list`.`user_id`=?";
+  private static final String SQL_COUNT_OF_USERS =
+      "SELECT COUNT(`user_id`) as `count` FROM `users_list`";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -110,8 +119,36 @@ public class UserDaoImpl implements UserDao {
   @Override
   public List<User> findAll(int limit) throws DaoException {
     try (Connection connection = ConnectionPool.getInstance().getConnection();
-         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS_WITH_LIMIT)) {
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS_WITH_LIMIT_ORDERED)) {
       statement.setInt(1, limit);
+      ResultSet resultSet = statement.executeQuery();
+      List<User> users = new ArrayList<>();
+      while (resultSet.next()) {
+        User.Builder builder = new User.Builder();
+
+        builder.setId(resultSet.getLong(USER_ID))
+               .setEmail(resultSet.getString(USER_EMAIL))
+               .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+               .setLastName(resultSet.getString(USER_LAST_NAME))
+               .setFirstName(resultSet.getString(USER_FIRST_NAME))
+               .setPhone(resultSet.getString(USER_PHONE))
+               .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+               .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()));
+
+        users.add(builder.build());
+      }
+      return users;
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public List<User> findAll(int offset, int limit) throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS_WITH_LIMIT)) {
+      statement.setInt(1, offset);
+      statement.setInt(2, limit);
       ResultSet resultSet = statement.executeQuery();
       List<User> users = new ArrayList<>();
       while (resultSet.next()) {
@@ -319,6 +356,21 @@ public class UserDaoImpl implements UserDao {
       return (statement.executeUpdate() == 1);
     } catch (SQLException sqlException) {
       logger.error("SQL request error: {}", sqlException.getMessage());
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public int countOfUsers() throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(SQL_COUNT_OF_USERS)) {
+      int result = 0;
+      while (resultSet.next()) {
+        result = resultSet.getInt(DatabaseColumnName.COUNT);
+      }
+      return result;
+    } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }
   }

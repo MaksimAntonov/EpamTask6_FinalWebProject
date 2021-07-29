@@ -29,6 +29,17 @@ public interface OfferService {
       throws ServiceException;
 
   /**
+   * Get all orders for carrier with offers from him or without offer, if Order doesn't closed or finished
+   * @param userId ID of User
+   * @param page current page
+   * @param limit maximum records, which should be in resultSet
+   * @return List of Orders
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  List<Order> getOrdersForCarrier(long userId, int page, int limit)
+      throws ServiceException;
+
+  /**
    * Make new offer
    * @param price Offer price
    * @param carrierId ID of User
