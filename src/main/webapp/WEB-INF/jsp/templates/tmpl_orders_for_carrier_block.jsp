@@ -29,7 +29,7 @@
                                 <div class="offer">
                                     <form class="forms" method="post" action="<c:url value='controller?command=make_offer' />">
                                         <label class="forms__element">${LOCALE[TEXT_OFFER_PRICE]} (USD):
-                                            <input class="forms__element forms__input" name="${KEY_OFFER_PRICE}" placeholder="10000" pattern="${VALIDATION_PRICE_PATTERN}" data-invalid-text="${LOCALE[TEXT_FORM_ERROR_PRICE_TEXT]}" required>
+                                            <input class="forms__element forms__input" id="offer_${order.id}" name="${KEY_OFFER_PRICE}" placeholder="10000" pattern="${VALIDATION_PRICE_PATTERN}" data-invalid-text="${LOCALE[TEXT_FORM_ERROR_PRICE_TEXT]}" required>
                                         </label>
                                         <input type="hidden" name="${KEY_ORDER_ID}" value="${order.id}">
                                         <input class="forms__element" type="submit" value="${LOCALE[TEXT_OFFER_BUTTON_MAKE_OFFER]}" />
