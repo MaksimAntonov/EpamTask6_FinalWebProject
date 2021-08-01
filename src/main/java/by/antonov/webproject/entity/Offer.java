@@ -51,7 +51,7 @@ public class Offer extends EntityBase {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof Offer)) {
+    if (this.getClass() != o.getClass()) {
       return false;
     }
 

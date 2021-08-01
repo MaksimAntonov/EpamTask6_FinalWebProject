@@ -92,7 +92,7 @@ public class User extends EntityBase {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof User)) {
+    if (this.getClass() != o.getClass()) {
       return false;
     }
 

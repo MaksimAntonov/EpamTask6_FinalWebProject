@@ -93,7 +93,7 @@ public class Order extends EntityBase {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof Order)) {
+    if (this.getClass() != o.getClass()) {
       return false;
     }
 
