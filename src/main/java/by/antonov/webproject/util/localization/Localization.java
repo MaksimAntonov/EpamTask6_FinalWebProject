@@ -1,5 +1,6 @@
 package by.antonov.webproject.util.localization;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public enum Localization {
@@ -13,7 +14,7 @@ public enum Localization {
   Localization(String languageCode, String languageName) {
     this.languageCode = languageCode;
     this.languageName = languageName;
-    this.resourceBundle = ResourceBundle.getBundle("localization/locale_" + languageCode);
+    this.resourceBundle = ResourceBundle.getBundle("localization/locale", new Locale(languageCode));
   }
 
   public ResourceBundle getResourceBundle() {

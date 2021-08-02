@@ -26,10 +26,6 @@ public class Offer extends EntityBase {
     return price;
   }
 
-  public LocalDateTime getOfferDate() {
-    return offerDate;
-  }
-
   public User getUser() {
     return user;
   }
