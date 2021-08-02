@@ -353,7 +353,7 @@ public class OrderDaoImpl implements OrderDao {
     try (Connection connection = ConnectionPool.getInstance().getConnection();
          PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_ACTIVE_ORDERS_FOR_CARRIER_ID_WITH_LIMIT)) {
       statement.setLong(1, carrierId);
-      statement.setInt(2,0);
+      statement.setInt(2, 0);
       statement.setInt(3, limit);
       ResultSet resultSet = statement.executeQuery();
       List<Order> orders = new ArrayList<>();

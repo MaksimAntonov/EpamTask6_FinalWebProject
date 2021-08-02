@@ -61,24 +61,25 @@ public class ProxyConnection implements Connection {
   public <T> T unwrap(Class<T> iface)
       throws SQLException {
     return connection.unwrap(iface);
-  }  @Override
-  public void setAutoCommit(boolean autoCommit)
-      throws SQLException {
-    connection.setAutoCommit(autoCommit);
   }
 
   @Override
   public boolean isWrapperFor(Class<?> iface)
       throws SQLException {
     return connection.isWrapperFor(iface);
+  }  @Override
+  public void setAutoCommit(boolean autoCommit)
+      throws SQLException {
+    connection.setAutoCommit(autoCommit);
   }
+
+
 
   @Override
   public boolean getAutoCommit()
       throws SQLException {
     return connection.getAutoCommit();
   }
-
 
 
   @Override

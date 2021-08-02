@@ -11,6 +11,7 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Find all Offers by Order ID
+   *
    * @param orderId ID from Order record
    * @return List<Offer> result of SQL request
    * @throws DaoException in case of any SQL errors
@@ -20,7 +21,8 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Find all Offers from carrier by Order ID
-   * @param orderId ID of Order record
+   *
+   * @param orderId   ID of Order record
    * @param carrierId ID of user
    * @return List<Offer> result of SQL request
    * @throws DaoException in case of any SQL errors
@@ -30,6 +32,7 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Get count of records for Order ID
+   *
    * @param orderId ID of Order record
    * @return count of offers for order ID
    * @throws DaoException in case of any SQL errors
@@ -39,6 +42,7 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Accept offer (change status to Accepted)
+   *
    * @param offerId ID of offer
    * @return TRUE if record was updated, FALSE if record can't be updated
    * @throws DaoException in case of any SQL errors
@@ -48,6 +52,7 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Decline all offers by Order ID (change status to Denied)
+   *
    * @param orderId ID of order
    * @return TRUE if record(s) was updated, FALSE if record(s) can't be updated
    * @throws DaoException in case of any SQL errors
@@ -57,7 +62,8 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Decline all offers by Order ID (change status to Denied)
-   * @param orderId ID of order
+   *
+   * @param orderId        ID of order
    * @param excludeOfferId ID of offer, which shouldn't declined
    * @return TRUE if record(s) was updated, FALSE if record(s) can't be updated
    * @throws DaoException in case of any SQL errors
@@ -67,6 +73,7 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Decline all offers by Order ID (change status to Denied)
+   *
    * @param offerId ID of offer
    * @return TRUE if record(s) was updated, FALSE if record(s) can't be updated
    * @throws DaoException in case of any SQL errors
@@ -76,9 +83,10 @@ public interface OfferDao extends BaseDao<Long, Offer> {
 
   /**
    * Insert new record
-   * @param price offer price
+   *
+   * @param price     offer price
    * @param carrierId ID of user
-   * @param orderId ID of order
+   * @param orderId   ID of order
    * @return TRUE if record(s) was inserted, FALSE if record(s) wasn't inserted
    * @throws DaoException in case of any SQL errors
    */

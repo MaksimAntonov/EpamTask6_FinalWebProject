@@ -45,7 +45,9 @@ public class OpenMyOrderCommand implements Command {
       double countOfOrders = orderService.getCountOfShipperOrders(userId);
       int maxPage = (int) Math.ceil(countOfOrders / limit);
 
-      if (maxPage < currentPage) { currentPage = maxPage; }
+      if (maxPage < currentPage) {
+        currentPage = maxPage;
+      }
 
       List<Order> orders = orderService.getAllOrdersByShipperId(userId, currentPage, limit);
       request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);

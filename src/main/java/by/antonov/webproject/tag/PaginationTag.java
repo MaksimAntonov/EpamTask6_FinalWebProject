@@ -6,6 +6,7 @@ import jakarta.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 public class PaginationTag extends TagSupport {
+
   private int currentPage;
   private int maxPage;
 
@@ -35,7 +36,7 @@ public class PaginationTag extends TagSupport {
                            .append(i)
                            .append("</a>");
             } else {
-              if ( (currentPage - 3) < i && (currentPage + 3) > i ) {
+              if ((currentPage - 3) < i && (currentPage + 3) > i) {
                 stringBuilder.append("<a class='pagination__item'>")
                              .append(i)
                              .append("</a>");

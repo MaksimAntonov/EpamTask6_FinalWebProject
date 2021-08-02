@@ -45,7 +45,9 @@ public class OpenOrderForCarrierCommand implements Command {
       double countOfOrders = orderService.getCountOfCarrierOrders(userId);
       int maxPage = (int) Math.ceil(countOfOrders / limit);
 
-      if (maxPage < currentPage) { currentPage = maxPage; }
+      if (maxPage < currentPage) {
+        currentPage = maxPage;
+      }
 
       List<Order> orders = offerService.getOrdersForCarrier(userId, currentPage, limit);
       request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);

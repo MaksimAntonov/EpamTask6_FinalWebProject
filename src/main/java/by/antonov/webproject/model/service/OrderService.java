@@ -12,6 +12,7 @@ public interface OrderService {
 
   /**
    * Get all orders
+   *
    * @return List of Orders
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -20,6 +21,7 @@ public interface OrderService {
 
   /**
    * Get all orders for current User
+   *
    * @param shipperId ID of User
    * @return List of Orders
    * @throws ServiceException in case of error(s) from Service implementation
@@ -29,8 +31,9 @@ public interface OrderService {
 
   /**
    * Get all orders for current User
+   *
    * @param shipperId ID of User
-   * @param limit maximum records
+   * @param limit     maximum records
    * @return List of Orders
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -39,9 +42,10 @@ public interface OrderService {
 
   /**
    * Get all orders for current User
+   *
    * @param shipperId ID of User
-   * @param page current page
-   * @param limit maximum records
+   * @param page      current page
+   * @param limit     maximum records
    * @return List of Orders
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -50,6 +54,7 @@ public interface OrderService {
 
   /**
    * Get order
+   *
    * @param orderId ID of order
    * @return Optional with Order
    * @throws ServiceException in case of error(s) from Service implementation
@@ -59,6 +64,7 @@ public interface OrderService {
 
   /**
    * Close order
+   *
    * @param orderId ID of Order
    * @return TRUE if order was closed
    * @throws ServiceException in case of error(s) from Service implementation
@@ -68,6 +74,7 @@ public interface OrderService {
 
   /**
    * Accept offer and change Order status to FINISHED
+   *
    * @param offerId ID of Offer
    * @param orderId ID of Order
    * @return TRUE if offer was accepted and Order status was changed
@@ -78,6 +85,7 @@ public interface OrderService {
 
   /**
    * Decline offer
+   *
    * @param offerId ID of Offer
    * @return TRUE if offer was declined
    * @throws ServiceException in case of error(s) from Service implementation
@@ -87,8 +95,9 @@ public interface OrderService {
 
   /**
    * Create new order
-   * @param router Route
-   * @param details Order details
+   *
+   * @param router    Route
+   * @param details   Order details
    * @param shipperId ID of User
    * @return TRUE if Order was created
    * @throws ServiceException in case of error(s) from Service implementation
@@ -98,6 +107,7 @@ public interface OrderService {
 
   /**
    * Get count of orders for shipper
+   *
    * @param shipperId ID of User
    * @return count of orders
    * @throws ServiceException in case of error(s) from Service implementation
@@ -107,6 +117,7 @@ public interface OrderService {
 
   /**
    * Get count of orders for carrier
+   *
    * @param carrierId ID of User
    * @return count of orders
    * @throws ServiceException in case of error(s) from Service implementation

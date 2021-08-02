@@ -16,6 +16,7 @@ public interface BaseDao<K, T extends EntityBase> {
 
   /**
    * Find all records from database
+   *
    * @return List of result objects of SQL request
    * @throws DaoException in case of any SQL errors
    */
@@ -24,6 +25,7 @@ public interface BaseDao<K, T extends EntityBase> {
 
   /**
    * Find record by record id
+   *
    * @param id record ID
    * @return Optional with result Object of SQL request or null if resultSet is empty
    * @throws DaoException in case of any SQL errors

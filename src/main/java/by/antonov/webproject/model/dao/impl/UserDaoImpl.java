@@ -117,6 +117,33 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
+  public Optional<User> findById(Long id)
+      throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {
+      statement.setLong(1, id);
+      ResultSet resultSet = statement.executeQuery();
+      User user = null;
+      while (resultSet.next()) {
+        User.Builder builder = new User.Builder();
+
+        user = builder.setId(resultSet.getLong(USER_ID))
+                      .setEmail(resultSet.getString(USER_EMAIL))
+                      .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
+                      .setLastName(resultSet.getString(USER_LAST_NAME))
+                      .setFirstName(resultSet.getString(USER_FIRST_NAME))
+                      .setPhone(resultSet.getString(USER_PHONE))
+                      .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
+                      .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()))
+                      .build();
+      }
+      return Optional.ofNullable(user);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
   public List<User> findAll(int limit) throws DaoException {
     try (Connection connection = ConnectionPool.getInstance().getConnection();
          PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS_WITH_LIMIT_ORDERED)) {
@@ -166,33 +193,6 @@ public class UserDaoImpl implements UserDao {
         users.add(builder.build());
       }
       return users;
-    } catch (SQLException sqlException) {
-      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
-    }
-  }
-
-  @Override
-  public Optional<User> findById(Long id)
-      throws DaoException {
-    try (Connection connection = ConnectionPool.getInstance().getConnection();
-         PreparedStatement statement = connection.prepareStatement(SQL_FIND_USER_BY_ID)) {
-      statement.setLong(1, id);
-      ResultSet resultSet = statement.executeQuery();
-      User user = null;
-      while (resultSet.next()) {
-        User.Builder builder = new User.Builder();
-
-        user = builder.setId(resultSet.getLong(USER_ID))
-                      .setEmail(resultSet.getString(USER_EMAIL))
-                      .setRegistrationDate(LocalDateTime.parse(resultSet.getString(USER_REGISTRATION_DATE), dtf))
-                      .setLastName(resultSet.getString(USER_LAST_NAME))
-                      .setFirstName(resultSet.getString(USER_FIRST_NAME))
-                      .setPhone(resultSet.getString(USER_PHONE))
-                      .setUserRole(User.Role.valueOf(resultSet.getString(USER_ROLE_NAME).toUpperCase()))
-                      .setUserStatus(User.Status.valueOf(resultSet.getString(USER_STATUS_NAME).toUpperCase()))
-                      .build();
-      }
-      return Optional.ofNullable(user);
     } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }

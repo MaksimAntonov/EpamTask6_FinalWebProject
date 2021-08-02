@@ -14,6 +14,7 @@ public interface UserService {
 
   /**
    * Get all users
+   *
    * @return List of Users
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -22,6 +23,7 @@ public interface UserService {
 
   /**
    * Get all users, ORDERED BY REGISTRATION DATE
+   *
    * @param limit maximum records
    * @return List of Users
    * @throws ServiceException in case of error(s) from Service implementation
@@ -31,7 +33,8 @@ public interface UserService {
 
   /**
    * Get all users
-   * @param page current page
+   *
+   * @param page  current page
    * @param limit maximum records
    * @return List of Users
    * @throws ServiceException in case of error(s) from Service implementation
@@ -41,7 +44,8 @@ public interface UserService {
 
   /**
    * Check User login data
-   * @param email E-Mail address
+   *
+   * @param email    E-Mail address
    * @param password User password
    * @return TRUE if login data is correct, FALSE if it incorrect
    * @throws ServiceException in case of error(s) from Service implementation
@@ -51,13 +55,14 @@ public interface UserService {
 
   /**
    * Create a new user
-   * @param email User E-Mail address
-   * @param password User password
+   *
+   * @param email           User E-Mail address
+   * @param password        User password
    * @param passwordConfirm User password
-   * @param firstName User first name
-   * @param lastName User last name
-   * @param phone User phone number
-   * @param group User group name
+   * @param firstName       User first name
+   * @param lastName        User last name
+   * @param phone           User phone number
+   * @param group           User group name
    * @return Map with data from user and result of validation and insert data into database
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -67,6 +72,7 @@ public interface UserService {
 
   /**
    * Get User by E-Mail
+   *
    * @param email User E-Mail address
    * @return Optional<User> if user with this E-Mail exist.
    * @throws ServiceException in case of error(s) from Service implementation
@@ -76,9 +82,10 @@ public interface UserService {
 
   /**
    * Change user name
-   * @param userId ID of User
+   *
+   * @param userId    ID of User
    * @param firstName new first name
-   * @param lastName new last name
+   * @param lastName  new last name
    * @return TRUE if data changed
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -87,8 +94,9 @@ public interface UserService {
 
   /**
    * Change user phone number
+   *
    * @param userId ID of User
-   * @param phone new phone number
+   * @param phone  new phone number
    * @return TRUE if data changed
    * @throws ServiceException in case of error(s) from Service implementation
    */
@@ -97,8 +105,9 @@ public interface UserService {
 
   /**
    * Change user password
-   * @param userId ID of User
-   * @param password new password
+   *
+   * @param userId          ID of User
+   * @param password        new password
    * @param passwordConfirm password reconfirm
    * @return TRUE if data changed
    * @throws ServiceException in case of error(s) from Service implementation
@@ -108,6 +117,7 @@ public interface UserService {
 
   /**
    * Block user
+   *
    * @param userId ID of User
    * @return TRUE if user was blocked
    * @throws ServiceException in case of error(s) from Service implementation
@@ -117,6 +127,7 @@ public interface UserService {
 
   /**
    * Unblock user
+   *
    * @param userId ID of User
    * @return TRUE if user was unblocked
    * @throws ServiceException in case of error(s) from Service implementation
@@ -126,7 +137,8 @@ public interface UserService {
 
   /**
    * Check user status
-   * @param userId ID of User
+   *
+   * @param userId         ID of User
    * @param expectedStatus Expected status
    * @return TRUE if status was changed
    * @throws ServiceException in case of error(s) from Service implementation
@@ -136,6 +148,7 @@ public interface UserService {
 
   /**
    * Get count of users
+   *
    * @return count of users
    * @throws ServiceException in case of error(s) from Service implementation
    */
