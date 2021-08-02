@@ -12,6 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Connection pool for working with database
+ */
 public class ConnectionPool {
 
   private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
@@ -38,6 +41,11 @@ public class ConnectionPool {
     }
   }
 
+  /**
+   * Get Connection pool instance
+   *
+   * @return instance of Connection pool
+   */
   public static ConnectionPool getInstance() {
     while (instance == null) {
       if (isInitialized.compareAndSet(false, true)) {
@@ -48,6 +56,11 @@ public class ConnectionPool {
     return instance;
   }
 
+  /**
+   * Get free connection for database
+   *
+   * @return Connection
+   */
   public Connection getConnection() {
     ProxyConnection connection = null;
     try {
@@ -61,6 +74,11 @@ public class ConnectionPool {
     return connection;
   }
 
+  /**
+   * Release connection after queries to database
+   *
+   * @param connection connection for release
+   */
   public void releaseConnection(Connection connection) {
     if (connection instanceof ProxyConnection) {
       try {
@@ -75,6 +93,9 @@ public class ConnectionPool {
     }
   }
 
+  /**
+   * Destroy Connection pool and close all opened Connections
+   */
   public void destroyPool() {
     for (int i = 0; i < DB_POOL_SIZE; i++) {
       try {

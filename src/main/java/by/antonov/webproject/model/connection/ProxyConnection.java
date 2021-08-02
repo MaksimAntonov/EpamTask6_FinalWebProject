@@ -67,12 +67,13 @@ public class ProxyConnection implements Connection {
   public boolean isWrapperFor(Class<?> iface)
       throws SQLException {
     return connection.isWrapperFor(iface);
-  }  @Override
+  }
+
+  @Override
   public void setAutoCommit(boolean autoCommit)
       throws SQLException {
     connection.setAutoCommit(autoCommit);
   }
-
 
 
   @Override
