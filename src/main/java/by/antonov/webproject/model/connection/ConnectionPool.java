@@ -78,12 +78,17 @@ public class ConnectionPool {
    * Release connection after queries to database
    *
    * @param connection connection for release
+   * @return TRUE if connection was released
    */
-  public void releaseConnection(Connection connection) {
+  public boolean releaseConnection(Connection connection) {
+    boolean result = false;
     if (connection instanceof ProxyConnection) {
       try {
-        reservedConnections.remove((ProxyConnection) connection);
-        freeConnections.put((ProxyConnection) connection);
+        if (reservedConnections.contains((ProxyConnection) connection)) {
+          reservedConnections.remove((ProxyConnection) connection);
+          freeConnections.put((ProxyConnection) connection);
+          result = true;
+        }
       } catch (InterruptedException e) {
         logger.error("Interrupted exception. {}", e.getMessage());
         Thread.currentThread().interrupt();
@@ -91,6 +96,7 @@ public class ConnectionPool {
     } else {
       logger.error("Wrong connection instance.");
     }
+    return result;
   }
 
   /**

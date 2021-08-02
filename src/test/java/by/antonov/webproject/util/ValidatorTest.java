@@ -6,9 +6,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class ValidatorTest {
-  @DataProvider( name = "dataEmailTest")
+
+  @DataProvider(name = "dataEmailTest")
   public Object[][] dataEmailTest() {
-    return new Object[][] {
+    return new Object[][]{
         {"test@gmail.com", true},
         {"antonov.ma90@gmail.com", true},
         {"test-carrier@gmail.com", true},
@@ -19,9 +20,9 @@ public class ValidatorTest {
     };
   }
 
-  @DataProvider( name = "dataPasswordTest")
+  @DataProvider(name = "dataPasswordTest")
   public Object[][] dataPasswordTest() {
-    return new Object[][] {
+    return new Object[][]{
         {"qwerty1", true},
         {"123456", true},
         {"PassW0r!", true},
@@ -32,9 +33,9 @@ public class ValidatorTest {
     };
   }
 
-  @DataProvider( name = "dataRouteTest")
+  @DataProvider(name = "dataRouteTest")
   public Object[][] dataRouteTest() {
-    return new Object[][] {
+    return new Object[][]{
         {"Vitebsk - Minsk", true},
         {"Москва - Санкт-Петербург", true},
         {"Москва, пр. Мира д. 375-10 - Санкт-Петербург", true},
@@ -44,9 +45,9 @@ public class ValidatorTest {
     };
   }
 
-  @DataProvider( name = "dataNameTest")
+  @DataProvider(name = "dataNameTest")
   public Object[][] dataNameTest() {
-    return new Object[][] {
+    return new Object[][]{
         {"Maksim", true},
         {"Антонов", true},
         {"O'Brien", true},
@@ -57,9 +58,9 @@ public class ValidatorTest {
     };
   }
 
-  @DataProvider( name = "dataPhoneTest")
+  @DataProvider(name = "dataPhoneTest")
   public Object[][] dataPhoneTest() {
-    return new Object[][] {
+    return new Object[][]{
         {"+7 123 123-45-67", true},
         {"+7 (499) 1234567", true},
         {"74991234567", true},
