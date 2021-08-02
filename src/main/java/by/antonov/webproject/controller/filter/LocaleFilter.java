@@ -1,7 +1,7 @@
 package by.antonov.webproject.controller.filter;
 
 import by.antonov.webproject.controller.SessionKey;
-import by.antonov.webproject.localization.Localization;
+import by.antonov.webproject.util.localization.Localization;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

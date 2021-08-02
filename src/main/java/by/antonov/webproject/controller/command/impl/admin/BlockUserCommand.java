@@ -10,7 +10,7 @@ import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
-import by.antonov.webproject.localization.LocalizationKey;
+import by.antonov.webproject.util.localization.LocalizationKey;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;

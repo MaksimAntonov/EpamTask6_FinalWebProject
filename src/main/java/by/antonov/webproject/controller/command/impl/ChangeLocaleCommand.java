@@ -7,7 +7,7 @@ import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.exception.CommandException;
-import by.antonov.webproject.localization.Localization;
+import by.antonov.webproject.util.localization.Localization;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;

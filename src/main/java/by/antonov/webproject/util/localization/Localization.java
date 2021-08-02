@@ -1,4 +1,4 @@
-package by.antonov.webproject.localization;
+package by.antonov.webproject.util.localization;
 
 import java.util.ResourceBundle;
 
