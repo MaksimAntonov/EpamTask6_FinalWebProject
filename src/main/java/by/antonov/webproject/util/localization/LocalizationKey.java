@@ -1,8 +1,8 @@
 package by.antonov.webproject.util.localization;
 
-import by.antonov.webproject.controller.EnumBase;
+import by.antonov.webproject.controller.listener.ContextValue;
 
-public enum LocalizationKey implements EnumBase {
+public enum LocalizationKey implements ContextValue {
   // Error texts
   TEXT_ERROR_400_TITLE("error_400.page_title"),
   TEXT_ERROR_400_MESSAGE("error_400.page_message"),

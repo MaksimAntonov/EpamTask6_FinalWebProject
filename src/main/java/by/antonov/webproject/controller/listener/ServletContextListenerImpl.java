@@ -1,6 +1,5 @@
 package by.antonov.webproject.controller.listener;
 
-import by.antonov.webproject.controller.EnumBase;
 import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.SessionKey;
@@ -41,7 +40,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 
   private <T extends Enum<?>> void setEnumsToContext(ServletContext servletContext, T[] enumElements) {
     for (T enumVal : enumElements) {
-      servletContext.setAttribute(enumVal.name(), ((EnumBase) enumVal).getValue());
+      servletContext.setAttribute(enumVal.name(), ((ContextValue) enumVal).getValue());
     }
   }
 

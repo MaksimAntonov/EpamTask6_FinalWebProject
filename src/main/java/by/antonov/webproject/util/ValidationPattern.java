@@ -1,8 +1,8 @@
 package by.antonov.webproject.util;
 
-import by.antonov.webproject.controller.EnumBase;
+import by.antonov.webproject.controller.listener.ContextValue;
 
-public enum ValidationPattern implements EnumBase {
+public enum ValidationPattern implements ContextValue {
   VALIDATION_EMAIL_PATTERN("(?=^.{3,32}$)^([A-Za-z0-9_.-])+@([A-Za-z0-9_-]){2,}\\.([a-z]){2,}$"),
   VALIDATION_PASSWORD_PATTERN("(?=^.{6,20}$)^([A-zА-яЁё0-9_!@ -]){6,20}$"),
   VALIDATION_ROUTE_PATTERN("(?=^.{6,200}$)^(?=.*[A-zА-яЁё])([^<>])[A-zА-яЁё0-9,. -]+ - [A-zА-яЁё0-9,. -]+$"),

@@ -1,6 +1,8 @@
 package by.antonov.webproject.controller;
 
-public enum RouterPath implements EnumBase {
+import by.antonov.webproject.controller.listener.ContextValue;
+
+public enum RouterPath implements ContextValue {
   PROJECT_ROOT("/EpamTask6_FinalWebProject_war_exploded/"),
   ERROR_400_PAGE("jsp/error_400.jsp"),
   ERROR_403_PAGE("jsp/error_403.jsp"),

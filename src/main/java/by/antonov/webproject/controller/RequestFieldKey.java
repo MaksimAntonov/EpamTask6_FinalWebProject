@@ -1,6 +1,8 @@
 package by.antonov.webproject.controller;
 
-public enum RequestFieldKey implements EnumBase {
+import by.antonov.webproject.controller.listener.ContextValue;
+
+public enum RequestFieldKey implements ContextValue {
   KEY_STYLE_SUCCESS("success"),
   KEY_STYLE_ERROR("error"),
   KEY_STYLE_INSERT_ERROR("insert_error"),
