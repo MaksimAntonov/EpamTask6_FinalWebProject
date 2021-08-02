@@ -1,5 +1,7 @@
 package by.antonov.webproject.controller;
 
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
+
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.controller.command.CommandFactory;
 import by.antonov.webproject.exception.CommandException;
@@ -32,7 +34,7 @@ public class Controller extends HttpServlet {
   private void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     try {
-      String commandName = request.getParameter(RequestFieldKey.KEY_COMMAND.getValue());
+      String commandName = request.getParameter(KEY_COMMAND.getValue());
       Command command = CommandFactory.defineCommand(commandName);
       Router router = command.execute(request);
       switch (router.getRouterType()) {

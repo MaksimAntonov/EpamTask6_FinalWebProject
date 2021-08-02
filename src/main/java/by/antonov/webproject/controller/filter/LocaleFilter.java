@@ -1,6 +1,8 @@
 package by.antonov.webproject.controller.filter;
 
-import by.antonov.webproject.controller.SessionKey;
+import static by.antonov.webproject.controller.SessionKey.CURRENT_LOCALE;
+import static by.antonov.webproject.controller.SessionKey.LOCALE;
+
 import by.antonov.webproject.util.localization.Localization;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -20,10 +22,10 @@ public class LocaleFilter implements Filter {
       throws IOException, ServletException {
     HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
     HttpSession session = httpServletRequest.getSession();
-    String locale = (String) session.getAttribute(SessionKey.CURRENT_LOCALE.name());
+    String locale = (String) session.getAttribute(CURRENT_LOCALE.name());
     if (locale == null) {
-      session.setAttribute(SessionKey.CURRENT_LOCALE.name(), Localization.EN.getLanguageCode());
-      session.setAttribute(SessionKey.LOCALE.name(), Localization.EN.getResourceBundle());
+      session.setAttribute(CURRENT_LOCALE.name(), Localization.EN.getLanguageCode());
+      session.setAttribute(LOCALE.name(), Localization.EN.getResourceBundle());
     }
 
     filterChain.doFilter(servletRequest, servletResponse);

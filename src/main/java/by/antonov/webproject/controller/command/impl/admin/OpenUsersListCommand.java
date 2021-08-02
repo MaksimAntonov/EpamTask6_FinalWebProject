@@ -1,11 +1,14 @@
 package by.antonov.webproject.controller.command.impl.admin;
 
-import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponseKey;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_CURRENT_PAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_MAX_PAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_USER_RESULT_LIST;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
@@ -24,7 +27,7 @@ public class OpenUsersListCommand implements Command {
   @Override
   public Router execute(HttpServletRequest request)
       throws CommandException {
-    if (!checkUserGroup((User.Role) request.getSession().getAttribute(SessionKey.USER_ROLE.name()), allowedRole)) {
+    if (!checkUserGroup((User.Role) request.getSession().getAttribute(USER_ROLE.name()), allowedRole)) {
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_403_PAGE);
     }
 
@@ -32,7 +35,7 @@ public class OpenUsersListCommand implements Command {
       UserService userService = ServiceDefinition.getInstance().getUserService();
       int limit = 10;
 
-      String pageString = Optional.ofNullable(request.getParameter(RequestFieldKey.KEY_PAGE.getValue()))
+      String pageString = Optional.ofNullable(request.getParameter(KEY_PAGE.getValue()))
                                   .orElse("1");
       int currentPage = Integer.parseInt(pageString);
 
@@ -45,9 +48,9 @@ public class OpenUsersListCommand implements Command {
 
       List<User> users = userService.getUsersList(currentPage, limit);
 
-      request.setAttribute(ResponseKey.RESP_USER_RESULT_LIST.name(), users);
-      request.setAttribute(ResponseKey.RESP_CURRENT_PAGE.name(), currentPage);
-      request.setAttribute(ResponseKey.RESP_MAX_PAGE.name(), maxPage);
+      request.setAttribute(RESP_USER_RESULT_LIST.name(), users);
+      request.setAttribute(RESP_CURRENT_PAGE.name(), currentPage);
+      request.setAttribute(RESP_MAX_PAGE.name(), maxPage);
       return new Router(RouterType.FORWARD, RouterPath.USERS_LIST);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);

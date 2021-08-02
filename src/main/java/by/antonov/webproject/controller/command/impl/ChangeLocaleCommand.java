@@ -1,10 +1,12 @@
 package by.antonov.webproject.controller.command.impl;
 
-import by.antonov.webproject.controller.RequestFieldKey;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_LOCALE;
+import static by.antonov.webproject.controller.SessionKey.CURRENT_LOCALE;
+import static by.antonov.webproject.controller.SessionKey.LOCALE;
+
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.util.localization.Localization;
@@ -21,11 +23,11 @@ public class ChangeLocaleCommand implements Command {
   public Router execute(HttpServletRequest request)
       throws CommandException {
     try {
-      String requiredLocale = request.getParameter(RequestFieldKey.KEY_LOCALE.getValue());
+      String requiredLocale = request.getParameter(KEY_LOCALE.getValue());
       HttpSession session = request.getSession();
       Localization localization = Localization.valueOf(requiredLocale.toUpperCase());
-      session.setAttribute(SessionKey.CURRENT_LOCALE.name(), requiredLocale);
-      session.setAttribute(SessionKey.LOCALE.name(), localization.getResourceBundle());
+      session.setAttribute(CURRENT_LOCALE.name(), requiredLocale);
+      session.setAttribute(LOCALE.name(), localization.getResourceBundle());
       String prevPath = request.getParameter("redirect_url");
       if (prevPath == null) {
         prevPath = RouterPath.PROJECT_ROOT.getValue();

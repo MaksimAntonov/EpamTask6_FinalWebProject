@@ -1,7 +1,9 @@
 package by.antonov.webproject.controller.filter;
 
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.entity.User.Status;
@@ -32,13 +34,13 @@ public class BanFilter implements Filter {
     HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
     HttpSession session = httpServletRequest.getSession();
-    User user = (User) session.getAttribute(SessionKey.USER_OBJ.name());
+    User user = (User) session.getAttribute(USER_OBJ.name());
 
     UserService userService = ServiceDefinition.getInstance().getUserService();
     try {
       if (user != null && userService.checkUserStatus(user.getId(), Status.BLOCKED)) {
-        session.removeAttribute(SessionKey.USER_OBJ.name());
-        session.setAttribute(SessionKey.USER_ROLE.name(), Role.GUEST);
+        session.removeAttribute(USER_OBJ.name());
+        session.setAttribute(USER_ROLE.name(), Role.GUEST);
         httpServletResponse.sendRedirect(RouterPath.OPEN_LOGIN_PAGE.getValue() + "&status=error&translate_key=text_profile_user_blocked_message");
       } else {
         filterChain.doFilter(servletRequest, servletResponse);

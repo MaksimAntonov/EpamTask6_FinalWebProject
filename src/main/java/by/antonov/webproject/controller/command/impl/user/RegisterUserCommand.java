@@ -3,6 +3,7 @@ package by.antonov.webproject.controller.command.impl.user;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STATUS;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_INSERT_DUPLICATE_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_INSERT_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
@@ -13,13 +14,19 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD_CONFIRM;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PHONE;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_ROLE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_FORM_RESULT_MESSAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_FORM_RESULT_STATUS;
+import static by.antonov.webproject.controller.SessionKey.CURRENT_LOCALE;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_REGISTRATION_ERROR_MESSAGE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_REGISTRATION_INSERT_DUPLICATE_ERROR_MESSAGE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_REGISTRATION_INSERT_ERROR_MESSAGE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_REGISTRATION_SUCCESS_MESSAGE;
 
-import by.antonov.webproject.controller.RequestFieldKey;
 import by.antonov.webproject.controller.ResponseKey;
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
@@ -28,7 +35,6 @@ import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import by.antonov.webproject.util.localization.Localization;
-import by.antonov.webproject.util.localization.LocalizationKey;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -39,11 +45,11 @@ public class RegisterUserCommand implements Command {
   @Override
   public Router execute(HttpServletRequest request)
       throws CommandException {
-    if (!checkUserGroup((User.Role) request.getSession().getAttribute(SessionKey.USER_ROLE.name()), allowedRole)) {
+    if (!checkUserGroup((User.Role) request.getSession().getAttribute(USER_ROLE.name()), allowedRole)) {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-    String currentLocale = (String) request.getSession().getAttribute(SessionKey.CURRENT_LOCALE.name());
+    String currentLocale = (String) request.getSession().getAttribute(CURRENT_LOCALE.name());
     Localization localization = Localization.valueOf(currentLocale.toUpperCase());
     try {
       String email = request.getParameter(KEY_USER_EMAIL.getValue());
@@ -59,27 +65,26 @@ public class RegisterUserCommand implements Command {
                                                                     lastName, phone, role);
 
       Router router;
-      if (resultMap.get(ResponseKey.RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_SUCCESS.getValue())) {
+      if (resultMap.get(RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_SUCCESS.getValue())) {
         router = new Router(RouterType.REDIRECT,
                             RouterPath.CONTROLLER,
                             KEY_COMMAND.getValue() + "=go_to_login_page",
                             KEY_PARAMETER_STATUS.getValue() + "=success",
-                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_REGISTRATION_SUCCESS_MESSAGE
-                                .name());
+                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_REGISTRATION_SUCCESS_MESSAGE.name());
       } else {
-        if (resultMap.get(ResponseKey.RESP_FORM_RESULT_STATUS).equals(RequestFieldKey.KEY_STYLE_ERROR.getValue())) {
-          resultMap.put(ResponseKey.RESP_FORM_RESULT_MESSAGE,
-                        localization.getText(LocalizationKey.TEXT_REGISTRATION_ERROR_MESSAGE));
+        if (resultMap.get(RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_ERROR.getValue())) {
+          resultMap.put(RESP_FORM_RESULT_MESSAGE,
+                        localization.getText(TEXT_REGISTRATION_ERROR_MESSAGE));
         }
-        if (resultMap.get(ResponseKey.RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_INSERT_ERROR.getValue())) {
-          resultMap.put(ResponseKey.RESP_FORM_RESULT_MESSAGE,
-                        localization.getText(LocalizationKey.TEXT_REGISTRATION_INSERT_ERROR_MESSAGE));
-          resultMap.put(ResponseKey.RESP_FORM_RESULT_STATUS, RequestFieldKey.KEY_STYLE_ERROR.getValue());
+        if (resultMap.get(RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_INSERT_ERROR.getValue())) {
+          resultMap.put(RESP_FORM_RESULT_MESSAGE,
+                        localization.getText(TEXT_REGISTRATION_INSERT_ERROR_MESSAGE));
+          resultMap.put(RESP_FORM_RESULT_STATUS, KEY_STYLE_ERROR.getValue());
         }
-        if (resultMap.get(ResponseKey.RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_INSERT_DUPLICATE_ERROR.getValue())) {
-          resultMap.put(ResponseKey.RESP_FORM_RESULT_MESSAGE,
-                        localization.getText(LocalizationKey.TEXT_REGISTRATION_INSERT_DUPLICATE_ERROR_MESSAGE));
-          resultMap.put(ResponseKey.RESP_FORM_RESULT_STATUS, RequestFieldKey.KEY_STYLE_ERROR.getValue());
+        if (resultMap.get(RESP_FORM_RESULT_STATUS).equals(KEY_STYLE_INSERT_DUPLICATE_ERROR.getValue())) {
+          resultMap.put(RESP_FORM_RESULT_MESSAGE,
+                        localization.getText(TEXT_REGISTRATION_INSERT_DUPLICATE_ERROR_MESSAGE));
+          resultMap.put(RESP_FORM_RESULT_STATUS, KEY_STYLE_ERROR.getValue());
         }
         router = new Router(RouterType.FORWARD, RouterPath.REGISTRATION_PAGE);
       }

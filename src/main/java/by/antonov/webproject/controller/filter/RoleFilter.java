@@ -1,6 +1,7 @@
 package by.antonov.webproject.controller.filter;
 
-import by.antonov.webproject.controller.SessionKey;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import jakarta.servlet.Filter;
@@ -21,10 +22,10 @@ public class RoleFilter implements Filter {
       throws IOException, ServletException {
     HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
     HttpSession session = httpServletRequest.getSession();
-    User.Role role = (Role) session.getAttribute(SessionKey.USER_ROLE.name());
+    User.Role role = (Role) session.getAttribute(USER_ROLE.name());
 
     if (role == null) {
-      session.setAttribute(SessionKey.USER_ROLE.name(), Role.GUEST);
+      session.setAttribute(USER_ROLE.name(), Role.GUEST);
     }
 
     filterChain.doFilter(servletRequest, servletResponse);

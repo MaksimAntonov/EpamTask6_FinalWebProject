@@ -1,6 +1,7 @@
 package by.antonov.webproject.controller.filter;
 
-import by.antonov.webproject.controller.RequestFieldKey;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
+
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.command.CommandDefinition;
 import jakarta.servlet.Filter;
@@ -22,7 +23,7 @@ public class CommandFilter implements Filter {
     HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
     try {
-      String command = httpServletRequest.getParameter(RequestFieldKey.KEY_COMMAND.getValue());
+      String command = httpServletRequest.getParameter(KEY_COMMAND.getValue());
       CommandDefinition.valueOf(command.toUpperCase());
 
       filterChain.doFilter(servletRequest, servletResponse);

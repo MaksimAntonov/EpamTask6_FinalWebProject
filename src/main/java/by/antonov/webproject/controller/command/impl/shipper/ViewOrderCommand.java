@@ -1,11 +1,16 @@
 package by.antonov.webproject.controller.command.impl.shipper;
 
-import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponseKey;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_ORDER_ID;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STATUS;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
+import static by.antonov.webproject.controller.ResponseKey.RESP_ORDER;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_VIEW_ERROR_MESSAGE;
+
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.entity.Order;
 import by.antonov.webproject.entity.User;
@@ -14,7 +19,6 @@ import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.model.service.OrderService;
 import by.antonov.webproject.model.service.ServiceDefinition;
-import by.antonov.webproject.util.localization.LocalizationKey;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -28,24 +32,23 @@ public class ViewOrderCommand implements Command {
   @Override
   public Router execute(HttpServletRequest request)
       throws CommandException {
-    if (!checkUserGroup((User.Role) request.getSession().getAttribute(SessionKey.USER_ROLE.name()), allowedRole)) {
+    if (!checkUserGroup((User.Role) request.getSession().getAttribute(USER_ROLE.name()), allowedRole)) {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
     long orderId = -1;
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
-      orderId = Long.parseLong(request.getParameter(RequestFieldKey.KEY_ORDER_ID.getValue()));
+      orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
       Optional<Order> orderOpt = orderService.getOrderById(orderId);
       if (orderOpt.isPresent()) {
-        request.setAttribute(ResponseKey.RESP_ORDER.name(), orderOpt.get());
+        request.setAttribute(RESP_ORDER.name(), orderOpt.get());
         return new Router(RouterType.FORWARD, RouterPath.VIEW_ORDER_PAGE);
       } else {
         return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
-                          RequestFieldKey.KEY_COMMAND.getValue() + "=open_my_orders",
-                          RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=error",
-                          RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + LocalizationKey.TEXT_ORDER_VIEW_ERROR_MESSAGE
-                              .name());
+                          KEY_COMMAND.getValue() + "=open_my_orders",
+                          KEY_PARAMETER_STATUS.getValue() + "=error",
+                          KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_ORDER_VIEW_ERROR_MESSAGE.name());
       }
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);

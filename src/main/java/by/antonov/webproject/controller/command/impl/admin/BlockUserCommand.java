@@ -1,10 +1,19 @@
 package by.antonov.webproject.controller.command.impl.admin;
 
-import by.antonov.webproject.controller.RequestFieldKey;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_COMMAND;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STATUS;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_ERROR;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_ID;
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ADMIN_USERS_ERROR_BAN_MESSAGE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ADMIN_USERS_SUCCESS_BAN_MESSAGE;
+
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
@@ -12,7 +21,6 @@ import by.antonov.webproject.exception.CommandException;
 import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
-import by.antonov.webproject.util.localization.LocalizationKey;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,14 +33,14 @@ public class BlockUserCommand implements Command {
   @Override
   public Router execute(HttpServletRequest request)
       throws CommandException {
-    if (!checkUserGroup((User.Role) request.getSession().getAttribute(SessionKey.USER_ROLE.name()), allowedRole)) {
+    if (!checkUserGroup((User.Role) request.getSession().getAttribute(USER_ROLE.name()), allowedRole)) {
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_403_PAGE);
     }
 
     long userId = -1;
     try {
-      userId = Long.parseLong(request.getParameter(RequestFieldKey.KEY_USER_ID.getValue()));
-      User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
+      userId = Long.parseLong(request.getParameter(KEY_USER_ID.getValue()));
+      User user = (User) request.getSession().getAttribute(USER_OBJ.name());
 
       if (user.getId() == userId) {
         return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
@@ -42,17 +50,17 @@ public class BlockUserCommand implements Command {
       String localizationKey;
       UserService userService = ServiceDefinition.getInstance().getUserService();
       if (userService.blockUser(userId)) {
-        status = RequestFieldKey.KEY_STYLE_SUCCESS.getValue();
-        localizationKey = LocalizationKey.TEXT_ADMIN_USERS_SUCCESS_BAN_MESSAGE.name();
+        status = KEY_STYLE_SUCCESS.getValue();
+        localizationKey = TEXT_ADMIN_USERS_SUCCESS_BAN_MESSAGE.name();
       } else {
-        status = RequestFieldKey.KEY_STYLE_ERROR.getValue();
-        localizationKey = LocalizationKey.TEXT_ADMIN_USERS_ERROR_BAN_MESSAGE.name();
+        status = KEY_STYLE_ERROR.getValue();
+        localizationKey = TEXT_ADMIN_USERS_ERROR_BAN_MESSAGE.name();
       }
 
       return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
-                        RequestFieldKey.KEY_COMMAND.getValue() + "=users_list",
-                        RequestFieldKey.KEY_PARAMETER_STATUS.getValue() + "=" + status,
-                        RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
+                        KEY_COMMAND.getValue() + "=users_list",
+                        KEY_PARAMETER_STATUS.getValue() + "=" + status,
+                        KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {

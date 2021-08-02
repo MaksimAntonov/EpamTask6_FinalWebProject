@@ -1,11 +1,15 @@
 package by.antonov.webproject.controller.command.impl.shipper;
 
-import by.antonov.webproject.controller.RequestFieldKey;
-import by.antonov.webproject.controller.ResponseKey;
+import static by.antonov.webproject.controller.RequestFieldKey.KEY_PAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_CURRENT_PAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_MAX_PAGE;
+import static by.antonov.webproject.controller.ResponseKey.RESP_ORDER_RESULT_LIST;
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
+import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
-import by.antonov.webproject.controller.SessionKey;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.entity.Order;
 import by.antonov.webproject.entity.User;
@@ -28,17 +32,17 @@ public class OpenMyOrderCommand implements Command {
   @Override
   public Router execute(HttpServletRequest request)
       throws CommandException {
-    if (!checkUserGroup((User.Role) request.getSession().getAttribute(SessionKey.USER_ROLE.name()), allowedRole)) {
+    if (!checkUserGroup((User.Role) request.getSession().getAttribute(USER_ROLE.name()), allowedRole)) {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
-      User user = (User) request.getSession().getAttribute(SessionKey.USER_OBJ.name());
+      User user = (User) request.getSession().getAttribute(USER_OBJ.name());
       long userId = user.getId();
       int limit = 10;
 
-      String pageString = Optional.ofNullable(request.getParameter(RequestFieldKey.KEY_PAGE.getValue()))
+      String pageString = Optional.ofNullable(request.getParameter(KEY_PAGE.getValue()))
                                   .orElse("1");
       int currentPage = Integer.parseInt(pageString);
 
@@ -50,9 +54,9 @@ public class OpenMyOrderCommand implements Command {
       }
 
       List<Order> orders = orderService.getAllOrdersByShipperId(userId, currentPage, limit);
-      request.setAttribute(ResponseKey.RESP_ORDER_RESULT_LIST.name(), orders);
-      request.setAttribute(ResponseKey.RESP_CURRENT_PAGE.name(), currentPage);
-      request.setAttribute(ResponseKey.RESP_MAX_PAGE.name(), maxPage);
+      request.setAttribute(RESP_ORDER_RESULT_LIST.name(), orders);
+      request.setAttribute(RESP_CURRENT_PAGE.name(), currentPage);
+      request.setAttribute(RESP_MAX_PAGE.name(), maxPage);
       return new Router(RouterType.FORWARD, RouterPath.MY_ORDER_PAGE);
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
