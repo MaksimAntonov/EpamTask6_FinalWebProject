@@ -5,7 +5,6 @@ import static org.testng.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -33,18 +32,11 @@ public class ConnectionPoolTest {
   }
 
   @DataProvider(name = "wrongConnectionsData")
-  public Object[][] wrongConnectionsData() {
-    Object[][] result = null;
-    try {
-      result = new Object[][]{
-          {ConnectionFactory.createConnection()},
-          {new ProxyConnection(ConnectionFactory.createConnection())}
-      };
-    } catch (SQLException e) {
-      Assert.fail("Can not create connection", e);
-    }
-
-    return result;
+  public Object[][] wrongConnectionsData() throws SQLException {
+    return new Object[][]{
+        {ConnectionFactory.createConnection()},
+        {new ProxyConnection(ConnectionFactory.createConnection())}
+    };
   }
 
   @Test(dataProvider = "wrongConnectionsData")
