@@ -42,7 +42,7 @@ public class OpenUsersListCommand implements Command {
       double countOfOrders = userService.countOfUsers();
       int maxPage = (int) Math.ceil(countOfOrders / limit);
 
-      if (maxPage < currentPage) {
+      if (maxPage > 0 && maxPage < currentPage) {
         currentPage = maxPage;
       }
 

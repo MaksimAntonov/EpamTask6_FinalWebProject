@@ -49,7 +49,7 @@ public class OpenMyOrderCommand implements Command {
       double countOfOrders = orderService.getCountOfShipperOrders(userId);
       int maxPage = (int) Math.ceil(countOfOrders / limit);
 
-      if (maxPage < currentPage) {
+      if (maxPage > 0 && maxPage < currentPage) {
         currentPage = maxPage;
       }
 
