@@ -48,6 +48,20 @@ const changeLocale = (event) => {
   window.location.href = PROJECT_ROOT + "controller?command=change_locale&locale="+event.target.value+"&redirect_url="+currentPage;
 }
 
+const createLinksForPagination = () => {
+  let paginationItems = document.querySelectorAll("a.pagination__item");
+
+  if (paginationItems.length > 0) {
+    let command = window.location.search.match(/command=([a-z_])+/i)
+    let currentPageLink = window.location.pathname + ((command != null) ? `?${command[0]}&` : '?');
+
+    paginationItems.forEach((link) => {
+      let page = link.innerText;
+      link.href = currentPageLink + "page=" + page;
+    });
+  }
+}
+
 window.onload = () => {
   document.querySelector("#change-locale").addEventListener("change", changeLocale);
 
@@ -58,9 +72,5 @@ window.onload = () => {
     inputEl.addEventListener('input', clearInputError);
   });
 
-  document.querySelectorAll("a.pagination__item").forEach((link) => {
-    let currentPage = window.location.href.replace(/&page=\d/ig, "");
-    let page = link.innerText;
-    link.href = currentPage + "&page=" + page;
-  })
+  createLinksForPagination();
 }
