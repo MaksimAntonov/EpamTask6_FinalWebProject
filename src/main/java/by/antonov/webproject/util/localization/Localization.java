@@ -32,8 +32,4 @@ public enum Localization {
   public String getText(LocalizationKey key) {
     return this.resourceBundle.getString(key.getValue());
   }
-
-  public String getText(String key) {
-    return this.resourceBundle.getString(key);
-  }
 }

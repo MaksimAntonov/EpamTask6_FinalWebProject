@@ -52,11 +52,6 @@ public class ProxyConnection implements Connection {
     return connection.nativeSQL(sql);
   }
 
-  void closeConnection()
-      throws SQLException {
-    connection.close();
-  }
-
   @Override
   public <T> T unwrap(Class<T> iface)
       throws SQLException {
@@ -100,6 +95,10 @@ public class ProxyConnection implements Connection {
     ConnectionPool.getInstance().releaseConnection(this);
   }
 
+  void closeConnection()
+      throws SQLException {
+    connection.close();
+  }
 
   @Override
   public boolean isClosed()

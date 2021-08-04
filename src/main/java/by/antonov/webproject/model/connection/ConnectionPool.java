@@ -21,11 +21,11 @@ public class ConnectionPool {
   private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
   private static ConnectionPool instance;
   private final BlockingQueue<ProxyConnection> freeConnections;
-  private final BlockingQueue<ProxyConnection> reservedConnections;
+  private final BlockingQueue<ProxyConnection> busyConnections;
 
   private ConnectionPool() {
     this.freeConnections = new LinkedBlockingQueue<>(DB_POOL_SIZE);
-    this.reservedConnections = new LinkedBlockingQueue<>(DB_POOL_SIZE);
+    this.busyConnections = new LinkedBlockingQueue<>(DB_POOL_SIZE);
     try {
       Class.forName(DB_DRIVER);
       for (int i = 0; i < DB_POOL_SIZE; i++) {
@@ -65,7 +65,7 @@ public class ConnectionPool {
     ProxyConnection connection = null;
     try {
       connection = freeConnections.take();
-      reservedConnections.put(connection);
+      busyConnections.put(connection);
     } catch (InterruptedException e) {
       logger.error("Interrupted exception. {}", e.getMessage());
       Thread.currentThread().interrupt();
@@ -84,8 +84,7 @@ public class ConnectionPool {
     boolean result = false;
     if (connection instanceof ProxyConnection) {
       try {
-        if (reservedConnections.contains((ProxyConnection) connection)) {
-          reservedConnections.remove((ProxyConnection) connection);
+        if (busyConnections.remove((ProxyConnection) connection)) {
           freeConnections.put((ProxyConnection) connection);
           result = true;
         }

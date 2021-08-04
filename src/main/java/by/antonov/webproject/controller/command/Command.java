@@ -28,13 +28,7 @@ public interface Command {
    * @return TRUE if access confirmed, FALSE if access denied
    */
   default boolean checkUserGroup(User.Role userRole, User.Role role) {
-    boolean result = false;
-    if (userRole != null) {
-      if (userRole == role) {
-        result = true;
-      }
-    }
-    return result;
+    return (userRole == role);
   }
 
   /**

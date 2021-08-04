@@ -12,19 +12,22 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 class ConnectionFactory {
+  private static final Properties connectionProperties;
+
+  static {
+    connectionProperties = new Properties();
+    connectionProperties.put("user", DB_USER);
+    connectionProperties.put("password", DB_PASSWORD);
+    connectionProperties.put("serverTimezone", DB_TIMEZONE);
+    connectionProperties.put("useUnicode", true);
+    connectionProperties.put("characterEncoding", DB_ENCODING);
+  }
 
   private ConnectionFactory() {
   }
 
   static Connection createConnection()
       throws SQLException {
-    Properties connectionProp = new Properties();
-    connectionProp.put("user", DB_USER);
-    connectionProp.put("password", DB_PASSWORD);
-    connectionProp.put("serverTimezone", DB_TIMEZONE);
-    connectionProp.put("useUnicode", true);
-    connectionProp.put("characterEncoding", DB_ENCODING);
-
-    return DriverManager.getConnection(DB_URL, connectionProp);
+    return DriverManager.getConnection(DB_URL, connectionProperties);
   }
 }
