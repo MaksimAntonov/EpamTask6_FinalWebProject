@@ -33,8 +33,8 @@ public class ConnectionPool {
         freeConnections.add(new ProxyConnection(connection));
       }
     } catch (ClassNotFoundException e) {
-      logger.fatal("Can not register database driver {}", DB_DRIVER);
-      throw new ExceptionInInitializerError("Can not register database driver " + DB_DRIVER);
+      logger.fatal("Can not register database driver {}: {}", DB_DRIVER, e.getMessage());
+      throw new ExceptionInInitializerError("Can not register database driver " + DB_DRIVER + ":" + e.getMessage());
     } catch (SQLException e) {
       logger.fatal("Database access error {}", e.getMessage());
       throw new ExceptionInInitializerError("Database access error " + e.getMessage());
