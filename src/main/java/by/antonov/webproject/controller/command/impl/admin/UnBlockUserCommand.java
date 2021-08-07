@@ -36,9 +36,9 @@ public class UnBlockUserCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_403_PAGE);
     }
 
-    long userId = -1;
+    String userIdStr = request.getParameter(KEY_USER_ID.getValue());
     try {
-      userId = Long.parseLong(request.getParameter(KEY_USER_ID.getValue()));
+      long userId = Long.parseLong(userIdStr);
 
       String status;
       String localizationKey;
@@ -58,7 +58,7 @@ public class UnBlockUserCommand implements Command {
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
-      logger.error("Bad request: {}, userId={}", exception.getMessage(), userId);
+      logger.error("Bad request: {}, userId={}", exception.getMessage(), userIdStr);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
