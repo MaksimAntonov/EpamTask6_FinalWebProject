@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Connection pool for working with database
+ * Thread-safe Connection pool for working with database.
  */
 public class ConnectionPool {
 

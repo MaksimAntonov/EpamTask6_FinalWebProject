@@ -19,7 +19,12 @@ import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
-// TODO add comments
+
+/**
+ * Custom wrapper for Connection.
+ *
+ * Used for connecting to Database and SQL requests
+ */
 public class ProxyConnection implements Connection {
 
   private final Connection connection;
@@ -28,16 +33,29 @@ public class ProxyConnection implements Connection {
     this.connection = connection;
   }
 
+  /**
+   * Return Connection to ConnectionPool
+   */
   @Override
   public void close() {
     ConnectionPool.getInstance().releaseConnection(this);
   }
 
+  /**
+   * Close current connection
+   *
+   * Using in case of ConnectionPool destroy.
+   *
+   * @throws SQLException in case of any SQL exceptions
+   */
   void closeConnection()
       throws SQLException {
     connection.close();
   }
 
+  /**
+   * Default Connection methods
+   */
   @Override
   public Statement createStatement()
       throws SQLException {
