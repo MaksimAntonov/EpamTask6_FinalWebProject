@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 public class DeclineOfferCommand implements Command {
 
   private static final Logger logger = LogManager.getLogger();
-  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.SHIPPER};
+  private final User.Role allowedRole = Role.SHIPPER;
 
   @Override
   public Router execute(HttpServletRequest request)

@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
 public class MakeOfferCommand implements Command {
 
   private static final Logger logger = LogManager.getLogger();
-  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.CARRIER};
+  private final User.Role allowedRole = Role.CARRIER;
 
   @Override
   public Router execute(HttpServletRequest request)

@@ -5,7 +5,7 @@
     <c:if test="${USER_ROLE != 'GUEST'}">
         <nav class="nav">
             <ul class="navigation">
-                <c:if test="${USER_ROLE == 'ADMINISTRATOR' || USER_ROLE == 'SHIPPER'}">
+                <c:if test="${USER_ROLE == 'SHIPPER'}">
                     <li class="navigation__item">
                         <a class="navigation__link" href="<c:url value="/controller?command=open_my_orders" />">${LOCALE[TEXT_ORDER_USER_PAGE_TITLE]}</a>
                     </li>
@@ -15,7 +15,7 @@
                         </li>
                     </c:if>
                 </c:if>
-                <c:if test="${USER_ROLE == 'ADMINISTRATOR' || USER_ROLE == 'CARRIER'}">
+                <c:if test="${USER_ROLE == 'CARRIER'}">
                     <li class="navigation__item">
                         <a class="navigation__link" href="<c:url value="/controller?command=open_carrier_orders" />">${LOCALE[TEXT_OFFER_PAGE_TITLE]}</a>
                     </li>

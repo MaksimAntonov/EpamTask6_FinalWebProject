@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class CreateOrderCommand implements Command {
 
-  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.SHIPPER};
+  private final User.Role allowedRole = Role.SHIPPER;
 
   @Override
   public Router execute(HttpServletRequest request)

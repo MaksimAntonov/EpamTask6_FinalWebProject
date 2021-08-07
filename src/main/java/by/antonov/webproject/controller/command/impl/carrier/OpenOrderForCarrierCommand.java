@@ -25,7 +25,7 @@ import java.util.Optional;
 
 public class OpenOrderForCarrierCommand implements Command {
 
-  private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.CARRIER};
+  private final User.Role allowedRole = Role.CARRIER;
 
   @Override
   public Router execute(HttpServletRequest request)
