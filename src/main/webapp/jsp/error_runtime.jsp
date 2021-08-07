@@ -23,10 +23,6 @@
             <i class="error-page__message">${pageContext.errorData.servletName}</i>
         </p>
         <p class="error-page__paragraph flex">
-            <b class="error-page__parameter">${LOCALE[TEXT_ERROR_RUNTIME_EXCEPTION_TYPE]}:</b>
-            <i class="error-page__message"><%= exception.getClass().toString() %></i>
-        </p>
-        <p class="error-page__paragraph flex">
             <b class="error-page__parameter">${LOCALE[TEXT_ERROR_RUNTIME_EXCEPTION_MESSAGE]}:</b>
             <i class="error-page__message">${pageContext.exception.message}</i>
         </p>

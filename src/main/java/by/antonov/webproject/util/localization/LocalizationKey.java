@@ -14,7 +14,6 @@ public enum LocalizationKey implements ContextValue {
   TEXT_ERROR_RUNTIME_STATUS_CODE("error_runtime.status_code"),
   TEXT_ERROR_RUNTIME_REQUESTED_URI("error_runtime.requested_uri"),
   TEXT_ERROR_RUNTIME_SERVLET_NAME("error_runtime.servlet_name"),
-  TEXT_ERROR_RUNTIME_EXCEPTION_TYPE("error_runtime.exception_type"),
   TEXT_ERROR_RUNTIME_EXCEPTION_MESSAGE("error_runtime.exception_message"),
 
   TEXT_HEADER_LOGIN_LINK_TEXT("header.login_link_text"),
