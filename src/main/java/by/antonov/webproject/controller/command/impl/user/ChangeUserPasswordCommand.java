@@ -5,7 +5,6 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STA
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
-import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_ID;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_USER_PASSWORD_CONFIRM;
 import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
@@ -24,12 +23,9 @@ import by.antonov.webproject.exception.ServiceException;
 import by.antonov.webproject.model.service.ServiceDefinition;
 import by.antonov.webproject.model.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ChangeUserPasswordCommand implements Command {
 
-  private static final Logger logger = LogManager.getLogger();
   private final User.Role[] allowedRole = new Role[]{Role.ADMINISTRATOR, Role.CARRIER, Role.SHIPPER};
 
   @Override
@@ -39,14 +35,10 @@ public class ChangeUserPasswordCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-    long userId = -1;
     try {
       User user = (User) request.getSession().getAttribute(USER_OBJ.name());
-      if (user.getUserRole() == Role.ADMINISTRATOR && request.getParameter(KEY_USER_ID.getValue()) != null) {
-        userId = Long.parseLong(request.getParameter(KEY_USER_ID.getValue()));
-      } else {
-        userId = user.getId();
-      }
+      long userId = user.getId();
+
       String password = request.getParameter(KEY_USER_PASSWORD.getValue());
       String passwordConfirm = request.getParameter(KEY_USER_PASSWORD_CONFIRM.getValue());
 
@@ -67,9 +59,6 @@ public class ChangeUserPasswordCommand implements Command {
                         KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + localizationKey);
     } catch (ServiceException serviceException) {
       throw new CommandException("Update user data", serviceException);
-    } catch (NumberFormatException exception) {
-      logger.error("Bad request: {}, userId={}", exception.getMessage(), userId);
-      return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
 }

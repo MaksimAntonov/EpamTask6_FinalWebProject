@@ -38,14 +38,14 @@ public class MakeOfferCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-    int price = -1;
-    long orderId = -1;
+    String priceStr = request.getParameter(KEY_OFFER_PRICE.getValue());
+    String orderIdStr = request.getParameter(KEY_ORDER_ID.getValue());
     OfferService offerService = ServiceDefinition.getInstance().getOfferService();
     try {
       User user = (User) request.getSession().getAttribute(USER_OBJ.name());
       long userId = user.getId();
-      price = Integer.parseInt(request.getParameter(KEY_OFFER_PRICE.getValue()));
-      orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
+      int price = Integer.parseInt(priceStr);
+      long orderId = Long.parseLong(orderIdStr);
 
       String status;
       String localizationKey;
@@ -64,7 +64,7 @@ public class MakeOfferCommand implements Command {
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
-      logger.error("Bad request: {}, price={}, orderId={}", exception.getMessage(), price, orderId);
+      logger.error("Bad request: {}, price={}, orderId={}", exception.getMessage(), priceStr, orderIdStr);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }

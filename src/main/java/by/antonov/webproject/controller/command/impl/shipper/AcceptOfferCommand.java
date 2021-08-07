@@ -37,12 +37,12 @@ public class AcceptOfferCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-    long orderId = -1;
-    long offerId = -1;
+    String orderIdStr = request.getParameter(KEY_ORDER_ID.getValue());
+    String offerIdStr = request.getParameter(KEY_OFFER_ID.getValue());
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
-      orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
-      offerId = Long.parseLong(request.getParameter(KEY_OFFER_ID.getValue()));
+      long orderId = Long.parseLong(orderIdStr);
+      long offerId = Long.parseLong(offerIdStr);
       String status;
       String localizationKey;
       if (orderService.acceptOffer(offerId, orderId)) {
@@ -60,7 +60,7 @@ public class AcceptOfferCommand implements Command {
     } catch (ServiceException serviceException) {
       throw new CommandException(serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
-      logger.error("Bad request: {}, orderId={}, offerId={}", exception.getMessage(), orderId, offerId);
+      logger.error("Bad request: {}, orderId={}, offerId={}", exception.getMessage(), orderIdStr, offerIdStr);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }

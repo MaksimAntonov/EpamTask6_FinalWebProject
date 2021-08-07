@@ -36,10 +36,10 @@ public class ViewOrderCommand implements Command {
       return new Router(RouterType.REDIRECT, RouterPath.PROJECT_ROOT);
     }
 
-    long orderId = -1;
+    String orderIdStr = request.getParameter(KEY_ORDER_ID.getValue());
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
-      orderId = Long.parseLong(request.getParameter(KEY_ORDER_ID.getValue()));
+      long orderId = Long.parseLong(orderIdStr);
       Optional<Order> orderOpt = orderService.getOrderById(orderId);
       if (orderOpt.isPresent()) {
         request.setAttribute(RESP_ORDER.name(), orderOpt.get());
@@ -53,7 +53,7 @@ public class ViewOrderCommand implements Command {
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {
-      logger.error("Bad request: {}, orderId={}", exception.getMessage(), orderId);
+      logger.error("Bad request: {}, orderId={}", exception.getMessage(), orderIdStr);
       return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
     }
   }
