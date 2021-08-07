@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-class ConnectionFactory {
+class ConnectionCreator {
   private static final Properties connectionProperties;
 
   static {
@@ -23,7 +23,7 @@ class ConnectionFactory {
     connectionProperties.put("characterEncoding", DB_ENCODING);
   }
 
-  private ConnectionFactory() {
+  private ConnectionCreator() {
   }
 
   static Connection createConnection()

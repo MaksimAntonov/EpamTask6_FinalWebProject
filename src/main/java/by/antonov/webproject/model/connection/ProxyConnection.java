@@ -19,13 +19,23 @@ import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
-
+// TODO add comments
 public class ProxyConnection implements Connection {
 
   private final Connection connection;
 
   ProxyConnection(Connection connection) {
     this.connection = connection;
+  }
+
+  @Override
+  public void close() {
+    ConnectionPool.getInstance().releaseConnection(this);
+  }
+
+  void closeConnection()
+      throws SQLException {
+    connection.close();
   }
 
   @Override
@@ -88,16 +98,6 @@ public class ProxyConnection implements Connection {
   public void rollback()
       throws SQLException {
     connection.rollback();
-  }
-
-  @Override
-  public void close() {
-    ConnectionPool.getInstance().releaseConnection(this);
-  }
-
-  void closeConnection()
-      throws SQLException {
-    connection.close();
   }
 
   @Override

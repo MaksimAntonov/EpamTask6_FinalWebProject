@@ -29,7 +29,7 @@ public class ConnectionPool {
     try {
       Class.forName(DB_DRIVER);
       for (int i = 0; i < DB_POOL_SIZE; i++) {
-        Connection connection = ConnectionFactory.createConnection();
+        Connection connection = ConnectionCreator.createConnection();
         freeConnections.add(new ProxyConnection(connection));
       }
     } catch (ClassNotFoundException e) {

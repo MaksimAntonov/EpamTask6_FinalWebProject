@@ -34,8 +34,8 @@ public class ConnectionPoolTest {
   @DataProvider(name = "wrongConnectionsData")
   public Object[][] wrongConnectionsData() throws SQLException {
     return new Object[][]{
-        {ConnectionFactory.createConnection()},
-        {new ProxyConnection(ConnectionFactory.createConnection())}
+        {ConnectionCreator.createConnection()},
+        {new ProxyConnection(ConnectionCreator.createConnection())}
     };
   }
 
