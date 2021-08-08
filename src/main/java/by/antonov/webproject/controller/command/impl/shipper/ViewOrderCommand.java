@@ -15,6 +15,7 @@ import by.antonov.webproject.controller.Router.RouterType;
 import by.antonov.webproject.controller.RouterPath;
 import by.antonov.webproject.controller.command.Command;
 import by.antonov.webproject.entity.Order;
+import by.antonov.webproject.entity.Order.Status;
 import by.antonov.webproject.entity.User;
 import by.antonov.webproject.entity.User.Role;
 import by.antonov.webproject.exception.CommandException;
@@ -45,23 +46,30 @@ public class ViewOrderCommand implements Command {
       long userId = user.getId();
       long orderId = Long.parseLong(orderIdStr);
 
+      Router result;
       if (orderService.checkOrderAuthor(orderId, userId)) {
         Optional<Order> orderOpt = orderService.getOrderById(orderId);
         if (orderOpt.isPresent()) {
-          request.setAttribute(RESP_ORDER.name(), orderOpt.get());
-          return new Router(RouterType.FORWARD, RouterPath.VIEW_ORDER_PAGE);
+          if (orderOpt.get().getStatus() == Status.NEW) {
+            request.setAttribute(RESP_ORDER.name(), orderOpt.get());
+            result = new Router(RouterType.FORWARD, RouterPath.VIEW_ORDER_PAGE);
+          } else {
+            result = new Router(RouterType.REDIRECT, RouterPath.OPEN_ORDER_PAGE);
+          }
         } else {
-          return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
+          result = new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
                             KEY_COMMAND.getValue() + "=open_my_orders",
                             KEY_PARAMETER_STATUS.getValue() + "=error",
                             KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_ORDER_VIEW_ERROR_MESSAGE.name());
         }
       } else {
-        return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
+        result = new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
                           KEY_COMMAND.getValue() + "=open_my_orders",
                           KEY_PARAMETER_STATUS.getValue() + "=error",
                           KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_ORDER_NOT_AUTHOR.name());
       }
+
+      return result;
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);
     } catch (NumberFormatException exception) {

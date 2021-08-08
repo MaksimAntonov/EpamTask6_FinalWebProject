@@ -76,11 +76,12 @@ public class OfferDaoImpl implements OfferDao {
   private static final String SQL_ACCEPT_OFFER_BY_OFFER_ID = """
       UPDATE `offers_list` SET `offer_status`='ACCEPTED' WHERE `offer_id`=?""";
   private static final String SQL_DECLINE_ALL_OFFERS_BY_ORDER_ID = """
-      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_order_id`=?""";
+      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_order_id`=? AND `offer_status`='OFFERED'""";
   private static final String SQL_DECLINE_ALL_OFFERS_BY_ORDER_ID_AND_EXCLUDE_ID = """
-      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_order_id`=? AND `offer_id`<>?""";
+      UPDATE `offers_list` SET `offer_status`='DENIED'
+      WHERE `offer_order_id`=? AND `offer_id`<>? AND `offer_status`='OFFERED'""";
   private static final String SQL_DECLINE_OFFER_BY_ID = """
-      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_id`=?""";
+      UPDATE `offers_list` SET `offer_status`='DENIED' WHERE `offer_id`=? AND `offer_status`='OFFERED'""";
   private static final String SQL_OFFERS_COUNT_BY_ORDER_ID = """
       SELECT COUNT(`offer_id`) as `count` FROM `offers_list` WHERE `offer_order_id`=?""";
   private static final String SQL_INSERT_OFFER = """

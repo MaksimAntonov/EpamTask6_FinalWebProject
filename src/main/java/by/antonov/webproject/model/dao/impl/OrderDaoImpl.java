@@ -111,7 +111,8 @@ public class OrderDaoImpl implements OrderDao {
       ORDER BY `orders_list`.`order_update_date` DESC
       LIMIT ?, ?""";
   private static final String SQL_UPDATE_STATUS_ORDER_BY_ID = """
-      UPDATE `orders_list` SET `order_status`=?, `order_update_date`=current_timestamp WHERE `order_id`=?""";
+      UPDATE `orders_list` SET `order_status`=?, `order_update_date`=current_timestamp
+      WHERE `order_id`=? AND `order_status`='NEW'""";
   private static final String SQL_INSERT_NEW_ORDER = """
       INSERT INTO `orders_list` (`order_route`, `order_details`, `order_shipper_id`) VALUES (?, ?, ?)""";
   private static final String SQL_UPDATE_DATE_ORDER_BY_ID = """
