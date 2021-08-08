@@ -1,0 +1,21 @@
+.label {
+  margin-right: 10px;
+  padding: 5px 10px;
+  width: 65px;
+  border: 1px solid;
+  border-radius: 15px;
+  color: $label-text-color;
+  text-align: center;
+  @include font(1.1rem, $style: italic);
+
+  &_new {
+    background-color: $label-new-background-color;
+  }
+
+  &_finished {
+    background-color: $label-accepted-background-color;
+  }
+  &_closed {
+    background-color: $label-closed-background-color;
+  }
+}

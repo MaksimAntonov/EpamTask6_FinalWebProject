@@ -107,6 +107,25 @@ a:active {
 .user_buttons_block > .button:nth-child(n) {
   margin-left: 5px; }
 
+.label {
+  margin-right: 10px;
+  padding: 5px 10px;
+  width: 65px;
+  border: 1px solid;
+  border-radius: 15px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.1rem;
+  font-weight: normal;
+  font-style: italic; }
+  .label_new {
+    background-color: #0000ff; }
+  .label_finished {
+    background-color: #008000; }
+  .label_closed {
+    background-color: #808080; }
+
 .button {
   height: 25px;
   border: 1px solid #000000;

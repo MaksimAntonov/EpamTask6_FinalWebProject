@@ -90,6 +90,9 @@ public enum LocalizationKey implements ContextValue {
   TEXT_ORDER_BUTTON_CREATE("order.new_order_button_create_text"),
   TEXT_ORDER_NEW_ORDER_SUCCESS_MESSAGE("order.new_order_success_message"),
   TEXT_ORDER_NEW_ORDER_ERROR_MESSAGE("order.new_order_error_message"),
+  TEXT_ORDER_LABEL_NEW("order.label_new_text"),
+  TEXT_ORDER_LABEL_FINISHED("order.label_finished_text"),
+  TEXT_ORDER_LABEL_CLOSED("order.label_closed_text"),
 
   // Offer text
   TEXT_OFFER_BEST_OFFER_FROM("offer.best_offer_from"),
@@ -98,6 +101,8 @@ public enum LocalizationKey implements ContextValue {
   TEXT_OFFER_BUTTON_DECLINE_OFFER("offer.button_decline_offer"),
   TEXT_OFFER_PAGE_TITLE("offer.page_title"),
   TEXT_OFFER_PRICE("offer.price_text"),
+  TEXT_OFFER_OFFERED_PRICE("offer.offered_price_text"),
+  TEXT_OFFER_ACCEPTED_PRICE("offer.accepted_price_text"),
   TEXT_OFFER_BUTTON_MAKE_OFFER("offer.button_make_offer"),
   TEXT_OFFER_BUTTON_CANCEL_OFFER("offer.button_cancel_offer"),
   TEXT_OFFER_INSERT_OFFER_SUCCESS_MESSAGE("offer.insert_offer_success_message"),

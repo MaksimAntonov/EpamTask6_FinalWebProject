@@ -3,7 +3,20 @@
 <c:forEach var="order" items="${RESP_ORDER_RESULT_LIST}" >
     <div class="flex flex__justify-content_space-between orders__item order order_${order.status}">
         <div class="order-info">
-            <h2 class="order-info__route">${order.route}</h2>
+            <h2 class="order-info__route flex flex__align-items_center">
+                <c:choose>
+                    <c:when test="${order.status == 'NEW'}">
+                        <span class="label label_new">${LOCALE[TEXT_ORDER_LABEL_NEW]}</span>
+                    </c:when>
+                    <c:when test="${order.status == 'FINISHED'}">
+                        <span class="label label_finished">${LOCALE[TEXT_ORDER_LABEL_FINISHED]}</span>
+                    </c:when>
+                    <c:when test="${order.status == 'CLOSED'}">
+                        <span class="label label_closed">${LOCALE[TEXT_ORDER_LABEL_CLOSED]}</span>
+                    </c:when>
+                </c:choose>
+                ${order.route}
+            </h2>
             <pre class="order-info__details">${order.details}</pre>
         </div>
         <div class="flex flex__align-items_flex-start">
