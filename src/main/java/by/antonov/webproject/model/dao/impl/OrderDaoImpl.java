@@ -71,7 +71,8 @@ public class OrderDaoImpl implements OrderDao {
                JOIN `users_role` ON `users_role`.`role_id` = `users_list`.`user_role_id`
                JOIN `users_status` ON `users_status`.`status_id` = `users_list`.`user_status_id`
       WHERE order_status='NEW'
-         OR (order_status='FINISHED' AND order_id IN (SELECT offer_order_id FROM offers_list WHERE offer_carrier_id=?))
+        OR (order_status='FINISHED'
+        AND order_id IN (SELECT offer_order_id FROM offers_list WHERE offer_carrier_id=? AND offer_status='ACCEPTED'))
       ORDER BY order_update_date DESC
       LIMIT ?, ?""";
   private static final String SQL_FIND_ORDER_BY_ID = """
