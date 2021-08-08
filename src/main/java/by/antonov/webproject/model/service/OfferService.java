@@ -63,4 +63,15 @@ public interface OfferService {
    */
   boolean cancelOffer(long offerId)
       throws ServiceException;
+
+  /**
+   * Check offer author
+   *
+   * @param offerId ID of offer
+   * @param userId  ID of user
+   * @return TRUE if user is author of offer
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  boolean checkOfferAuthor(long offerId, long userId)
+      throws ServiceException;
 }

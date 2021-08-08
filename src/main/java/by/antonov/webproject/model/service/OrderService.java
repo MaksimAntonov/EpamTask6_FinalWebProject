@@ -124,4 +124,15 @@ public interface OrderService {
    */
   int getCountOfCarrierOrders(long carrierId)
       throws ServiceException;
+
+  /**
+   * Check order author
+   *
+   * @param orderId ID of order
+   * @param userId  ID of user
+   * @return TRUE if user is author of order
+   * @throws ServiceException in case of error(s) from Service implementation
+   */
+  boolean checkOrderAuthor(long orderId, long userId)
+      throws ServiceException;
 }

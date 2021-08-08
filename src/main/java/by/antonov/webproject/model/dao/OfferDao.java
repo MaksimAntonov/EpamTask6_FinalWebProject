@@ -92,4 +92,15 @@ public interface OfferDao extends BaseDao<Long, Offer> {
    */
   boolean insertOffer(int price, long carrierId, long orderId)
       throws DaoException;
+
+  /**
+   * Check offer author
+   *
+   * @param offerId ID of offer
+   * @param userId  ID of user
+   * @return TRUE if user is author of offer
+   * @throws DaoException in case of any SQL errors
+   */
+  boolean checkOfferAuthor(long offerId, long userId)
+      throws DaoException;
 }

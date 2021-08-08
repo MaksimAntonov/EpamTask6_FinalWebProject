@@ -200,4 +200,13 @@ public class OrderServiceImpl implements OrderService {
       throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
+
+  @Override
+  public boolean checkOrderAuthor(long orderId, long userId) throws ServiceException {
+    try {
+      return orderDao.checkOrderAuthor(orderId, userId);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
 }

@@ -6,7 +6,9 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STA
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
 import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_NOT_AUTHOR;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_UPDATE_CLOSE_SUCCESS_MESSAGE;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_UPDATE_ERROR_MESSAGE;
 
@@ -39,15 +41,23 @@ public class CloseOrderCommand implements Command {
     String orderIdStr = request.getParameter(KEY_ORDER_ID.getValue());
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
+      User user = (User) request.getSession().getAttribute(USER_OBJ.name());
+      long userId = user.getId();
       long orderId = Long.parseLong(orderIdStr);
+
       String status;
       String localizationKey;
-      if (orderService.closeOrder(orderId)) {
-        status = KEY_STYLE_SUCCESS.getValue();
-        localizationKey = TEXT_ORDER_UPDATE_CLOSE_SUCCESS_MESSAGE.name();
+      if (orderService.checkOrderAuthor(orderId, userId)) {
+        if (orderService.closeOrder(orderId)) {
+          status = KEY_STYLE_SUCCESS.getValue();
+          localizationKey = TEXT_ORDER_UPDATE_CLOSE_SUCCESS_MESSAGE.name();
+        } else {
+          status = KEY_STYLE_ERROR.getValue();
+          localizationKey = TEXT_ORDER_UPDATE_ERROR_MESSAGE.name();
+        }
       } else {
         status = KEY_STYLE_ERROR.getValue();
-        localizationKey = TEXT_ORDER_UPDATE_ERROR_MESSAGE.name();
+        localizationKey = TEXT_ORDER_NOT_AUTHOR.name();
       }
 
       return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,

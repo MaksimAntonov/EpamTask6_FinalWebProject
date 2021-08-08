@@ -109,4 +109,13 @@ public class OfferServiceImpl implements OfferService {
       throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
     }
   }
+
+  @Override
+  public boolean checkOfferAuthor(long offerId, long userId) throws ServiceException {
+    try {
+      return offerDao.checkOfferAuthor(offerId, userId);
+    } catch (DaoException daoException) {
+      throw new ServiceException("Can not read data from database: " + daoException.getMessage(), daoException);
+    }
+  }
 }

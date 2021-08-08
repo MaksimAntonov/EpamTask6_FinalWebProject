@@ -5,7 +5,9 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_ORDER_ID;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STATUS;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
 import static by.antonov.webproject.controller.ResponseKey.RESP_ORDER;
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
 import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_NOT_AUTHOR;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_VIEW_ERROR_MESSAGE;
 
 import by.antonov.webproject.controller.Router;
@@ -39,16 +41,26 @@ public class ViewOrderCommand implements Command {
     String orderIdStr = request.getParameter(KEY_ORDER_ID.getValue());
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
+      User user = (User) request.getSession().getAttribute(USER_OBJ.name());
+      long userId = user.getId();
       long orderId = Long.parseLong(orderIdStr);
-      Optional<Order> orderOpt = orderService.getOrderById(orderId);
-      if (orderOpt.isPresent()) {
-        request.setAttribute(RESP_ORDER.name(), orderOpt.get());
-        return new Router(RouterType.FORWARD, RouterPath.VIEW_ORDER_PAGE);
+
+      if (orderService.checkOrderAuthor(orderId, userId)) {
+        Optional<Order> orderOpt = orderService.getOrderById(orderId);
+        if (orderOpt.isPresent()) {
+          request.setAttribute(RESP_ORDER.name(), orderOpt.get());
+          return new Router(RouterType.FORWARD, RouterPath.VIEW_ORDER_PAGE);
+        } else {
+          return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
+                            KEY_COMMAND.getValue() + "=open_my_orders",
+                            KEY_PARAMETER_STATUS.getValue() + "=error",
+                            KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_ORDER_VIEW_ERROR_MESSAGE.name());
+        }
       } else {
         return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,
                           KEY_COMMAND.getValue() + "=open_my_orders",
                           KEY_PARAMETER_STATUS.getValue() + "=error",
-                          KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_ORDER_VIEW_ERROR_MESSAGE.name());
+                          KEY_PARAMETER_TRANSLATE_KEY.getValue() + "=" + TEXT_ORDER_NOT_AUTHOR.name());
       }
     } catch (ServiceException serviceException) {
       throw new CommandException("Command exception: " + serviceException.getMessage(), serviceException);

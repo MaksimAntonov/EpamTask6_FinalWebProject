@@ -127,4 +127,15 @@ public interface OrderDao extends BaseDao<Long, Order> {
    */
   int countOfAllOrdersByCarrierId(long carrierId)
       throws DaoException;
+
+  /**
+   * Check order author
+   *
+   * @param orderId ID of Order
+   * @param userId  ID of User
+   * @return TRUE if user is author of order
+   * @throws DaoException in case of any SQL errors
+   */
+  boolean checkOrderAuthor(long orderId, long userId)
+      throws DaoException;
 }

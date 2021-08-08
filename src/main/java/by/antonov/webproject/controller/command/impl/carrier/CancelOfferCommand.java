@@ -6,9 +6,11 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STA
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
 import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_OFFER_CANCEL_OFFER_ERROR_MESSAGE;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_OFFER_CANCEL_OFFER_SUCCESS_MESSAGE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_OFFER_NOT_AUTHOR;
 
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
@@ -39,16 +41,27 @@ public class CancelOfferCommand implements Command {
     String offerIdStr = request.getParameter(KEY_OFFER_ID.getValue());
     OfferService offerService = ServiceDefinition.getInstance().getOfferService();
     try {
+      User user = (User) request.getSession().getAttribute(USER_OBJ.name());
+      long userId = user.getId();
       long offerId = Long.parseLong(offerIdStr);
+
+      if (offerService.checkOfferAuthor(offerId, userId)) {
+        return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
+      }
 
       String status;
       String localizationKey;
-      if (offerService.cancelOffer(offerId)) {
-        status = KEY_STYLE_SUCCESS.getValue();
-        localizationKey = TEXT_OFFER_CANCEL_OFFER_SUCCESS_MESSAGE.name();
+      if (offerService.checkOfferAuthor(offerId, userId)) {
+        if (offerService.cancelOffer(offerId)) {
+          status = KEY_STYLE_SUCCESS.getValue();
+          localizationKey = TEXT_OFFER_CANCEL_OFFER_SUCCESS_MESSAGE.name();
+        } else {
+          status = KEY_STYLE_ERROR.getValue();
+          localizationKey = TEXT_OFFER_CANCEL_OFFER_ERROR_MESSAGE.name();
+        }
       } else {
         status = KEY_STYLE_ERROR.getValue();
-        localizationKey = TEXT_OFFER_CANCEL_OFFER_ERROR_MESSAGE.name();
+        localizationKey = TEXT_OFFER_NOT_AUTHOR.name();
       }
 
       return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,

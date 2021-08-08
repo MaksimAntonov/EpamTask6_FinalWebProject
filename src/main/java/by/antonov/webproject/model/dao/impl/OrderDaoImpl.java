@@ -1,5 +1,6 @@
 package by.antonov.webproject.model.dao.impl;
 
+import static by.antonov.webproject.model.dao.DatabaseColumnName.COUNT;
 import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_CREATE_DATE;
 import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_DETAILS;
 import static by.antonov.webproject.model.dao.DatabaseColumnName.ORDER_ID;
@@ -121,6 +122,8 @@ public class OrderDaoImpl implements OrderDao {
       SELECT COUNT(`order_id`) as `count` FROM `orders_list`
       WHERE order_status='NEW'
          OR (order_status='FINISHED' AND order_id IN (SELECT offer_order_id FROM offers_list WHERE offer_carrier_id=?))""";
+  private static final String SQL_CHECK_ORDER_AUTHOR =
+      "SELECT COUNT(`order_id`) as `count` FROM `orders_list` WHERE `order_id`=? AND `order_shipper_id`=?";
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   @Override
@@ -488,6 +491,23 @@ public class OrderDaoImpl implements OrderDao {
       int result = 0;
       while (resultSet.next()) {
         result = resultSet.getInt(DatabaseColumnName.COUNT);
+      }
+      return result;
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean checkOrderAuthor(long orderId, long userId) throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_CHECK_ORDER_AUTHOR)) {
+      statement.setLong(1, orderId);
+      statement.setLong(2, userId);
+      ResultSet resultSet = statement.executeQuery();
+      boolean result = false;
+      while (resultSet.next()) {
+        result = (resultSet.getInt(COUNT) >= 1);
       }
       return result;
     } catch (SQLException sqlException) {

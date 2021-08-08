@@ -7,9 +7,11 @@ import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_STA
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_PARAMETER_TRANSLATE_KEY;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_ERROR;
 import static by.antonov.webproject.controller.RequestFieldKey.KEY_STYLE_SUCCESS;
+import static by.antonov.webproject.controller.SessionKey.USER_OBJ;
 import static by.antonov.webproject.controller.SessionKey.USER_ROLE;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_ACCEPT_ERROR_MESSAGE;
 import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_ACCEPT_SUCCESS_MESSAGE;
+import static by.antonov.webproject.util.localization.LocalizationKey.TEXT_ORDER_NOT_AUTHOR;
 
 import by.antonov.webproject.controller.Router;
 import by.antonov.webproject.controller.Router.RouterType;
@@ -41,16 +43,24 @@ public class AcceptOfferCommand implements Command {
     String offerIdStr = request.getParameter(KEY_OFFER_ID.getValue());
     OrderService orderService = ServiceDefinition.getInstance().getOrderService();
     try {
+      User user = (User) request.getSession().getAttribute(USER_OBJ.name());
+      long userId = user.getId();
       long orderId = Long.parseLong(orderIdStr);
       long offerId = Long.parseLong(offerIdStr);
+
       String status;
       String localizationKey;
-      if (orderService.acceptOffer(offerId, orderId)) {
-        status = KEY_STYLE_SUCCESS.getValue();
-        localizationKey = TEXT_ORDER_ACCEPT_SUCCESS_MESSAGE.name();
+      if (orderService.checkOrderAuthor(orderId, userId)) {
+        if (orderService.acceptOffer(offerId, orderId)) {
+          status = KEY_STYLE_SUCCESS.getValue();
+          localizationKey = TEXT_ORDER_ACCEPT_SUCCESS_MESSAGE.name();
+        } else {
+          status = KEY_STYLE_ERROR.getValue();
+          localizationKey = TEXT_ORDER_ACCEPT_ERROR_MESSAGE.name();
+        }
       } else {
         status = KEY_STYLE_ERROR.getValue();
-        localizationKey = TEXT_ORDER_ACCEPT_ERROR_MESSAGE.name();
+        localizationKey = TEXT_ORDER_NOT_AUTHOR.name();
       }
 
       return new Router(RouterType.REDIRECT, RouterPath.CONTROLLER,

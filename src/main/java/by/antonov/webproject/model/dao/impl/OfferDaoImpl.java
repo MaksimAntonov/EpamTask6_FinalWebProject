@@ -85,6 +85,8 @@ public class OfferDaoImpl implements OfferDao {
       SELECT COUNT(`offer_id`) as `count` FROM `offers_list` WHERE `offer_order_id`=?""";
   private static final String SQL_INSERT_OFFER = """
       INSERT INTO `offers_list` (`offer_price`, `offer_order_id`, `offer_carrier_id`) VALUES (?,?,?)""";
+  private static final String SQL_CHECK_OFFER_AUTHOR =
+      "SELECT COUNT(`offer_id`) as `count` FROM `offers_list` WHERE `offer_id`=? AND `offer_carrier_id`=?";
 
   private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -305,6 +307,23 @@ public class OfferDaoImpl implements OfferDao {
       statement.setLong(2, orderId);
       statement.setLong(3, carrierId);
       return (statement.executeUpdate() == 1);
+    } catch (SQLException sqlException) {
+      throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
+    }
+  }
+
+  @Override
+  public boolean checkOfferAuthor(long offerId, long userId) throws DaoException {
+    try (Connection connection = ConnectionPool.getInstance().getConnection();
+         PreparedStatement statement = connection.prepareStatement(SQL_CHECK_OFFER_AUTHOR)) {
+      statement.setLong(1, offerId);
+      statement.setLong(2, userId);
+      ResultSet resultSet = statement.executeQuery();
+      boolean result = false;
+      while (resultSet.next()) {
+        result = (resultSet.getInt(COUNT) >= 1);
+      }
+      return result;
     } catch (SQLException sqlException) {
       throw new DaoException("SQL request error. " + sqlException.getMessage(), sqlException);
     }
