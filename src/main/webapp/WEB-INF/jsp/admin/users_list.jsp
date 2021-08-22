@@ -10,14 +10,17 @@
 <body>
 <div class="wrapper">
     <jsp:include page="${TEMPLATE_HEADER}" />
-    <div class="users-list">
-        <c:if test="${RESP_FORM_RESULT_STATUS != null}">
-            <div class="forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
-        </c:if>
-        <jsp:include page="${TEMPLATE_USERS_LIST_TABLE_BLOCK}" />
+    <main class="main">
+        <div class="users-list">
+            <c:if test="${RESP_FORM_RESULT_STATUS != null}">
+                <div class="forms__result forms__result_${RESP_FORM_RESULT_STATUS}">${RESP_FORM_RESULT_MESSAGE}</div>
+            </c:if>
+            <jsp:include page="${TEMPLATE_USERS_LIST_TABLE_BLOCK}" />
 
-        <pgn:pagination page="${RESP_CURRENT_PAGE}" maxPage="${RESP_MAX_PAGE}" />
-    </div>
+            <pgn:pagination page="${RESP_CURRENT_PAGE}" maxPage="${RESP_MAX_PAGE}" />
+        </div>
+    </main>
+    <jsp:include page="${TEMPLATE_FOOTER}" />
 </div>
 </body>
 </html>

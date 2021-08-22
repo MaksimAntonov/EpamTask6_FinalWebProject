@@ -45,10 +45,6 @@ public class CancelOfferCommand implements Command {
       long userId = user.getId();
       long offerId = Long.parseLong(offerIdStr);
 
-      if (offerService.checkOfferAuthor(offerId, userId)) {
-        return new Router(RouterType.REDIRECT, RouterPath.ERROR_400_PAGE);
-      }
-
       String status;
       String localizationKey;
       if (offerService.checkOfferAuthor(offerId, userId)) {

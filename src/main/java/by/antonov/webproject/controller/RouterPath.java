@@ -29,7 +29,7 @@ public enum RouterPath implements ContextValue {
   TEMPLATE_ORDERS_FOR_SHIPPER_BLOCK("/WEB-INF/jsp/templates/tmpl_orders_for_shipper_block.jsp"),
   TEMPLATE_ORDERS_FOR_CARRIER_BLOCK("/WEB-INF/jsp/templates/tmpl_orders_for_carrier_block.jsp"),
   TEMPLATE_USERS_LIST_TABLE_BLOCK("/WEB-INF/jsp/templates/tmpl_users_list_table_block.jsp"),
-  ;
+  TEMPLATE_FOOTER("/WEB-INF/jsp/templates/tmpl_footer.jsp");
   private final String pagePath;
 
   RouterPath(String pagePath) {

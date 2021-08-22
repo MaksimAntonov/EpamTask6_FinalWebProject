@@ -6,7 +6,7 @@ html {
 
 .wrapper {
   width: 1020px;
-  margin: 5px auto; }
+  margin: 0 auto; }
 
 p {
   margin: 0; }
@@ -194,6 +194,9 @@ a:active {
     white-space: nowrap;
     text-overflow: ellipsis; }
 
+.main {
+  min-height: calc(100vh - 100px); }
+
 .modal-window {
   display: block;
   position: fixed;
@@ -228,6 +231,25 @@ a:active {
   font-style: normal; }
   .pagination__item {
     margin: 0 2px; }
+
+.footer {
+  border-top: 1px dashed;
+  margin-top: 5px;
+  padding-top: 5px; }
+  .footer__copyright {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-weight: normal;
+    font-style: normal; }
+
+.footer-links__item {
+  display: inline-flex;
+  width: 40px;
+  height: 40px; }
+
+.footer-links__image {
+  width: 25px;
+  height: 25px; }
 
 .navigation {
   display: flex;
